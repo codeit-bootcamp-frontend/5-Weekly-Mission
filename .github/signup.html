@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linkbrary</title>
+  <link rel="stylesheet" href="signupStyle.css">
+  <link href='https://fonts.googleapis.com/css?family=Abel' rel='stylesheet'>
+  <link rel="stylesheet" as="style" crossorigin
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+  <link href='https://fonts.googleapis.com/css?family=Acme' rel='stylesheet'>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+
+</head>
+
+<body>
+  <div class="wrapper">
+    <a href="Linkbrary.html" class="logo"><img src="Linkbrary.png" alt="로고" width="210.58" height="38"></a>
+    <div class="signup">
+      <p>이미 회원이신가요?</p>
+      <a href="signin.html">로그인하기</a>
+    </div>
+    <form>
+      <label for="email">이메일</label>
+      <input type="email" id="email" name="email">
+      <label for="password">비밀번호</label>
+      <input type="password" id="password" name="password">
+      <span class="icon"><ion-icon name="eye-off" id="eyeiconpw"></ion-icon></span>
+      <label for="checkpassword">비밀번호 확인</label>
+      <input type="password" id="checkpassword" name="checkpassword">
+      <span class="icon"><ion-icon name="eye-off" id="eyeiconchpw"></ion-icon></span>
+    </form>
+    <button>회원가입</button>
+    <div class="social">
+      <p>다른 방식으로 가입하기</p>
+      <div class="icon">
+        <a href="https://www.google.com/" target="_blank">
+          <img src="Component 2.png" alt="구글 아이콘" width="42" height="42">
+        </a>
+        <a href="https://www.kakaocorp.com/page/" target="_blank">
+          <img src="Component 3.png" alt="카카오톡 아이콘" width="42" height="42">
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script defer>
+  let password = document.getElementById("password");
+  let eyeiconpw = document.getElementById("eyeiconpw");
+  eyeiconpw.onclick = function () {
+    if (password.type === "password") {
+      password.type = "text";
+      eyeiconpw.name = "eye";
+    } else {
+      password.type = "password";
+      eyeiconpw.name = "eye-off";
+    }
+  }
+</script>
+<script defer>
+  let checkpassword = document.getElementById("checkpassword");
+  let eyeicon = document.getElementById("eyeiconchpw");
+  eyeicon.onclick = function () {
+    if (checkpassword.type === "password") {
+      checkpassword.type = "text";
+      eyeicon.name = "eye";
+    } else {
+      checkpassword.type = "password";
+      eyeicon.name = "eye-off";
+    }
+  }
+</script>
+
+</html>
