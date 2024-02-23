@@ -1,0 +1,18 @@
+@charset "UTF-8";
+/* 
+2024.02.23 v1
+head css
+*/
+.head__main {position: fixed; top: 0; left: 0; right: 0; z-index: 10; }
+.head__main  >  .inner { width: 100%; width: calc(100% - 336px); padding: 20px 32px; margin: 0 auto; }
+.head__main a { display: block; }
+.head__login__box .btn__login { width: 128px; }
+
+@media screen and (max-width: 1000px) {
+  .head__main  >  .inner { width: 100%; }
+  .head__main .head__logo img { width: auto; height: 19px; }
+  .head__login__box .btn__login { width: 80px; line-height: 37px; font-size: var(--font-size-ms); }
+}
+@media screen and (max-width: 785px) {
+  .head__main  >  .inner { padding: 13px 32px; }
+}

@@ -1,0 +1,20 @@
+@charset "UTF-8";
+/* 
+2024.02.23 v1
+join css
+*/
+
+.login__wrap { display: flex; flex-direction: column; align-items: center; height: 100vh; background-color: var(--color-gray5); overflow: hidden;  }
+.login__body { padding: 238px 32px 0; width: 100%; max-width: 464px; }
+.login__body .title img { height: 38px; }
+.login__sign { padding: 16px 0;}
+.login__sign span { line-height: 24px; }
+.login__sign a { display: block; padding-left: 8px; color: var(--color-primary); text-decoration: underline; line-height: 24px; font-weight: 600; }
+
+.login__another { margin-top: 32px; padding: 0 24px; background-color: var(--color-gray4); border: 1px solid var(--color-gray3); border-radius: 8px; }
+.login__another span { line-height: 66px; }
+.login__another .login__sns {gap: 16px;}
+.login__another .login__sns a { width: 42px; height: 42px; border-radius: 50em; border: 1px solid ;}
+.login__another .login__sns a img { width: 22px; }
+.login__another .login__sns .login__google { border-color: #D3D4DD; background-color: var(--color-light); }
+.login__another .login__sns .login__kakao { border-color: #F5E14B; background-color: #F5E14B; }

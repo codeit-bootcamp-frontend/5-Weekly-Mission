@@ -1,0 +1,23 @@
+@charset "UTF-8";
+/* 
+2024.02.23 v1
+footer css
+*/
+.foot__main { margin-top: 120px; background-color: var(--color-black); }
+.foot__main > .inner { display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; max-width: calc(100% - 76px); padding: 32px 32px 104px; margin: 0 auto; }
+.foot__main img { color: var(--color-light); }
+.foot__main address a {color: #676767;}
+.foot__main .foot__nav { justify-content: center; gap: 15px; }
+.foot__main .foot__nav a { color:#CFCFCF; }
+.foot__main .btn__sns { justify-content: flex-end; gap: 12px; }
+.foot__main .btn__sns a { display: block; width: 20px; color: var(--color-light); }
+@media screen and (max-width: 1190px) {
+  .foot__main > .inner { grid-template-columns: auto; grid-template-areas: "a2 a3" "a1 a1"; max-width: 100%; padding: 32px; gap: 60px 20px; }
+  .foot__main .inner address { grid-area: a1; }
+  .foot__main .inner .foot__nav { grid-area: a2; }
+  .foot__main .inner .btn__sns { grid-area: a3; }
+  .foot__main .foot__nav { justify-content: flex-start; }
+}
+@media screen and (max-width: 785px) {
+  .foot__main { margin-top: 40px; }
+}
