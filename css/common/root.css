@@ -1,0 +1,28 @@
+
+/* 
+2024.02.23 v1
+전역 공통 변수
+*/
+
+:root {
+  --color-primary: #6D6AFE;
+  --color-red: #FF5B56;
+  --color-black: #111322;
+  --color-light: #FFFFFF;
+  --color-gray1: #3E3E43;
+  --color-gray2: #9FA6B2;
+  --color-gray3: #CCD5E3;
+  --color-gray4: #E7EFFB;
+  --color-gray5: #F0F6FF;
+
+  /* 타이틀 사이즈 pc 기준 - 48,64*/
+  --title-size-l: 4rem;
+  --title-size-m: 3rem;
+
+  /* 폰트 사이트- 13,14,16,18,20 */
+  --font-size-l: 1.25rem; 
+  --font-size-lm: 1.125rem;
+  --font-size-m: 1rem;
+  --font-size-sm: 0.875rem;
+  --font-size-s: 0.815rem;
+}

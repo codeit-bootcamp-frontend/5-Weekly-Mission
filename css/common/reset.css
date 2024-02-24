@@ -1,0 +1,65 @@
+@charset "UTF-8";
+/* 
+2024.02.23 v1
+초기화 css
+*/
+
+@font-face {
+	font-family: 'Pretendard-Regular';
+	src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: inherit;
+	vertical-align: baseline;
+	font-family: 'Pretendard-Regular', Arial, Helvetica, sans-serif;
+	box-sizing: border-box;
+	color: #000;
+	font-weight: 400;
+}
+
+body {
+	line-height: 1;
+}
+
+ol, ul {
+	list-style: none;
+}
+
+blockquote, q {
+	quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+img {
+	border: 0;
+	width: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+button {
+	background-color: transparent;
+	cursor: pointer;
+}
+
+address , em {
+	font-style: unset;
+}

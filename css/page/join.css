@@ -1,0 +1,17 @@
+@charset "UTF-8";
+/* 
+2024.02.23 v1
+join css
+*/
+
+.login__wrap { display: flex; flex-direction: column; align-items: center; height: 100vh; background-color: var(--color-gray5); overflow: hidden;  }
+.login__body { padding: 14.875rem 2rem 0; width: 100%; max-width: 29rem; }
+.login__body .title img { height: 2.375rem; }
+.login__sign { padding: 1rem 0;}
+.login__sign span { line-height: 1.5rem; }
+.login__sign a { display: block; padding-left: .5rem; color: var(--color-primary); text-decoration: underline; line-height: 1.5rem; font-weight: 600; }
+
+.login__another { margin-top: 2rem; padding: 0 1.5rem; background-color: var(--color-gray4); border: 1px solid var(--color-gray3); border-radius: 0.5rem; }
+.login__another span { line-height: 4.125rem; }
+.login__another .login__sns {gap: 1rem;}
+.login__another .login__sns a { width: 2.625rem; height: 2.625rem;}
