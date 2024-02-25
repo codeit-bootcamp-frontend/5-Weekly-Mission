@@ -1,0 +1,90 @@
+* {
+  box-sizing: border-box;
+}
+
+.top-section{
+  padding: 163px 0 0;
+  width: 100%;
+  background: #F0F6FF;
+}
+
+.top-section-title{
+  width: 1200px;
+  margin: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+.top-section button{
+  width: 350px;
+}
+
+.middle-section{
+  margin: auto;
+  padding: 120px 0 170px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+}
+
+.middle-section-content{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 157px;
+}
+
+.middle-section-content-title{
+  display: flex;
+  flex-direction: column;
+  gap:10px;
+}
+
+.middle-section img{
+  display: inline-block;
+  width: 550px;
+  height: 450px;
+  border-radius: 15px;
+}
+
+.middle-section h5{
+  color: #6B6B6B;
+}
+
+#worldinformation{
+  background: linear-gradient(91.26deg, #6D6AFE 17.28%, #FF9F9F 74.98%);
+  color: transparent;
+  -webkit-background-clip: text;
+}
+
+#wantlink{
+  background: linear-gradient(95.63deg, #FE8A8A 1.72%, #A4CEFF 74.97%);
+  color: transparent;
+  -webkit-background-clip: text;
+}
+
+#management{
+  background: linear-gradient(277.01deg, #6FBAFF 59.22%, #FFD88B 93.66%);
+  color: transparent;
+  -webkit-background-clip: text;
+}
+
+#share{
+  background: linear-gradient(99.5deg, #6D7CCD 19.76%, rgba(82, 136, 133, 0.22) 52.69%);
+  color: transparent;
+  -webkit-background-clip: text;
+}
+
+#search{
+  background: linear-gradient(271.36deg, #FE578F -9.84%, #68E8F9 107.18%);
+  color: transparent;
+  -webkit-background-clip: text;
+}
+
+h1 span{
+  color: black;
+}

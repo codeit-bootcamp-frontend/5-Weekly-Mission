@@ -1,0 +1,17 @@
+* {
+  box-sizing: border-box;
+}
+
+header{
+  width: 100%;
+  padding: 20px 200px;
+  position: fixed;
+  display: flex; 
+  justify-content: space-between;
+  align-items: center;
+  background: #F0F6FF;
+}
+
+header button{
+  width: 128px;
+}

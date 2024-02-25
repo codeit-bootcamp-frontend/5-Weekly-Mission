@@ -1,0 +1,129 @@
+* {
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+.Abel {
+  font-family: "Abel";
+  font-weight: 400;
+  font-style: normal;
+}
+
+:root{
+  --primary: #6D6AFE;
+  --red: #FF5B56;
+  --black: #111322;
+  --white: #FFFFFF;
+  --gray_1: #3E3E43;
+  --gray_2: #9FA6B2;
+  --gray_3: #CCD5E3;
+  --gray_4: #E7EFFB;
+  --gray_5: #F0F6FF;
+}  
+
+h1{
+  font-family: Pretendard;
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 80px;
+  letter-spacing: 0px;
+}
+
+h2{
+  font-family: Pretendard;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 58px;
+  letter-spacing: 0px;
+}
+
+h3{
+  font-family: Pretendard;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 21px;
+  letter-spacing: 0em;
+}
+
+h4{
+  font-family: Pretendard;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+h5{
+  font-family: Abel;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0px;
+}
+
+h6{
+  font-family: Pretendard;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0em;
+}
+
+.btn-large{ 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer; 
+  width: Fixed (350px);
+  height: Hug (53px);
+  padding: 16px 20px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90.99deg, #6D6AFE 0.12%, #6AE3FE 101.84%);
+  font-family: Pretendard;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 21px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #F5F5F5;
+}
+
+.btn-small{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: Fixed (300px);
+  height: Hug (37px);
+  padding: 10px, 16px, 10px, 16px;
+  border: none;
+  border-radius: 8px;
+  text-align: center;
+  background: linear-gradient(90.99deg, #6D6AFE 0.12%, #6AE3FE 101.84%);
+  font-family: Pretendard;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 17px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #F5F5F5;
+}
+
+a{
+  text-decoration-line: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+.logo{
+  cursor: pointer;
+}
+
