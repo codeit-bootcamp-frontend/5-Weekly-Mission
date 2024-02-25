@@ -3,7 +3,7 @@
 ### 기본
 
 - [x]PC사이즈만 고려해 주어진 디자인을 구현합니다.
-- []HTML, CSS 파일을 Netlify로 배포해 주세요. (참고: https://www.codeit.kr/learn/5309)
+- [x]HTML, CSS 파일을 Netlify로 배포해 주세요. (참고: https://www.codeit.kr/learn/5309)
 - [x]우측 상단에 Dev Mode 토글을 누르면 CSS 설정값을 확인할 수 있어요.
 - [x]랜딩 페이지의 url path는 루트(‘/’) 입니다.
 - [x]title은 Linkbrary로 설정해 주세요.
@@ -38,9 +38,9 @@
 
 ## 스크린샷
 
-![image](/screenshot/screenshot-landing.png)
-![image](/screenshot/screenshot-signin.png)
-![image](/screenshot/screenshot-signup.png)
+![image](./screenshot/screenshot-landing.png)
+![image](./screenshot/screenshot-signin.png)
+![image](./screenshot/screenshot-signup.png)
 
 ## 멘토에게
 
