@@ -1,0 +1,114 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #F0F6FF; /* 배경색상 설정 */
+  height: 100%;
+}
+
+section{
+  width: 100%;
+  display: flex;
+  justify-content: center; 
+  padding: 120px 0;
+}
+
+.signwrap{
+  width: Hug (400px);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.sing-form-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.sing-top{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo{
+  height: 38px;
+}
+
+.sign-link{
+  color: var(--Linkbrary-primary-color, #6D6AFE);
+  text-decoration: underline;
+}
+
+form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+label{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+input{ 
+  width: 400px;
+  padding: 18px 15px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  border: 1px solid var(--Linkbrary-gray20, #CCD5E3);
+  background: var(--Linkbrary-white, #FFF);
+}
+
+input:focus {
+  outline:1px solid var(--Linkbrary-primary-color, #6D6AFE);
+}
+
+.sign-password-input{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-eye{
+  position: absolute;
+  right: 15px;
+  width: 16px;
+  height: 16px;
+}
+
+.signwrap button{
+  width: 400px;
+}
+
+.Social-login{
+  display: flex;
+  width: 400px;
+  padding: 12px 24px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px;
+  border: 1px solid var(--Linkbrary-gray20, #CCD5E3);
+  background: var(--Linkbrary-gray10, #E7EFFB);
+}
+
+.Social-login-img{
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.Social-login-img img{
+  width: 42px;
+  height: 42px;
+}
