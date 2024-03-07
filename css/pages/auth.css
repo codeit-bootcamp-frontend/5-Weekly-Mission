@@ -112,7 +112,44 @@ body{
   bottom: 18px;
 }
 
-.auth-btn{
+.auth-form__wrong-email{
+  display: flex;
+  width: 400px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  color: var(--Linkbrary-gray100, #373740);
+  /* Linkbrary/body1-regular */
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+}
+
+.auth-form__input-group .auth-form__error-sign{
+  border: 1px solid var(--Linkbrary-red, #FF5B56);
+}
+
+.auth-form__wrong-email{
+  color: var(--Linkbrary-red, #FF5B56);
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.auth-form__wrong-password{
+  color: var(--Linkbrary-red, #FF5B56);
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.auth-form__auth-btn{
   display: flex;
   width: 400px;
   padding: 16px 20px;
