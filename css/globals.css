@@ -1,0 +1,16 @@
+@import "./commons/colors.css";
+@import "./commons/footer.css";
+
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+a{
+	cursor: pointer;
+}
+
+button{
+	cursor: pointer;
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>로그인</title>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+  <link rel="stylesheet" href="/css/pages/auth.css">
+</head>
+<body>
+  <main>
+    <div class="auth-layout">
+      <div class="auth__gap">
+        <header class="auth-header">
+          <a href="/"><img src="/icons/logo.svg" class="logo" alt="링크브러리 로고"></a>
+          <div class="auth-header__massage">회원이 아니신가요?<a href="/signup.html" class="auth-header__btn">회원 가입하기</a></div>
+        </header>
+        <form class="auth-form">
+          <div class="auth-form__group">
+            <div class="auth-form__input-group">
+              <label for="email">이메일</label>
+              <input id="email" name="email" type="email">
+            </div>
+            <div class="auth-form__input-group">
+              <label for="password">비밀번호</label>  
+              <div class="auth-form__password-input">
+                <input id="password" name="password" type="password">
+                <button class="auth-form__password-toggle-btn">
+                  <img src="/icons/eye-on.svg" class="auth-form__password-icon" alt="비밀번호 보기"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <button class="auth-btn" type="submit">로그인</button>
+        </form>
+      </div>
+      <div class="social-auth">
+        소셜 로그인
+        <div class="social-auth__icons">
+          <a href="https://www.google.com/">
+            <div class="social-auth__icon">
+              <img src="/icons/google.svg" class="social-auth__background" alt="구글 계정연동하기">
+              <img src="/icons/c3a9be9cb365010056fa7aa9cc9f05a2.png" class="gooole-icon">
+            </div>
+          </a>
+          <a href="https://www.kakaocorp.com/page/">
+            <div class="social-auth__icon">
+              <img src="/icons/facebook.svg" class="social-auth__background" alt="카카토톡 계정연동하기">
+              <img src="/icons/99FE484C5C3451F218 1.svg" class="kakao-icon">
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
