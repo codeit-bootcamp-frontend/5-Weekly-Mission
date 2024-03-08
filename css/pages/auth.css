@@ -99,13 +99,15 @@ body{
   position: relative;
 }
 
-.auth-form__password-toggle-btn{
+.auth-form__password-toggle-btn,
+.auth-form__password-toggle-btn.confirm{
   border: none;
   background: none;
   padding: 0;
 }
 
-.auth-form__password-icon{
+.auth-form__password-icon,
+.auth-form__password-icon.confirm{
   position: absolute;
   top: 18px;
   right: 15px;
@@ -140,7 +142,8 @@ body{
   line-height: normal;
 }
 
-.auth-form__wrong-password{
+.auth-form__wrong-password,
+.auth-form__wrong-password.confirm{
   color: var(--Linkbrary-red, #FF5B56);
   font-family: Pretendard;
   font-size: 14px;
@@ -235,7 +238,7 @@ main{
 .auth-form__group,
 .auth-form__input-group,
 .auth-form__input-group input,
-.auth-btn,
+.auth-form__auth-btn,
 .social-auth{
   width: 100%;
   max-width: 400px;
