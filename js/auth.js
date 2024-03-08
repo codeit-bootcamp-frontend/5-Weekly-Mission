@@ -1,13 +1,9 @@
 const email = document.querySelector('#email');
 const password = document.querySelector('#password');
-const confirmPassword = document.querySelector('#confirm-password');
 const passwordToggleBtn = document.querySelector('.auth-form__password-toggle-btn');
-const confirmPasswordToggleBtn = document.querySelector('.auth-form__password-toggle-btn.confirm');
 const passwordIcon = document.querySelector('.auth-form__password-icon')
-const confirmPasswordIcon = document.querySelector('.auth-form__password-icon.confirm')
 const emailErrorMessage = document.querySelector('.auth-form__wrong-email');
 const passwordErrorMessage = document.querySelector('.auth-form__wrong-password');
-const confirmPasswordErrorMessage = document.querySelector('.auth-form__wrong-password.confirm');
 const authBtn = document.querySelector('.auth-form__auth-btn')
 
 /* 이메일 에러체크 */
@@ -69,10 +65,6 @@ password.addEventListener('mouseout', passwordErrorEvent);
 
 password.addEventListener('keyup', passwordErrorEvent);
 
-confirmPassword.addEventListener('mouseout', confirmPasswordErrorEvent);
-
-confirmPassword.addEventListener('keyup', confirmPasswordErrorEvent);
-
 authBtn.addEventListener('click', loginEvent);
 
 document.addEventListener('keydown', function(e){
@@ -81,7 +73,7 @@ document.addEventListener('keydown', function(e){
   }
 });
 
-/* 비밀번호 숨기기/보이기 기능 구현 */
+/* 비밀번호 보이기/숨기기 기능 구현 */
 
 passwordToggleBtn.addEventListener('click', function(e){
   e.preventDefault();
@@ -93,18 +85,5 @@ passwordToggleBtn.addEventListener('click', function(e){
   } else{
     password.setAttribute('type', 'password');
     passwordIcon.setAttribute('src', '../icons/eye-off.svg');
-  };
-});
-
-confirmPasswordToggleBtn.addEventListener('click', function(e){
-  e.preventDefault();
-  const confirmPasswordType = confirmPassword.getAttribute('type');
-
-  if(confirmPasswordType === 'password'){
-    confirmPassword.setAttribute('type', 'text');
-    confirmPasswordIcon.setAttribute('src', '../icons/eye-on.svg');
-  } else{
-    confirmPassword.setAttribute('type', 'password');
-    confirmPasswordIcon.setAttribute('src', '../icons/eye-off.svg');
   };
 });
