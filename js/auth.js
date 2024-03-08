@@ -86,4 +86,5 @@ passwordToggleBtn.addEventListener('click', function(e){
     password.setAttribute('type', 'password');
     passwordIcon.setAttribute('src', '../icons/eye-off.svg');
   };
+  
 });
