@@ -3,10 +3,11 @@ const pwdInput=document.querySelector('.pwd-input');
 const loginButton=document.querySelector('.button-sign');
 const checkEmail= document.querySelector('.check-email');
 const checkPwd= document.querySelector('.check-pwd');
+const eyeIcon=document.querySelector('.pwd-eye-off');
 
 function emailCheck(email_address){		
     const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
-    if(!email_regex.test(email_address)){ 
+    if(!email_regex.test(email_address)) { 
         return false; 
     } else{
         return true;
@@ -24,10 +25,6 @@ function loginCheck() {
     }
 }
 
-function errorBorder() {
-    this.classList.toggle('error-border');
-}
-
 emailInput.addEventListener('focusout',(e)=>{
     const blankError=document.querySelector('.email-blank-error');
     const typeError=document.querySelector('.email-type-error');
@@ -42,7 +39,6 @@ emailInput.addEventListener('focusout',(e)=>{
         blankError.classList.remove('hide');
         typeError.classList.add('hide');
     } 
-
     if (blankError.classList.contains('hide') && typeError.classList.contains('hide')) {
         emailInput.classList.remove('error-border');
     } else {
@@ -57,7 +53,6 @@ emailInput.addEventListener('focusin',(e)=>{
 
 pwdInput.addEventListener('focusout',(e)=>{
     const blankError=document.querySelector('.pwd-blank-error');
-    console.log(pwdInput.value);
     if (pwdInput.value !== '') {
         blankError.classList.add('hide'); 
         pwdInput.classList.remove('error-border');
@@ -83,4 +78,12 @@ pwdInput.addEventListener('keyup',(e)=>{
     if (e.keyCode===13) {
         loginCheck();
     }
+});
+
+eyeIcon.addEventListener('mousedown',()=>{
+    pwdInput.setAttribute('type','text');
+});
+
+eyeIcon.addEventListener('mouseup',()=>{
+    pwdInput.setAttribute('type','password');
 });

@@ -89,7 +89,6 @@ input:focus {
   border: 1px #6D6AFE solid;
 }
 
-
 .button-sign {
   width: 100%;
   padding: 16px 20px;
@@ -125,7 +124,7 @@ input:focus {
   font-weight: 400;
 }
 
-.social-login .image2 {
+.social-login .kakao-icon {
   width: 42px;
   height: 42px;
   background-color: #FEE500;
@@ -133,7 +132,7 @@ input:focus {
   position: relative;
 }
 
-.social-login .image1 {
+.social-login .google-icon {
   width: 42px;
   height: 42px;
   background-color: #FFFFFF;
@@ -143,7 +142,7 @@ input:focus {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.image2 img {
+.kakao-icon img {
   position: absolute;
   top: 10px;
   bottom: 8px;
@@ -151,7 +150,7 @@ input:focus {
   right: 8px;
 }
 
-.image1 img {
+.google-icon img {
   position: absolute;
   top: 10px;
   bottom: 10px;
