@@ -11,7 +11,6 @@ html {
 body {
   height: 100%;
   position: relative;
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -68,9 +67,7 @@ label {
   color: black;
   font-family: Pretendard;
   font-size: 14px;
-  font-style: normal;
   font-weight: 400;
-  line-height: normal;
 }
 
 input {
@@ -162,8 +159,31 @@ input:focus {
   right: 10px;
 }
 
-.pwd-input {
+.error-msg {
+  margin-top:6px;
+  color:#FF5B56;
+  font-size: 14px;
+}
+
+.hide {
+  display: none;
+}
+
+.error-border {
+  border-color:#FF5B56;
+}
+
+.pwd-input-wrapper {
   margin-top: 24px;
+  position: relative;
+}
+
+.pwd-eye-off {
+  position: absolute;
+  padding:0;
+  height: 16px;
+  top: 50px;
+  right: 15px;
 }
 
 .pwd-input-check {
@@ -176,10 +196,6 @@ input:focus {
   font-family: Pretendard;
   font-weight: 400;
   margin-top: 6px;
-}
-
-.pwd-input-check input{
-  border-color: red;
 }
 
 .pwd-input form {

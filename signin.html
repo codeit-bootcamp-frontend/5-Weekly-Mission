@@ -13,9 +13,9 @@
 <body>
   <div class="contents">
     <div class="title">
-      <div class="logo">
+      <div>
         <a href="/"> 
-          <img src="images/logo.svg" alt="로고">
+          <img class="logo" src="images/logo.svg" alt="로고">
         </a>
       </div>
       <h2>
@@ -24,26 +24,32 @@
       </h2>
     </div>
     <div class="input-form">
-      <div class="email-input">
-        <form>
-          <ol>
-            <li>
-              <label>
-                이메일 <br>
-                <input type="email">
-              </label>
-            </li>
-            <li class="pwd-input">
-              <label>
-                비밀번호 <br>
-                <input name="focus" type="password">       
-              </label>
-            </li>
-          </ol>
-        </form>
-      </div>
+      <form>
+        <ol>
+          <li class="email-input-wrapper">
+            <label>
+              이메일 <br>
+              <input class="email-input error-border" value="" type="email">
+            </label>
+            <p class="error-msg email-blank-error">이메일을 입력해주세요</p>
+            <p class="error-msg email-type-error hide">올바른 이메일 주소가 아닙니다.</p>
+            <p class="error-msg check-email hide">이메일을 확인해주세요</p>
+          </li>
+          <li class="pwd-input-wrapper">
+            <label>
+              비밀번호 <br>
+              <input class="pwd-input error-border" name="focus" type="password">       
+            </label>
+            <button class="pwd-eye-off">
+              <img src="images/eye-off.svg" alt="eye-off">
+            </button>
+            <p class="error-msg pwd-blank-error">비밀번호를 입력해주세요</p>
+            <p class="error-msg check-pwd hide">비밀번호를 확인해주세요</p>
+          </li>
+        </ol>
+      </form>
     </div>
-    <button class="button-sign"> 로그인 </button>
+    <button class="button-sign" onclick="loginCheck()"> 로그인 </button>
     <div class="social-login">
       <p>소셜 로그인</p>
       <div class="social-icon">
@@ -60,4 +66,5 @@
       </div>
     </div>
   </div>
+  <script src="signin.js"></script>
 </body>
