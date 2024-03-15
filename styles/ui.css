@@ -64,7 +64,8 @@ input:focus {
 }
 
 .error-message-email,
-.error-message-password {
+.error-message-password,
+.error-message-password-confirm {
   display: block;
   font-weight: 400;
   font-size: 14px;
