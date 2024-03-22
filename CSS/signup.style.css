@@ -93,7 +93,7 @@ body {
 .error {
   display: none;
 }
-.errortext {
+.error-text {
   color: rgba(255, 91, 86, 1);
   font-size: 14px;
   font-weight: 400;

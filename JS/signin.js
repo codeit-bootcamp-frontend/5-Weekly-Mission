@@ -22,3 +22,23 @@ function signIn(e) {
   }
 }
 btn.addEventListener("click", signIn);
+
+const signInData = {
+  email: "test@codeit.com",
+  password: "sprint101",
+};
+async function post() {
+  const data = {
+    email,
+    password,
+  }
+
+  fetch("https://bootcamp-api.codeit.kr/api/sign-in", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(signInData),
+  })
+  await then(())
+}
