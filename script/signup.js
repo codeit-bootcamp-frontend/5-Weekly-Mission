@@ -69,7 +69,6 @@ const submitEvent = async (e) => {
 
   if (duplicateAccountState && pwFormState && comparePwState) {
     let result;
-
     try {
       result = await signUpAccess($emailInput.value, $pwInput.value);
     } catch (error) {

@@ -61,9 +61,12 @@ export const validateEmailValue = () => {
     drawAlert($emailAlertDiv, $emailInput, message.inputEmail);
   } else if (emailValue) {
     eraseAlert($emailAlertDiv, $emailInput);
-    emailPattern.test(emailValue) === false
-      ? drawAlert($emailAlertDiv, $emailInput, message.wrongEmailForm)
-      : eraseAlert($emailAlertDiv, $emailInput);
+    if (!emailPattern.test(emailValue)) {
+      drawAlert($emailAlertDiv, $emailInput, message.wrongEmailForm);
+    } else {
+      eraseAlert($emailAlertDiv, $emailInput);
+      return true;
+    }
   }
 };
 
