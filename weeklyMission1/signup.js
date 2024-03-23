@@ -1,6 +1,7 @@
-import { MEMBER_ID } from "./member.js";
-import { signUpEmailInput, signUpEmailErrorMsg, signUpPasswordInput, signUpPasswordCheckInput, signUpPasswordErrorMsg, 
-    passwordCheckErrorMsg, passwordImg, passwordImgCheck, signUpBtn } from "./tags.js";
+import {
+    signUpEmailInput, signUpEmailErrorMsg, signUpPasswordInput, signUpPasswordCheckInput, signUpPasswordErrorMsg,
+    passwordCheckErrorMsg, passwordImg, passwordImgCheck, signUpBtn
+} from "./tags.js";
 import { emailRegex, passwordRegex } from "./regex.js";
 
 function signUpCheckEmailBlank() {
@@ -18,7 +19,7 @@ function signUpCheckEmailBlank() {
     return isSignUpCheckEmailBlank;
 }
 
-function signUpCheckEmail(emailInput) {    
+function signUpCheckEmail(emailInput) {
     if (!emailRegex.test(emailInput)) {
         return false;
     } else {
@@ -43,18 +44,38 @@ function signUpCheckEmailValid() {
     return isSignUpEmailValid;
 }
 
-function signUpcheckEmailDuplicate() {
+async function signUpcheckEmailDuplicate() {
     const signUpEmailInputValue = signUpEmailInput.value;
     let isEmailDuplicate = true;
 
-    if (signUpEmailInputValue === MEMBER_ID) {
-        signUpEmailErrorMsg.textContent = "이미 사용 중인 이메일입니다.";
-        signUpEmailInput.style.border = "1px solid red";
-        isEmailDuplicate = true;
-    } else {
-        isEmailDuplicate = false;
+    // check duplicate email using fetch
+    const userEmail = {
+        email: signUpEmailInputValue,
+    };
+
+    let options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userEmail),
     }
 
+    fetch('https://bootcamp-api.codeit.kr/api/check-email', options)
+        .then((r) => {
+            if (r.status === 409) {
+                r.json().then((r) => {
+                    signUpEmailErrorMsg.textContent = "이미 사용 중인 이메일입니다.";
+                    signUpEmailInput.style.border = "1px solid red";
+                    isEmailDuplicate = true;
+                })
+            } else {
+                isEmailDuplicate = false;
+                // console.log(isEmailDuplicate);
+            }
+        }).catch(error => console.error(error));
+    
+    
     return isEmailDuplicate;
 }
 
@@ -144,11 +165,30 @@ function passwordToggleCheck() {
 }
 
 function checkMemberValid() {
-    if (!signUpcheckEmailDuplicate() && signUpCheckEmailValid() && checkPasswordValid() && checkPasswordDuplicate()) {
-        location.href = '/folder';
-    } else {
-        alert('아이디와 비밀번호를 다시 확인해주세요');
-    }
+    const user = {
+        email: signUpEmailInput.value,
+        password: signUpPasswordInput.value,
+      };
+    
+      let options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      }
+    
+      fetch('https://bootcamp-api.codeit.kr/api/sign-up', options)
+        .then((r) => {
+          if (r.status === 200) {
+            r.json().then((r) => {
+              localStorage.setItem('accessToken', r.data.accessToken);
+              location.href = "/folder";
+            })
+          } else {
+            return false;
+          }
+        }).catch(error => console.error(error));
 
 }
 
@@ -156,7 +196,7 @@ function pressEnterToSignUp(e) {
     if (e.key === 'Enter') {
         checkMemberValid();
     }
-} 
+}
 
 signUpEmailInput.addEventListener('focusout', signUpCheckEmailValid);
 signUpEmailInput.addEventListener('focusout', signUpCheckEmailBlank);

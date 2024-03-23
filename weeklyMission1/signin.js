@@ -1,4 +1,3 @@
-import { MEMBER_ID, MEMBER_PASSWORD } from "./member.js";
 import { signInEmailInput, signInPasswordInput, emailErrorMsg, passwordErrorMsg, signInLogin, passwordImg } from "./tags.js";
 import { emailRegex } from "./regex.js";
 
