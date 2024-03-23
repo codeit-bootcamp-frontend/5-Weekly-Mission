@@ -102,10 +102,13 @@ header {
   border-color: var(--primary);
 }
 
-.sign-password {
-  position: relative;
+.sign-input.sign-input-error {
+  border-color: var(--red);
 }
 
+.sign-input.sign-input-error:focus {
+  border-color: var(--red);
+}
 
 .error-message {
   display: none;
@@ -115,8 +118,12 @@ header {
   color: var(--red);
 }
 
+.error-message.error-message-on {
+  display: inline-block;
+}
+
 .eye-button {
-  position: absolute ;
+  position: absolute;
   bottom: 2.2rem;
   right: 1.5rem;
   width: 1.6rem;
