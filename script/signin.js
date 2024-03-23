@@ -8,25 +8,35 @@ import {
   validateEmailValue,
   validatePwValue,
   handlePwSight,
-  mockUserInfo,
   drawAlert,
   message,
   eraseAlert,
+  url,
 } from './utils/auth.js';
+import { signInAccess } from './utils/api.js';
 
-// 임시 계정 일치 검사 || 경고 메시지 출력
-const submitEvent = (event) => {
+if (localStorage.getItem('signInAccessToken')) location.href = url.folderPage;
+
+const submitEvent = async (event) => {
   const { value: emailValue } = $emailInput;
   const { value: pwValue } = $pwInput;
   event.preventDefault();
 
-  if (emailValue === mockUserInfo.email && pwValue === mockUserInfo.pw) return (location.href = '../pages/folder.html');
-  pwValue !== mockUserInfo.pw //
-    ? drawAlert($pwAlertDiv, $pwInput, message.wrongPw)
-    : eraseAlert($pwAlertDiv, $pwInput);
-  emailValue !== mockUserInfo.email
-    ? drawAlert($emailAlertDiv, $emailInput, message.wrongEmail)
-    : eraseAlert($emailAlertDiv, $emailInput);
+  let result;
+  try {
+    result = await signInAccess(emailValue, pwValue);
+  } catch (error) {
+    drawAlert($pwAlertDiv, $pwInput, message.wrongAccout);
+    drawAlert($emailAlertDiv, $emailInput, message.wrongAccout);
+    console.error(error);
+    return;
+  }
+
+  if (result.data) {
+    const { accessToken, refreshToken } = result.data;
+    localStorage.setItem('signInAccessToken', accessToken);
+    location.href = url.folderPage;
+  }
 };
 
 $emailInput.addEventListener('focusout', validateEmailValue);

@@ -1,3 +1,4 @@
+import { checkEmailAccess, signUpAccess } from './utils/api.js';
 import {
   $emailInput,
   $pwInput,
@@ -7,7 +8,6 @@ import {
   $pwVerifyAlertDiv,
   $form,
   $eyes,
-  mockUserInfo,
   message,
   drawAlert,
   eraseAlert,
@@ -15,58 +15,74 @@ import {
   validateEmailValue,
   validatePwValue,
   signupPageStatus,
+  url,
 } from './utils/auth.js';
 import { numberPattern as numPattern, englishPattern as engPattern } from './utils/regx.js';
 let { duplicateAccountState, pwFormState, comparePwState } = signupPageStatus;
 
-// 계정 중복 검사
-const checkDuplicateAccount = ({ value: emailValue }) => {
-  const validateResult = emailValue !== mockUserInfo.email;
-  validateResult === false /* 이메일이 mockUser와 같다면 */
-    ? (drawAlert($emailAlertDiv, $emailInput, message.duplicateEmail), (duplicateAccountState = false))
-    : (duplicateAccountState = true);
+if (localStorage.getItem('signUpAccessToken')) location.href = url.folderPage;
+
+const checkDuplicateAccount = async () => {
+  const { value: emailValue } = $emailInput;
+  if (!validateEmailValue()) {
+    return;
+  }
+  try {
+    await checkEmailAccess(emailValue);
+  } catch (error) {
+    if (!emailValue) {
+      drawAlert($emailAlertDiv, $emailInput, message.wrongEmail);
+      return;
+    }
+    drawAlert($emailAlertDiv, $emailInput, message.duplicateEmail);
+    duplicateAccountState = false;
+    console.error(error);
+    return;
+  }
+  duplicateAccountState = true;
 };
 
-// 비밀번호 양식 검사
 const checkPwForm = () => {
   const { value: pwValue } = $pwInput;
   const validateResult = engPattern.test(pwValue) && numPattern.test(pwValue) && pwValue.length >= 8;
-  validateResult === false /* 비밀번호 양식이 불일치하다면 */
+  validateResult === false
     ? (drawAlert($pwAlertDiv, $pwInput, message.wrongPwForm), (pwFormState = false))
     : (eraseAlert($pwAlertDiv, $pwInput), (pwFormState = true));
 };
 
-// 비밀번호 재입력 일치 확인
 const comparePw = () => {
-  const { value: pwValue } = $pwInput;
-  const { value: pwVerifyValue } = $pwVerifyInput;
-  if (!pwVerifyValue) {
+  if (!$pwVerifyInput.value) {
     drawAlert($pwVerifyAlertDiv, $pwVerifyInput, message.wrongPw);
   } else {
-    const validateResult = pwValue === pwVerifyValue;
-    validateResult === false /* 비밀번호와 비밀번호재입력 인풋값이 불일치하다면 */
+    const validateResult = $pwInput.value === $pwVerifyInput.value;
+    validateResult === false
       ? (drawAlert($pwVerifyAlertDiv, $pwVerifyInput, message.diffrentPw), (comparePwState = false))
       : (eraseAlert($pwVerifyAlertDiv, $pwVerifyInput), (comparePwState = true));
   }
 };
 
-//
-const submitEvent = (e) => {
-  const { value: emailValue } = $emailInput;
-  const { value: pwValue } = $pwInput;
-  const { value: pwVerifyValue } = $pwVerifyInput;
+const submitEvent = async (e) => {
   e.preventDefault();
   comparePw();
   checkPwForm();
-  checkDuplicateAccount($emailInput);
+  checkDuplicateAccount();
 
   if (duplicateAccountState && pwFormState && comparePwState) {
-    return (location.href = '../pages/folder.html');
+    let result;
+
+    try {
+      result = await signUpAccess($emailInput.value, $pwInput.value);
+    } catch (error) {
+      console.error(error);
+      return;
+    }
+
+    if (result.data) {
+      const { accessToken, refreshToken } = result.data;
+      localStorage.setItem('signUpAccessToken', accessToken);
+      location.href = url.folderPage;
+    }
   }
-  if (emailValue === mockUserInfo.email) drawAlert($emailAlertDiv, $emailInput, message.duplicateEmail);
-  if (!emailValue) drawAlert($emailAlertDiv, $emailInput, message.wrongEmail);
-  if (!pwValue) drawAlert($pwAlertDiv, $pwInput, message.wrongPw);
-  if (!pwVerifyValue) drawAlert($pwVerifyAlertDiv, $pwVerifyInput, message.wrongPw);
 };
 
 $emailInput.addEventListener('focusout', validateEmailValue);
