@@ -4,19 +4,20 @@ import {
 } from "./tags.js";
 import { emailRegex, passwordRegex } from "./regex.js";
 
+// accessToken makes move to '/folder'
+if (localStorage.getItem('accessToken')) {
+    location.href = '/folder';
+}
+
 function signUpCheckEmailBlank() {
     const signUpEmailInputValue = signUpEmailInput.value;
-    let isSignUpCheckEmailBlank = false;
 
     if (!signUpEmailInputValue) {
         signUpEmailErrorMsg.textContent = "이메일을 입력해주세요.";
         signUpEmailInput.style.border = "1px solid red";
-        isSignUpCheckEmailBlank = true;
     } else {
-        isSignUpCheckEmailBlank = false;
+        signUpEmailInput.style.border = "1px solid #9fa6b2";
     }
-
-    return isSignUpCheckEmailBlank;
 }
 
 function signUpCheckEmail(emailInput) {
@@ -29,24 +30,19 @@ function signUpCheckEmail(emailInput) {
 
 function signUpCheckEmailValid() {
     const signUpEmailInputValue = signUpEmailInput.value;
-    let isSignUpEmailValid = false;
 
     if (!signUpCheckEmail(signUpEmailInputValue)) {
         signUpEmailErrorMsg.textContent = "올바른 이메일 주소가 아닙니다.";
         signUpEmailInput.style.border = "1px solid red";
-        isSignUpEmailValid = false;
     } else {
         signUpEmailErrorMsg.textContent = "";
         signUpEmailInput.style.border = "1px solid #9fa6b2";
-        isSignUpEmailValid = true;
     }
 
-    return isSignUpEmailValid;
 }
 
 async function signUpcheckEmailDuplicate() {
     const signUpEmailInputValue = signUpEmailInput.value;
-    let isEmailDuplicate = true;
 
     // check duplicate email using fetch
     const userEmail = {
@@ -67,33 +63,23 @@ async function signUpcheckEmailDuplicate() {
                 r.json().then((r) => {
                     signUpEmailErrorMsg.textContent = "이미 사용 중인 이메일입니다.";
                     signUpEmailInput.style.border = "1px solid red";
-                    isEmailDuplicate = true;
                 })
             } else {
-                isEmailDuplicate = false;
-                // console.log(isEmailDuplicate);
+                
             }
         }).catch(error => console.error(error));
-    
-    
-    return isEmailDuplicate;
 }
 
 function signUpCheckPasswordBlank() {
     const signUpPasswordInputValue = signUpPasswordInput.value;
-    let isSignUpCheckPasswordBlank = false;
 
     if (!signUpPasswordInputValue) {
         signUpPasswordErrorMsg.textContent = "비밀번호를 입력해주세요.";
         signUpPasswordInput.style.border = "1px solid red";
-        isSignUpCheckPasswordBlank = true;
     } else {
         signUpPasswordErrorMsg.textContent = "";
         signUpPasswordInput.style.border = "1px solid #9fa6b2";
-        isSignUpCheckPasswordBlank = false;
     }
-
-    return isSignUpCheckPasswordBlank;
 }
 
 function checkPassword(passwordInput) {
@@ -106,38 +92,28 @@ function checkPassword(passwordInput) {
 
 function checkPasswordValid() {
     const signUpPasswordInputValue = signUpPasswordInput.value;
-    let isCheckPasswordValid = false;
 
     if (!checkPassword(signUpPasswordInputValue)) {
         signUpPasswordErrorMsg.textContent = "비밀번호는 영문, 숫자 조합 8자 이상 입력해 주세요.";
         signUpPasswordInput.style.border = "1px solid red";
-        isCheckPasswordValid = false;
     } else {
         signUpPasswordErrorMsg.textContent = "";
         signUpPasswordInput.style.border = "1px solid #9fa6b2";
-        isCheckPasswordValid = true;
     }
-
-    return isCheckPasswordValid;
-
 }
 
 function checkPasswordDuplicate() {
     const signUpPasswordInputValue = signUpPasswordInput.value;
     const signUpPasswordCheckInputValue = signUpPasswordCheckInput.value;
-    let isCheckPasswordDuplicate = false;
 
     if (signUpPasswordInputValue !== signUpPasswordCheckInputValue) {
         passwordCheckErrorMsg.textContent = "비밀번호가 일치하지 않아요.";
         signUpPasswordCheckInput.style.border = "1px solid red";
-        isCheckPasswordDuplicate = false;
     } else {
         passwordCheckErrorMsg.textContent = "";
         signUpPasswordCheckInput.style.border = "1px solid #9fa6b2";
-        isCheckPasswordDuplicate = true;
     }
 
-    return isCheckPasswordDuplicate;
 }
 
 function passwordToggle() {

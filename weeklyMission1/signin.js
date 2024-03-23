@@ -1,6 +1,11 @@
 import { signInEmailInput, signInPasswordInput, emailErrorMsg, passwordErrorMsg, signInLogin, passwordImg } from "./tags.js";
 import { emailRegex } from "./regex.js";
 
+// accessToken makes move to '/folder'
+if (localStorage.getItem('accessToken')) {
+    location.href = '/folder';
+}
+
 function checkEmailBlank() {
     const signInEmailInputValue = signInEmailInput.value;
 
