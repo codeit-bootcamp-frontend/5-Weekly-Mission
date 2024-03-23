@@ -1,6 +1,7 @@
 import { MEMBER_ID } from "./member.js";
 import { signUpEmailInput, signUpEmailErrorMsg, signUpPasswordInput, signUpPasswordCheckInput, signUpPasswordErrorMsg, 
     passwordCheckErrorMsg, passwordImg, passwordImgCheck, signUpBtn } from "./tags.js";
+import { emailRegex, passwordRegex } from "./regex.js";
 
 function signUpCheckEmailBlank() {
     const signUpEmailInputValue = signUpEmailInput.value;
@@ -10,14 +11,14 @@ function signUpCheckEmailBlank() {
         signUpEmailErrorMsg.textContent = "이메일을 입력해주세요.";
         signUpEmailInput.style.border = "1px solid red";
         isSignUpCheckEmailBlank = true;
+    } else {
+        isSignUpCheckEmailBlank = false;
     }
 
     return isSignUpCheckEmailBlank;
 }
 
-function signUpCheckEmail(emailInput) {
-    const emailRegex = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
-    
+function signUpCheckEmail(emailInput) {    
     if (!emailRegex.test(emailInput)) {
         return false;
     } else {
@@ -75,8 +76,6 @@ function signUpCheckPasswordBlank() {
 }
 
 function checkPassword(passwordInput) {
-    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,20}$/;
-
     if (!passwordRegex.test(passwordInput)) {
         return false;
     } else {
@@ -145,49 +144,12 @@ function passwordToggleCheck() {
 }
 
 function checkMemberValid() {
-    if (signUpCheckEmailBlank() === true) {
-        signUpEmailErrorMsg.textContent = "이메일을 입력해주세요.";
-        signUpEmailInput.style.border = "1px solid red";
-
-        return
+    if (!signUpcheckEmailDuplicate() && signUpCheckEmailValid() && checkPasswordValid() && checkPasswordDuplicate()) {
+        location.href = '/folder';
+    } else {
+        alert('아이디와 비밀번호를 다시 확인해주세요');
     }
 
-    if (signUpcheckEmailDuplicate() === true) {
-        signUpEmailErrorMsg.textContent = "이미 사용 중인 이메일입니다.";
-        signUpEmailInput.style.border = "1px solid red";
-
-        return
-    }
-
-    if (signUpCheckEmailValid() === false) {
-        signUpEmailErrorMsg.textContent = "올바른 이메일 주소가 아닙니다.";
-        signUpEmailInput.style.border = "1px solid red";
-
-        return
-    }
-
-    if (signUpCheckPasswordBlank() === true) {
-        signUpPasswordErrorMsg.textContent = "비밀번호를 입력해주세요.";
-        signUpPasswordInput.style.border = "1px solid red";
-        
-        return
-    }
-
-    if (checkPasswordValid() === false) {
-        signUpPasswordErrorMsg.textContent = "비밀번호는 영문, 숫자 조합 8자 이상 입력해 주세요.";
-        signUpPasswordInput.style.border = "1px solid red";
-        
-        return
-    }
-
-    if (checkPasswordDuplicate() === false) {
-        passwordCheckErrorMsg.textContent = "비밀번호가 일치하지 않아요.";
-        signUpPasswordCheckInput.style.border = "1px solid red";
-        
-        return
-    } 
-
-    window.location.href = '/folder';
 }
 
 function pressEnterToSignUp(e) {
@@ -196,24 +158,15 @@ function pressEnterToSignUp(e) {
     }
 } 
 
-signUpEmailInput.addEventListener('blur', signUpCheckEmailValid);
-signUpEmailInput.addEventListener('input', signUpCheckEmailValid);
-signUpEmailInput.addEventListener('blur', signUpCheckEmailBlank);
-signUpEmailInput.addEventListener('input', signUpCheckEmailBlank);
+signUpEmailInput.addEventListener('focusout', signUpCheckEmailValid);
+signUpEmailInput.addEventListener('focusout', signUpCheckEmailBlank);
 signUpEmailInput.addEventListener('keydown', pressEnterToSignUp);
-
-signUpPasswordInput.addEventListener('blur', signUpCheckPasswordBlank);
-signUpPasswordInput.addEventListener('input', signUpCheckPasswordBlank);
+signUpPasswordInput.addEventListener('focusout', signUpCheckPasswordBlank);
 signUpPasswordInput.addEventListener('keydown', pressEnterToSignUp);
-
-signUpEmailInput.addEventListener('blur', signUpcheckEmailDuplicate);
-signUpEmailInput.addEventListener('input', signUpcheckEmailDuplicate);
-
-signUpPasswordInput.addEventListener('input', checkPasswordValid);
-signUpPasswordCheckInput.addEventListener('input', checkPasswordDuplicate);
+signUpEmailInput.addEventListener('focusout', signUpcheckEmailDuplicate);
+signUpPasswordInput.addEventListener('focusout', checkPasswordValid);
+signUpPasswordCheckInput.addEventListener('focusout', checkPasswordDuplicate);
 signUpPasswordCheckInput.addEventListener('keydown', pressEnterToSignUp);
-
+signUpBtn.addEventListener('click', checkMemberValid);
 passwordImg.addEventListener('click', passwordToggle);
 passwordImgCheck.addEventListener('click', passwordToggleCheck);
-
-signUpBtn.addEventListener('click', checkMemberValid);

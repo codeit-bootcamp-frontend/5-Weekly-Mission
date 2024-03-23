@@ -1,5 +1,6 @@
 import { MEMBER_ID, MEMBER_PASSWORD } from "./member.js";
 import { signInEmailInput, signInPasswordInput, emailErrorMsg, passwordErrorMsg, signInLogin, passwordImg } from "./tags.js";
+import { emailRegex } from "./regex.js";
 
 function checkEmailBlank() {
     const signInEmailInputValue = signInEmailInput.value;
@@ -7,12 +8,10 @@ function checkEmailBlank() {
     if (!signInEmailInputValue) {
         emailErrorMsg.textContent = "이메일을 입력해주세요.";
         signInEmailInput.style.border = "1px solid red";
-    } 
+    }
 }
 
 function checkEmail(emailInput) {
-    const emailRegex = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
-    
     if (!emailRegex.test(emailInput)) {
         return false;
     } else {
@@ -44,18 +43,38 @@ function checkPasswordBlank() {
     }
 }
 
-function checkMember(e) {
-    const signInEmailInputValue = signInEmailInput.value;
-    const signInPasswordInputValue = signInPasswordInput.value;
+function checkMember() {    
+    const isTestUser = {
+        email: signInEmailInput.value,
+        password: signInPasswordInput.value
+    };
 
-    if (signInEmailInputValue === MEMBER_ID && signInPasswordInputValue === MEMBER_PASSWORD) {
-        window.location.href = '/folder';
-    } else {
-        emailErrorMsg.textContent = "이메일을 확인해주세요.";
-        signInEmailInput.style.border = "1px solid red";
-        passwordErrorMsg.textContent = "비밀번호를 확인해주세요.";
-        signInPasswordInput.style.border = "1px solid red";
+    let options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(isTestUser),
     }
+
+    // check member using fetch
+    fetch('https://bootcamp-api.codeit.kr/api/sign-in', options)
+        .then((r) => {
+            if (r.status === 200) {
+                r.json().then((r) => {
+                    // console.log(r.data.accessToken);
+                    localStorage.setItem('accessToken', r.data.accessToken);
+                    location.href = "/folder";
+                })
+            } else {
+                emailErrorMsg.textContent = "이메일을 확인해주세요.";
+                signInEmailInput.style.border = "1px solid red";
+                passwordErrorMsg.textContent = "비밀번호를 확인해주세요.";
+                signInPasswordInput.style.border = "1px solid red";
+            }
+        }).catch((error) => {
+            console.error(error);
+        });
 }
 
 function passwordToggle() {
@@ -76,14 +95,12 @@ function pressEnterToLogin(e) {
     }
 }
 
-signInEmailInput.addEventListener('blur', checkEmailValid);
-signInEmailInput.addEventListener('input', checkEmailValid);
-signInEmailInput.addEventListener('blur', checkEmailBlank);
-signInEmailInput.addEventListener('input', checkEmailBlank);
+signInEmailInput.addEventListener('focusout', checkEmailValid);
+signInEmailInput.addEventListener('focusout', checkEmailBlank);
+
 signInEmailInput.addEventListener('keydown', pressEnterToLogin);
 
-signInPasswordInput.addEventListener('blur', checkPasswordBlank);
-signInPasswordInput.addEventListener('input', checkPasswordBlank);
+signInPasswordInput.addEventListener('focusout', checkPasswordBlank);
 signInPasswordInput.addEventListener('keydown', pressEnterToLogin);
 
 signInLogin.addEventListener('click', checkMember);

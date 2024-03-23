@@ -15,6 +15,5 @@ const passwordErrorMsg = document.querySelector('.password-error-msg');
 const signInLogin = document.querySelector('.signin-login');
 
 export { signUpEmailInput, signUpEmailErrorMsg, signUpPasswordInput, signUpPasswordCheckInput, signUpPasswordErrorMsg, 
-        passwordCheckErrorMsg, passwordImg, passwordImgCheck, signUpBtn };
-
-export { signInEmailInput, signInPasswordInput, emailErrorMsg, passwordErrorMsg, signInLogin };
+        passwordCheckErrorMsg, passwordImg, passwordImgCheck, signUpBtn, signInEmailInput, signInPasswordInput, 
+        emailErrorMsg, passwordErrorMsg, signInLogin };
