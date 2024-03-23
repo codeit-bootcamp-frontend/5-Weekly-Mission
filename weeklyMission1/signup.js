@@ -140,6 +140,7 @@ function passwordToggleCheck() {
     }
 }
 
+// check valid member using fetch
 function checkMemberValid() {
     const user = {
         email: signUpEmailInput.value,

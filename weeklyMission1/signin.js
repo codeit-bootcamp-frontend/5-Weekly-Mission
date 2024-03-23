@@ -101,11 +101,8 @@ function pressEnterToLogin(e) {
 
 signInEmailInput.addEventListener('focusout', checkEmailValid);
 signInEmailInput.addEventListener('focusout', checkEmailBlank);
-
 signInEmailInput.addEventListener('keydown', pressEnterToLogin);
-
 signInPasswordInput.addEventListener('focusout', checkPasswordBlank);
 signInPasswordInput.addEventListener('keydown', pressEnterToLogin);
-
 signInLogin.addEventListener('click', checkMember);
 passwordImg.addEventListener('click', passwordToggle);
