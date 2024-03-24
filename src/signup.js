@@ -25,7 +25,7 @@ function validateEmail(email) {
     );
     return;
   }
-  if (emailInput.value === USER_INFO.email) {
+  if (email === USER_INFO.email) {
     inputError(
       { input: emailInput, errorMsg: emailErrorMsg },
       "이미 사용 중인 이메일입니다"
@@ -84,15 +84,26 @@ confirmPwToggleBtn.addEventListener("click", () =>
 );
 
 const signUpForm = document.querySelector("#form");
-function submitForm(e) {
+async function submitForm(e) {
   e.preventDefault();
 
-  const emailInputCorrect = validateEmail(emailInput.value);
-  const pwInputCorrect = pwRule(pwInput.value);
-  const confirmPwCorrect = valdateConfirmPw(confirmPwInput.value);
-
-  if (emailInputCorrect && pwInputCorrect && confirmPwCorrect) {
-    location.href = "/folder";
+  try {
+    const response = await fetch("https://bootcamp-api.codeit.kr/api/sign-up", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: emailInput.value,
+        password: pwInput.value,
+      }),
+    });
+    const { data } = await response.json();
+    if (response.ok) {
+      localStorage.setItem("accessToken", data.accessToken);
+      location.href = "/folder.html";
+      return;
+    }
+  } catch (error) {
+    console.log(error);
   }
 }
 signUpForm.addEventListener("submit", submitForm);
