@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/default.css" />
+    <link rel="stylesheet" href="/css/pages/sign.css" />
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+    <title>login</title>
+</head>
+<body>
+    <main>
+        <div class="main-wrap">
+            <div class="wrap-head-box">
+                <h1 class="login-logo">
+                    <a href="/pages/index.html">
+                        <img src="/img/icon/sign_logo.svg" alt="로고" />
+                    </a>
+                </h1>
+                <div class="sign-box">
+                    <span>회원이 아니신가요?</span>
+                    <a href="./signup.html">회원 가입하기</a>
+                </div>
+            </div>
+
+            <form id="frm-linkbrary-login" action="/pages/mylink/folder.html">
+                <div class="email-box">
+                    <label for="user-email">이메일</label>
+                    <div>
+                        <input type="input" id="user-email"/>
+                    </div>
+                    <div class="validation" id="id-validation-msg"></div>
+                </div>
+                
+                <div class="password-box">
+                    <label for="user-password">비밀번호</label>
+                    <div class="password-wrap">
+                        <input type="password" id="user-password" />
+                        <button id="view-password" type="button">
+                        </button>
+                    </div>
+                    <div class="validation" id="pwd-validation-msg"></div>
+                </div>
+
+                <button class="login-btn">로그인</button>
+            </form>
+
+            <div class="sns-box">
+                <span>소셜로그인</span>
+                <ul class="sns-list">
+                    <li>
+                        <a href="https://www.google.com/">
+                            <img src="/img/icon/icon_auth-google.png" alt="구글 로그인">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.kakaocorp.com/page/">
+                            <img src="/img/icon/icon-auth-kakao.png" alt="카카오톡 로그인">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="/js/auth/signin.js"></script>
+</body>
+</html>
