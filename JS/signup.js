@@ -7,10 +7,10 @@ import {
 } from "./signup-password.js";
 const btn = document.querySelector(".signup");
 
-async function checkEmailDuplicate(email) {
+async function checkEmailPost() {
   const url = "https://bootcamp-api.codeit.kr/api/check-email";
   const data = {
-    email: email,
+    email: emailInput.value,
   };
   const options = {
     method: "POST",
@@ -25,16 +25,17 @@ async function checkEmailDuplicate(email) {
       emailError.classList.remove("error");
       emailError.textContent = "이미 사용중인 이메일입니다.";
       emailInput.classList.add("error-input");
+      return false;
     } else {
-      emailError.classList.add("error");
-      emailInput.classList.remove("error-input");
+      return true;
     }
   } catch (error) {
     console.error("Error: ", error);
+    return false;
   }
 }
 
-emailInput.addEventListener("focusout", checkEmailDuplicate);
+emailInput.addEventListener("focusout", checkEmailPost);
 
 async function signUp(e) {
   e.preventDefault();
@@ -44,7 +45,7 @@ async function signUp(e) {
   const passwordMatch = passwordInput.value === pwConfirmInput.value;
 
   if (emailChecked && validPassword && passwordMatch) {
-    const isDuplicate = await checkEmailDuplicate(emailInput.value);
+    const isDuplicate = await checkEmailPost();
     if (!isDuplicate) {
       return;
     }
@@ -65,7 +66,7 @@ async function signUp(e) {
     try {
       const response = await fetch(signUpUrl, signUpOptions);
       if (response.ok) {
-        window.location.href = "/folder";
+        window.location.href = "./folder.html";
       } else {
         console.log("Error:", response.status);
       }
