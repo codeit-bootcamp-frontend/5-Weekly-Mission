@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="sign-style.css">
+  <title>signup</title>
+</head>
+<body>
+  <header>
+    <a href="index.html"><img src="imgfolder/logo.svg" alt="logo" width="210.583" height="38"></a>
+    <div class="header-title">
+      <span>이미 회원이신가요?</span><a class="sign" href="signin.html">로그인하기</a>
+    </div>
+  </header>
+  <div class="sign-box">
+    <form class="sign-form">
+      <div class="sign-input-box">
+        <label class="sign-label">이메일</label>
+        <input id="email-input" class="sign-input" placeholder="codeit@codeit.com">
+        <p class="emailerrormessage"></p>
+      </div>
+      <div class="sign-input-box sign-password">
+        <label class="sign-label">비밀번호</label>
+        <div class="input-wrap">
+          <input id="password-input" class="sign-input" type="password">
+          <button id="password-eye-button" class="eye-button" type="button"><img src="imgfolder/eye-off.svg" alt="eye-off" width="16" height="16"/></button>
+        </div>
+        <p class="passworderrormessage"></p>
+      </div>
+      <div class="sign-input-box sign-password">
+        <label class="sign-label">비밀번호 확인</label>
+        <div class="input-wrap">
+          <input id="password-confirm-input" class="sign-input" type="password">
+          <button id="password-confirm-eye-button" class="eye-button" type="button"><img src="imgfolder/eye-off.svg" alt="eye-off" width="16" height="16"/></button>
+        </div>
+        <p class="passwordconfirmerrormessage"></p>
+      </div>
+      <button class="button" type="submit">회원가입</button>
+    </form>
+    <div class="social">
+      <p>다른 방식으로 가입하기</p>
+      <div class="icon">
+        <a href="google.com" class="google"></a>
+        <a href="kakaocorp.com/page/" class="kakao"></a>
+      </div>
+    </div>
+  </div>
+  <script src="signup.js"></script>
+</body>
+</html>
