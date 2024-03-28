@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="color.css" rel="stylesheet" />
+    <link rel="stylesheet" href="reset.css" />
+    <link rel="stylesheet" href="auth.css" />
+    <link
+      rel="stylesheet"
+      as="style"
+      crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+    />
+    <title>signup</title>
+  </head>
+  <body>
+    <main>
+      <div class="signtable">
+        <div class="logoNsign">
+          <h1>
+            <a href="/">
+              <img class="logo" src="landing/logo.svg" alt="로고입니다." />
+            </a>
+          </h1>
+          <div>
+            이미 회원이신가요?
+            <a class="tosign" href="./signin.html">로그인 하기</a>
+          </div>
+        </div>
+        <form>
+          <div class="emailContainer">
+            <label for="email">이메일</label>
+            <input id="email" type="email" />
+            <div class="hidden caution emailErrorMessage"></div>
+          </div>
+          <div class="passwordContainer">
+            <label for="password">비밀번호</label>
+            <div class="inputEye">
+              <input id="password" name="password" type="password" />
+              <button type="button" class="passEye">
+                <img src="landing/eye-off.svg" alt="비밀번호 숨김 상태" />
+                <img
+                  class="hidden"
+                  src="landing/eye-on.svg"
+                  alt="비밀번호 보임 상태"
+                />
+              </button>
+              <div class="hidden caution passwordErrorMessage"></div>
+            </div>
+          </div>
+          <div class="passwordcheckContainer">
+            <label for="passwordcheck">비밀번호 확인</label>
+            <div class="inputEye">
+              <input id="passwordcheck" type="password" />
+              <button type="button" class="passCheckEye">
+                <img src="landing/eye-off.svg" alt="비밀번호 숨김 상태" />
+                <img
+                  class="hidden"
+                  src="landing/eye-on.svg"
+                  alt="비밀번호 보임 상태"
+                />
+              </button>
+            </div>
+            <div class="hidden caution passwordcheckErrorMessage"></div>
+          </div>
+          <button type="submit" id="signupbutton" class="signbutton">
+            회원가입
+          </button>
+        </form>
+      </div>
+      <div class="socialsign">
+        <div>다른 방식으로 가입하기</div>
+        <div class="socials">
+          <a href="https://www.google.co.kr/">
+            <div class="googlebg">
+              <img src="landing/icon/googlebg.svg" alt="구글 배경" />
+              <div class="googleicon">
+                <img src="landing/ic/google.png" alt="구글" />
+              </div>
+            </div>
+          </a>
+          <a href="https://www.kakaocorp.com/page/">
+            <div class="kakaobg">
+              <img src="landing/icon/kakaobg.svg" alt="카카오 배경" />
+              <div class="kakaoicon">
+                <img src="landing/ic/kakao.svg" alt="카카오" />
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </main>
+    <script type="module" src="signup.js"></script>
+  </body>
+</html>

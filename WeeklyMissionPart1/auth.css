@@ -1,0 +1,204 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--gray5);
+}
+
+main {
+  padding-top: 238px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+}
+
+img.logo {
+  width: 210px;
+  height: 38px;
+}
+
+.signtable {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.logoNsign {
+  color: #000;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 9px;
+}
+
+.tosign {
+  color: var(--primary);
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  color: #000;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+label {
+  display: block;
+}
+
+input {
+  display: block;
+  margin-top: 12px;
+  padding: 18px 15px;
+  border: 1px solid var(--gray3);
+  border-radius: 8px;
+  width: 400px;
+}
+
+input:focus {
+  border: 1px solid var(--primary);
+  outline: none;
+}
+
+.inputError {
+  border: 1px solid var(--red);
+}
+
+.inputError:focus {
+  border: 1px solid var(--red);
+  outline: 1px solid var(--red);
+}
+
+.emailContainer,
+.passwordContainer,
+.passwordcheckContainer {
+  margin-bottom: 24px;
+}
+
+.hidden {
+  display: none;
+}
+
+.caution {
+  color: var(--red);
+  padding: 3px;
+}
+
+.signbutton {
+  display: block;
+}
+
+.inputEye {
+  position: relative;
+}
+
+.passEye,
+.passCheckEye {
+  position: absolute;
+  right: 15px;
+  top: 18px;
+}
+
+.signbutton {
+  display: flex;
+  width: 400px;
+  padding: 16px 20px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  background: linear-gradient(91deg, #6d6afe 0.12%, #6ae3fe 101.84%);
+  color: #f5f5f5;
+  font-family: Pretendard;
+  font-size: 18px;
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+.socialsign {
+  display: flex;
+  width: 400px;
+  padding: 12px 24px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px;
+  border: 1px solid var(--gray3, #ccd5e3);
+  background: var(--gray4, #e7effb);
+  color: #373740;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.socials {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  line-height: 0;
+}
+
+.googlebg,
+.kakaobg {
+  position: relative;
+}
+
+.googleicon,
+.kakaoicon {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  inset: 10px;
+}
+
+@media (max-width: 767px) {
+  main {
+    padding: 120px 32px 0;
+  }
+
+  .signtable {
+    width: 100%;
+    max-width: 400px;
+    align-items: stretch;
+  }
+
+  img.logo {
+    width: 210px;
+    height: 38px;
+  }
+
+  input {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .signbutton {
+    max-width: 400px;
+    width: 100%;
+  }
+
+  .socialsign {
+    max-width: 400px;
+    width: 100%;
+  }
+}
