@@ -1,44 +1,58 @@
-import styled from "styled-components";
+// import styled from "styled-components";
 
-const CardContainer = styled.article`
-  display: grid;
-  grid-template-columns: repeat(3, 34rem);
-  grid-template-rows: 33.4rem;
-  column-gap: 2rem;
-  row-gap: 2.5rem;
-  margin: 0 auto;
-`;
+// export const CardContainer = styled.article`
+//   display: grid;
+//   grid-template-columns: repeat(3, 340px);
+//   grid-template-rows: 334px;
+//   column-gap: 20px;
+//   row-gap: 25px;
+//   margin: 0 auto;
 
-const Card = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  border-radius: 10px;
-`;
+//   @media (max-width: 1124px) {
+//     grid-template-columns: repeat(2, 1fr);
+//   }
+//   @media (max-width: 767px) {
+//     grid-template-columns: repeat(1, 1fr);
+//   }
+// `;
 
-const CardImg = styled.img`
-  width: 34rem;
-  height: 20rem;
-  object-fit: cover;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-`;
+// const CardImgSection = styled.section`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: flex-start;
+//   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+//   border-radius: 10px;
+// `;
 
-const CardTextSection = styled.section`
-  padding: 1.5rem 2rem;
-`;
+// const CardImg = styled.img`
+//   width: 340px;
+//   height: 200px;
+//   object-fit: cover;
+//   border-top-left-radius: 10px;
+//   border-top-right-radius: 10px;
+// `;
+// const CardTextSection = styled.section`
+//   width: 300px;
+//   height: 136px;
+//   padding: 15px 20px;
+//   display: flex;
+//   flex-direction: column;
+//   gap: 10px;
+// `;
 
-const CardCreateAt = styled.div`
-  color: #666666;
-  font-size: 13px;
-`;
+// const CardCreatedAt = styled.div`
+//   color: #666666;
+//   font-size: 13px;
+//   height: 17px;
+// `;
 
-const CardTextBody = styled.div`
-  font-size: 1.6rem;
-  font-weight: 400;
-`;
+// const CardTextBody = styled.div`
+//   font-size: 16px;
+//   font-weight: 400;
+//   overflow: hidden;
+//   height: 49px;
+// `;
 
-const CardDate = styled.div`
-  font-size: 14px;
-`;
+// const CardDate = styled.div`
+//   font-size: 14px;
+// `;

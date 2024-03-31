@@ -2,6 +2,7 @@ import { useFetch } from "../useFetch";
 import moment from "moment";
 import thumbnail from "../images/thumbnail.svg";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const CardContainer = styled.article`
   display: grid;
@@ -97,10 +98,12 @@ function Card() {
       {CardData &&
         CardData.folder.links.map((link) => (
           <CardImgSection key={link.id}>
-            <CardImg
-              src={link.imageSource || thumbnail}
-              alt={link.imageSource ? link.title : "thumbnail_img"}
-            />
+            <Link to={link.url}>
+              <CardImg
+                src={link.imageSource || thumbnail}
+                alt={link.imageSource ? link.title : "thumbnail_img"}
+              />
+            </Link>
             <CardTextSection>
               <div>
                 <CardCreatedAt>

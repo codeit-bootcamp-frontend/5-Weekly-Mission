@@ -10,17 +10,25 @@ const StyledHeaderContainer = styled.div`
 `;
 
 const StyledNavBar = styled.div`
+  background-color: #f0f6ff;
   display: flex;
-  width: auto;
+  width: 100%;
   height: 92px;
   align-items: center;
   justify-content: space-between;
   padding: 32px 200px;
   gap: 8px;
+  position: fixed;
+  z-index: 1;
 
   @media (max-width: 1124px) {
+    width: 100%;
+    padding: 32px;
   }
   @media (max-width: 767px) {
+    width: 100%;
+    height: 63px;
+    padding: 18px 32px;
   }
 `;
 
@@ -41,9 +49,9 @@ const StyledUserProfileImg = styled.img`
 `;
 
 const StyledFolderInfoContent = styled.div`
-  width: auto;
-  height: 244px;
-  padding: 20px 200px 60px;
+  width: 100%;
+  height: 100%;
+  padding: 100px 200px 60px;
   display: flex;
   flex-direction: column;
   justify-content: center;
