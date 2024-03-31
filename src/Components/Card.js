@@ -34,6 +34,11 @@ const CardImg = styled.img`
   object-fit: cover;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+
+  &: hover {
+    transform: scale(1.3);
+    transition: transform 0.3s ease;
+  }
 `;
 const CardTextSection = styled.section`
   width: 300px;
@@ -98,7 +103,7 @@ function Card() {
       {CardData &&
         CardData.folder.links.map((link) => (
           <CardImgSection key={link.id}>
-            <Link to={link.url}>
+            <Link to={link.url} target="_blank">
               <CardImg
                 src={link.imageSource || thumbnail}
                 alt={link.imageSource ? link.title : "thumbnail_img"}
