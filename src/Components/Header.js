@@ -1,16 +1,15 @@
-import logo from "../images/Linkbrary.svg";
+import { useFetch } from "../useFetch";
+import logoImg from "../images/Linkbrary.svg";
 import { Link } from "react-router-dom";
-import { getProfileData, getFolderData } from "../api.js";
-import { useState, useEffect } from "react";
 import styled from "styled-components";
 
-const StyledHeaderContainer = styled.header`
+const StyledHeaderContainer = styled.div`
   background-color: #f0f6ff;
   width: 100%;
   height: 336px;
 `;
 
-const StyledHeaderBar = styled.div`
+const StyledNavBar = styled.div`
   display: flex;
   width: auto;
   height: 92px;
@@ -18,23 +17,30 @@ const StyledHeaderBar = styled.div`
   justify-content: space-between;
   padding: 32px 200px;
   gap: 8px;
+
+  @media (max-width: 1124px) {
+  }
+  @media (max-width: 767px) {
+  }
 `;
+
 const StyledHeaderLogo = styled.img`
   width: 132px;
   height: 24px;
 `;
-const StyledHeaderProfile = styled.div`
+const StyledUserProfile = styled.div`
   display: flex;
   gap: 6px;
   align-items: center;
 `;
-const StyledProfileImg = styled.img`
+
+const StyledUserProfileImg = styled.img`
   width: 28px;
   height: 28px;
   border-radius: 50%;
 `;
 
-const StyledHeaderFolder = styled.div`
+const StyledFolderInfoContent = styled.div`
   width: auto;
   height: 244px;
   padding: 20px 200px 60px;
@@ -43,7 +49,8 @@ const StyledHeaderFolder = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const StyledHeaderFolderContent = styled.div`
+
+const StyledFolderInfo = styled.div`
   width: 188px;
   height: 164px;
   display: flex;
@@ -52,14 +59,18 @@ const StyledHeaderFolderContent = styled.div`
   align-items: center;
   gap: 20px;
 `;
-
-const StyledHeaderFolderImg = styled.img`
+const StyledFolderImg = styled.img`
   width: 60px;
   height: 60px;
   border-radius: 47px;
 `;
 
-const StyledHeaderFolderFavorite = styled.p`
+const StyledFolderOwnerName = styled.p`
+  font-size: 16px;
+  font-weight: 400;
+`;
+
+const StyledFolderName = styled.p`
   width: auto;
   height: 48px;
   font-weight: 600;
@@ -67,82 +78,59 @@ const StyledHeaderFolderFavorite = styled.p`
   line-height: 36px;
 `;
 
-function Profile() {
-  const [profileData, setProfileData] = useState(null);
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const data = await getProfileData();
-        setProfileData(data);
-      } catch (error) {
-        alert("프로필 불러오기 에러", error);
-      }
-    }
-    fetchData();
-  }, []);
-  if (!profileData) {
-    return <button>로그인</button>;
-  }
+const url = "https://bootcamp-api.codeit.kr/api/sample";
+
+function Nav() {
+  const Userprofile = useFetch(`${url}/user`);
 
   return (
     <>
-      <StyledHeaderProfile>
-        <StyledProfileImg
-          src={profileData.profileImageSource}
-          alt="프로필 이미지"
-        />
-        <p>{profileData.email}</p>
-      </StyledHeaderProfile>
+      <StyledNavBar>
+        <Link to="/">
+          <StyledHeaderLogo src={logoImg} alt="Linkbrary 로고" />
+        </Link>
+        {Userprofile ? (
+          <StyledUserProfile>
+            <StyledUserProfileImg
+              src={Userprofile.profileImageSource}
+              alt="유저 프로필사진"
+            />
+            <p>{Userprofile.email}</p>
+          </StyledUserProfile>
+        ) : (
+          <button>로그인</button>
+        )}
+      </StyledNavBar>
     </>
   );
 }
 
-function Folder() {
-  const [folderData, setFolderData] = useState(null);
-
-  useEffect(() => {
-    async function folderFetchData() {
-      try {
-        const folder = await getFolderData();
-        setFolderData(folder);
-      } catch (error) {
-        console.log("Error", error);
-      }
-    }
-    folderFetchData();
-  }, []);
-  if (!folderData) {
-    return;
-  }
-
-  const folder = folderData.folder;
+function FolderData() {
+  const folderData = useFetch(`${url}/folder`);
 
   return (
-    <>
-      <StyledHeaderFolderImg
-        src={folder.owner.profileImageSource}
-        alt="폴더 이미지"
-      />
-      <p>@ {folder.owner.name}</p>
-      <StyledHeaderFolderFavorite>{folder.name}</StyledHeaderFolderFavorite>
-    </>
+    <StyledFolderInfoContent>
+      {folderData && (
+        <StyledFolderInfo>
+          <StyledFolderImg
+            src={folderData.folder.owner.profileImageSource}
+            alt="프로필"
+          />
+          <StyledFolderOwnerName>
+            @{folderData.folder.owner.name}
+          </StyledFolderOwnerName>
+          <StyledFolderName>{folderData.folder.name}</StyledFolderName>
+        </StyledFolderInfo>
+      )}
+    </StyledFolderInfoContent>
   );
 }
 
 function Header() {
   return (
     <StyledHeaderContainer>
-      <StyledHeaderBar>
-        <Link to="/">
-          <StyledHeaderLogo src={logo} alt="Linkbrary 로고" />
-        </Link>
-        <Profile />
-      </StyledHeaderBar>
-      <StyledHeaderFolder>
-        <StyledHeaderFolderContent>
-          <Folder />
-        </StyledHeaderFolderContent>
-      </StyledHeaderFolder>
+      <Nav />
+      <FolderData />
     </StyledHeaderContainer>
   );
 }

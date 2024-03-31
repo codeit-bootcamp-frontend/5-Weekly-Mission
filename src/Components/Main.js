@@ -1,55 +1,65 @@
-import searchIcon from "../images/SearchIcon.svg";
 import styled from "styled-components";
-// import CardList from "./CardList.js";
-const searchPlaceHolder = "링크를 검색해 보세요.";
+import searchIcon from "../images/SearchIcon.svg";
+import Card from "./Card.js";
 
-const MainContainer = styled.div`
+const MainContainer = styled.main`
   width: 100%;
-  height: 1200px;
-  display: flex;
-  justify-content: center;
-  padding: 40px 32px;
-`;
-
-const Content = styled.div`
-  width: 100%;
+  heidght: auto;
+  padding: 20px 60px;
   display: flex;
   flex-direction: column;
   gap: 40px;
+  align-items: center;
+  justify-content: center;
 `;
+const SearchBar = styled.div`
+  position: relative;
+  width: 1060px;
+  margin: 0 auto;
 
-const SeachBar = styled.div`
-  width: 100%;
-  display: flex;
-  gap: 10px;
-  padding: 15px 16px;
-  border-radius: 10px;
-  background-color: #f5f5f5;
-`;
-
-const SearchIcon = styled.img`
-  width: 16px;
+  @media (max-width: 1124px) {
+    width: 704px;
+  }
+  @media (max-width: 767px) {
+    width: 325px;
+  }
 `;
 
 const SearchInput = styled.input`
   width: 100%;
-  background-color: #f5f5f5;
+  height: 54px;
   border-radius: 10px;
-  border: 0px;
-  outline: none;
+  padding: 15px 24px;
+  display: flex;
+  justify-content: center;
+  background-color: #f5f5f5;
 `;
 
-function Main(items) {
+const SearchIcon = styled.img`
+  position: absolute;
+  top: 35%;
+  left: 6px;
+  width: 16px;
+  height: 16px;
+`;
+
+const SearchBarSection = () => {
   return (
-    <MainContainer>
-      <Content>
-        <SeachBar>
-          <SearchIcon src={searchIcon} />
-          <SearchInput type="text" placeholder={searchPlaceHolder} />
-        </SeachBar>
-        {/* <CardList items={items} /> */}
-      </Content>
-    </MainContainer>
+    <SearchBar>
+      <SearchIcon src={searchIcon} alt="검색 돋보기 아이콘" />
+      <SearchInput type="search" placeholder="링크를 검색해 보세요." />
+    </SearchBar>
+  );
+};
+
+function Main() {
+  return (
+    <>
+      <MainContainer>
+        <SearchBarSection />
+        <Card />
+      </MainContainer>
+    </>
   );
 }
 
