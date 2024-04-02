@@ -1,4 +1,4 @@
-import axios from 'axios'
+import api from '@/lib/api'
 
 interface Link {
   id: number
@@ -24,8 +24,6 @@ export interface Folder {
 }
 
 export const getFolderData = async (): Promise<Folder> => {
-  const response = await axios.get<{ folder: Folder }>(
-    `${import.meta.env.VITE_BASE_URL}/sample/folder`,
-  )
+  const response = await api.get<{ folder: Folder }>('/sample/folder')
   return response.data.folder
 }

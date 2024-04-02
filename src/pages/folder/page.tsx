@@ -1,12 +1,13 @@
 import { Button } from '@/components/ui/button'
-import { UserButton } from '@/components/user-button'
+import { UserIcon } from '@/components/user-icon'
 import { SearchBar } from './_components/search-bar'
 import { useEffect, useState } from 'react'
-import { Card, SkeletonCard } from '@/components/card'
+import { LinkCard, SkeletonCard } from '@/components/link-card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Folder, getFolderData } from '@/data/get-folder-data'
+import { Folder, getFolderData } from '@/data/folders'
+import { toast } from 'sonner'
 
-const HomePage = () => {
+const FolderPage = () => {
   const [folderData, setFolderData] = useState<Folder>()
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
@@ -17,6 +18,7 @@ const HomePage = () => {
         setFolderData(folder)
       } catch (error) {
         console.error('요청 실패:', error)
+        toast.error('데이터 요청에 실패하였습니다.')
       } finally {
         setIsLoading(false)
       }
@@ -38,7 +40,7 @@ const HomePage = () => {
         )}
         {!isLoading && folderData && (
           <>
-            <UserButton url={folderData.owner.profileImageSource} size='xl' />
+            <UserIcon url={folderData.owner.profileImageSource} size='xl' />
             <p className='mt-2 text-sm text-gray-700'>
               @{folderData.owner.name}
             </p>
@@ -46,7 +48,7 @@ const HomePage = () => {
           </>
         )}
         {!isLoading && !folderData && (
-          <Button variant={'primary'} className='rounded-md '>
+          <Button variant='primary' className='rounded-md '>
             로그인
           </Button>
         )}
@@ -61,7 +63,7 @@ const HomePage = () => {
           {!isLoading &&
             (folderData ? (
               folderData.links.map((link) => (
-                <Card
+                <LinkCard
                   key={link.id}
                   id={link.id}
                   content={link.description}
@@ -80,4 +82,4 @@ const HomePage = () => {
   )
 }
 
-export default HomePage
+export default FolderPage

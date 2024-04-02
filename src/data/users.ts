@@ -1,4 +1,4 @@
-import axios from 'axios'
+import api from '@/lib/api'
 
 export interface UserData {
   name: string
@@ -7,8 +7,6 @@ export interface UserData {
 }
 
 export const getUserData = async (): Promise<UserData> => {
-  const response = await axios.get<UserData>(
-    `${import.meta.env.VITE_BASE_URL}/sample/user`,
-  )
+  const response = await api.get<UserData>('/sample/user')
   return response.data
 }

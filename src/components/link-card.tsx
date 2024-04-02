@@ -10,7 +10,7 @@ type Props = {
   createdAt: string
 }
 
-export const Card = ({ id, content, url, createdAt }: Props) => {
+export const LinkCard = ({ id, content, url, createdAt }: Props) => {
   return (
     <Link to={`/link/${id}`}>
       <article className='group transition flex flex-col rounded-xl shadow-lg cursor-pointer'>

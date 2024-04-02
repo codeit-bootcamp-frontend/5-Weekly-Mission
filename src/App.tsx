@@ -1,10 +1,13 @@
-import Layout from './pages/home/layout'
-import HomePage from './pages/home/page'
+import { Outlet } from 'react-router-dom'
+import { Navbar } from './components/navbar'
+import { Footer } from './components/footer'
 
 export default function App() {
   return (
-    <Layout>
-      <HomePage />
-    </Layout>
+    <>
+      <Navbar />
+      <Outlet />
+      <Footer />
+    </>
   )
 }
