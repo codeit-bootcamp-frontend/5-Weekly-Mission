@@ -35,19 +35,17 @@ const SearchInput = styled.input`
   background-color: #f5f5f5;
 `;
 
-const SearchIcon = styled.img`
-  position: absolute;
-  top: 35%;
-  left: 6px;
-  width: 16px;
-  height: 16px;
+const SearchInputIcon = styled(SearchInput)`
+  background-image: url("${searchIcon}");
+  background-position: 5px 50%;
+  background-repeat: no-repeat;
+  background-size: 16px;
 `;
 
 const SearchBarSection = () => {
   return (
     <SearchBar>
-      <SearchIcon src={searchIcon} alt="검색 돋보기 아이콘" />
-      <SearchInput type="search" placeholder="링크를 검색해 보세요." />
+      <SearchInputIcon type="search" placeholder="링크를 검색해 보세요." />
     </SearchBar>
   );
 };
