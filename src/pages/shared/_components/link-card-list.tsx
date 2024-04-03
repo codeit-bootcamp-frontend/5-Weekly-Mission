@@ -1,4 +1,4 @@
-import { ShardCard } from '@/components/shard-card'
+import { ShardCard } from '@/pages/shared/_components/shard-card'
 import { Link } from '@/data/folders'
 
 type Props = {

@@ -41,7 +41,7 @@ export const FolderCard = ({ id, url, content, createdAt }: Props) => {
           <Star
             type='button'
             onClick={onStarClick}
-            className='absolute top-4 right-3 text-gray-500'
+            className='absolute top-4 right-3 text-gray-500 hover:text-gray-700'
           />
         </div>
         <div className='p-5 space-y-3'>
@@ -51,7 +51,7 @@ export const FolderCard = ({ id, url, content, createdAt }: Props) => {
             </div>
             <Ellipsis
               onClick={onKebabClick}
-              className='h-5 w-5 text-gray-500'
+              className='h-5 w-5 text-gray-500 hover:text-gray-800'
             />
           </div>
           <p className='line-clamp-2 font-semibold min-h-[3rem]'>{content}</p>

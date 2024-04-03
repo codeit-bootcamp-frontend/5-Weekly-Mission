@@ -15,8 +15,8 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 import ActionButtonGroup from './_components/action-button-group'
 import { CardWrapper } from '@/components/card-wrapper'
-import { FolderCard } from '@/components/folder-card'
-import { SkeletonCard } from '@/components/shard-card'
+import { FolderCard } from '@/pages/folder/_components/folder-card'
+import { SkeletonCard } from '@/pages/shared/_components/shard-card'
 import { toast } from 'sonner'
 
 const FolderPage = () => {
@@ -57,7 +57,13 @@ const FolderPage = () => {
       <FeedWrapper>
         <SearchBar />
         <div className='my-5 flex justify-between'>
-          {!isLoading ? (
+          {isLoading ? (
+            <div className='my-5 flex justify-between'>
+              {Array.from({ length: 8 }, (_, index) => (
+                <Skeleton key={index} className='h-9 w-14 mr-2' />
+              ))}
+            </div>
+          ) : (
             categories && (
               <div className='space-y-3'>
                 <LinkCategoryButton
@@ -75,12 +81,6 @@ const FolderPage = () => {
                 ))}
               </div>
             )
-          ) : (
-            <div className='my-5 flex justify-between'>
-              {Array.from({ length: 8 }, (_, index) => (
-                <Skeleton key={index} className='h-9 w-14 mr-2' />
-              ))}
-            </div>
           )}
 
           <Button
@@ -93,15 +93,15 @@ const FolderPage = () => {
           </Button>
         </div>
         <div className='flex justify-between'>
-          {!isLoading ? (
+          {isLoading ? (
+            <Loader className='animate-spin' />
+          ) : (
             categories && (
               <>
                 <h2 className='font-bold text-2xl'>{selectedCategory}</h2>
                 {selectedCategory !== allCategories && <ActionButtonGroup />}
               </>
             )
-          ) : (
-            <Loader className='animate-spin' />
           )}
         </div>
         <CardWrapper>

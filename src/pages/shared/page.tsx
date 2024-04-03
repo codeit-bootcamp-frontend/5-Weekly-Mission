@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button'
 import { UserIcon } from '@/components/user-icon'
 import { SearchBar } from '../../components/search-bar'
 import { useEffect, useState } from 'react'
-import { SkeletonCard } from '@/components/shard-card'
+import { SkeletonCard } from '@/pages/shared/_components/shard-card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Folder, getFolderData } from '@/data/folders'
 import { toast } from 'sonner'
@@ -33,7 +33,7 @@ const SharedPage = () => {
   return (
     <main className='py-20'>
       <HeroWrapper>
-        {isLoading && (
+        {isLoading ? (
           <div className='flex flex-col space-y-3'>
             <Skeleton className='h-14 w-14 rounded-full' />
             <div className='space-y-4'>
@@ -41,42 +41,39 @@ const SharedPage = () => {
               <Skeleton className='h-12' />
             </div>
           </div>
+        ) : folderData ? (
+          <>
+            <UserIcon
+              url={folderData.folder.owner.profileImageSource}
+              size='xl'
+            />
+            <p className='mt-2 text-sm text-gray-700'>
+              @{folderData.folder.owner.name}
+            </p>
+            <div className='mt-4 text-4xl font-bold'>
+              {folderData.folder.name}
+            </div>
+          </>
+        ) : (
+          <Button variant='primary' className='rounded-md '>
+            로그인
+          </Button>
         )}
-        {!isLoading &&
-          (folderData ? (
-            <>
-              <UserIcon
-                url={folderData.folder.owner.profileImageSource}
-                size='xl'
-              />
-              <p className='mt-2 text-sm text-gray-700'>
-                @{folderData.folder.owner.name}
-              </p>
-              <div className='mt-4 text-4xl font-bold'>
-                {folderData.folder.name}
-              </div>
-            </>
-          ) : (
-            <Button variant='primary' className='rounded-md '>
-              로그인
-            </Button>
-          ))}
       </HeroWrapper>
       <FeedWrapper>
         <SearchBar />
         <CardWrapper>
-          {isLoading &&
+          {isLoading ? (
             Array.from({ length: 9 }).map((_, index) => (
               <SkeletonCard key={index} />
-            ))}
-          {!isLoading &&
-            (folderData ? (
-              <LinkCardList links={folderData.folder.links} />
-            ) : (
-              <div className='flex justify-center text-5xl font-bold col-span-3'>
-                콘탠츠가 존재하지 않습니다.
-              </div>
-            ))}
+            ))
+          ) : folderData ? (
+            <LinkCardList links={folderData.folder.links} />
+          ) : (
+            <div className='flex justify-center text-5xl font-bold col-span-3'>
+              콘탠츠가 존재하지 않습니다.
+            </div>
+          )}
         </CardWrapper>
       </FeedWrapper>
     </main>
