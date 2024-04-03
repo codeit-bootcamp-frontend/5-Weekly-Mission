@@ -15,7 +15,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 import ActionButtonGroup from './_components/action-button-group'
 import { CardWrapper } from '@/components/card-wrapper'
-import { LinkCard } from '@/components/link-card'
+import { FolderCard } from '@/components/folder-card'
 import { SkeletonCard } from '@/components/shard-card'
 import { toast } from 'sonner'
 
@@ -111,7 +111,7 @@ const FolderPage = () => {
             ))
           ) : links && selectedCategory === allCategories ? (
             links.data.map((link) => (
-              <LinkCard
+              <FolderCard
                 key={link.id}
                 id={link.id}
                 content={link.description}

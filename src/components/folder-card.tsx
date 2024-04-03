@@ -1,6 +1,6 @@
 import { formatDate, getTimeDifference } from '@/lib/date'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Ellipsis, ImageOff, Star } from 'lucide-react'
+import { Ellipsis, ImageOff, PlusIcon, Star } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
   createdAt: string
 }
 
-export const LinkCard = ({ id, url, content, createdAt }: Props) => {
+export const FolderCard = ({ id, url, content, createdAt }: Props) => {
   const timeDifference = getTimeDifference(createdAt)
   const date = formatDate(createdAt)
 
@@ -24,10 +24,10 @@ export const LinkCard = ({ id, url, content, createdAt }: Props) => {
 
   return (
     <Link to={`/links/${id}`}>
-      <article
-        className='group transition flex flex-col rounded-xl shadow-lg cursor-pointer'
-        onClick={(event) => event.stopPropagation()} // 이벤트 버블링 방지
-      >
+      <article className='relative group transition flex flex-col rounded-xl shadow-lg cursor-pointer'>
+        <button className='md:hidden absolute left-1/2 transform -translate-x-1/2 flex items-center gap-x-1 z-20 bg-violet-500 text-white px-4 py-2 rounded-full bottom-10'>
+          폴더 추가 <PlusIcon className='h-6 w-6' />
+        </button>
         <div className='relative overflow-hidden aspect-video rounded-t-xl flex items-center justify-center'>
           {url ? (
             <img
@@ -62,7 +62,7 @@ export const LinkCard = ({ id, url, content, createdAt }: Props) => {
   )
 }
 
-export default LinkCard
+export default FolderCard
 
 export function SkeletonCard() {
   return (
