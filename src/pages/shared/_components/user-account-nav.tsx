@@ -10,8 +10,8 @@ export const UserAccountNav = ({ userData }: Props) => {
   if (userData) {
     return (
       <>
-        <UserIcon url={userData.profileImageSource} />
-        <p className='ml-3'>{userData.email}</p>
+        <UserIcon url={userData.data[0].image_source} />
+        <p className='ml-3'>{userData.data[0].email}</p>
       </>
     )
   }

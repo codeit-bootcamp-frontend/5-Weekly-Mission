@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
 
-const LinkPage = () => {
+const LinkDetailPage = () => {
   const params = useParams<{ linkId: string }>()
 
   return (
@@ -12,4 +12,4 @@ const LinkPage = () => {
   )
 }
 
-export default LinkPage
+export default LinkDetailPage

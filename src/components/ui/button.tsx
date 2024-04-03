@@ -13,16 +13,17 @@ const buttonVariants = cva(
         destructive:
           'bg-destructive text-destructive-foreground hover:bg-destructive/90',
         outline:
-          'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
+          'border border-input border-blue-500 bg-background hover:bg-accent hover:text-accent-foreground',
         secondary:
           'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-        ghost: 'hover:bg-accent hover:text-accent-foreground',
+        ghost: '',
         link: 'text-primary underline-offset-4 hover:underline',
         primary:
           'bg-gradient-to-r from-[#6d6afe] to-[#6ae3fe] text-white font-bold',
       },
       size: {
         default: 'h-12 px-8 py-2',
+        sm: 'h-9 px-3 text-xs font-normal',
       },
     },
     defaultVariants: {

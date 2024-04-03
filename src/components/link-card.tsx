@@ -1,42 +1,68 @@
 import { formatDate, getTimeDifference } from '@/lib/date'
 import { Skeleton } from '@/components/ui/skeleton'
-import { ImageOff } from 'lucide-react'
+import { Ellipsis, ImageOff, Star } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 type Props = {
   id: number
-  content: string
-  url: string
+  content?: string
+  url?: string
   createdAt: string
 }
 
-export const LinkCard = ({ id, content, url, createdAt }: Props) => {
+export const LinkCard = ({ id, url, content, createdAt }: Props) => {
+  const timeDifference = getTimeDifference(createdAt)
+  const date = formatDate(createdAt)
+
+  const onStarClick = (event: React.MouseEvent) => {
+    event.preventDefault()
+  }
+
+  const onKebabClick = (event: React.MouseEvent) => {
+    event.preventDefault()
+  }
+
   return (
-    <Link to={`/link/${id}`}>
-      <article className='group transition flex flex-col rounded-xl shadow-lg cursor-pointer'>
-        {url ? (
-          <div className='overflow-hidden aspect-video rounded-t-xl flex items-center justify-center'>
+    <Link to={`/links/${id}`}>
+      <article
+        className='group transition flex flex-col rounded-xl shadow-lg cursor-pointer'
+        onClick={(event) => event.stopPropagation()} // 이벤트 버블링 방지
+      >
+        <div className='relative overflow-hidden aspect-video rounded-t-xl flex items-center justify-center'>
+          {url ? (
             <img
               src={url}
-              className='w-full h-full object-cover object-center group-hover:scale-125 transition duration-300 '
+              className='w-full h-full object-cover object-center group-hover:scale-125 transition duration-300'
+            />
+          ) : (
+            <ImageOff className='h-16 w-16 text-gray-700' />
+          )}
+
+          <Star
+            type='button'
+            onClick={onStarClick}
+            className='absolute top-4 right-3 text-gray-500'
+          />
+        </div>
+        <div className='p-5 space-y-3'>
+          <div className='flex justify-between'>
+            <div className='text-sm text-muted-foreground'>
+              {timeDifference}
+            </div>
+            <Ellipsis
+              onClick={onKebabClick}
+              className='h-5 w-5 text-gray-500'
             />
           </div>
-        ) : (
-          <div className='aspect-video rounded-t-xl flex justify-center items-center bg-gray-100'>
-            <ImageOff className='h-16 w-16 text-gray-700' />
-          </div>
-        )}
-        <div className='p-5 space-y-3'>
-          <div className='text-sm text-muted-foreground'>
-            {getTimeDifference(createdAt)}
-          </div>
-          <p className='line-clamp-2 font-semibold'>{content}</p>
-          <div className='text-sm'>{formatDate(createdAt)}</div>
+          <p className='line-clamp-2 font-semibold min-h-[3rem]'>{content}</p>
+          <div className='text-sm'>{date}</div>
         </div>
       </article>
     </Link>
   )
 }
+
+export default LinkCard
 
 export function SkeletonCard() {
   return (

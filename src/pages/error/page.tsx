@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 const ErrorPage = () => {
   return (
     <>
-      <div className='text-5xl font-bold flex justify-center py-10'>
-        현재 페이지는 존재하지 않는 페이지 입니다.
+      <div className='text-2xl font-bold flex justify-center py-10'>
+        페이지가 존재하지 않습니다.
       </div>
       <hr />
       <div className='flex justify-center pt-10'>

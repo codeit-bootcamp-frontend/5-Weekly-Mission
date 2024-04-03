@@ -1,83 +1,131 @@
+import { HeroWrapper } from '@/components/hero-warpper'
+import { LinkSearchBar } from './_components/link-search-bar'
+import { FeedWrapper } from '@/components/feed-wrapper'
+import { SearchBar } from '@/components/search-bar'
 import { Button } from '@/components/ui/button'
-import { UserIcon } from '@/components/user-icon'
-import { SearchBar } from './_components/search-bar'
 import { useEffect, useState } from 'react'
-import { LinkCard, SkeletonCard } from '@/components/link-card'
+import { Loader, PlusIcon } from 'lucide-react'
+import LinkCategoryButton from './_components/link-category-button'
+import {
+  Categories,
+  UserLinks,
+  getUserCategories,
+  getUserLinks,
+} from '@/data/users'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Folder, getFolderData } from '@/data/folders'
+import ActionButtonGroup from './_components/action-button-group'
+import { CardWrapper } from '@/components/card-wrapper'
+import { LinkCard } from '@/components/link-card'
+import { SkeletonCard } from '@/components/shard-card'
 import { toast } from 'sonner'
 
 const FolderPage = () => {
-  const [folderData, setFolderData] = useState<Folder>()
-  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const allCategories = '전체'
+  const [selectedCategory, setSelectedCategory] = useState(allCategories)
+  const [isLoading, setIsLoading] = useState(true)
+  const [categories, setCategories] = useState<Categories>()
+  const [links, setLinks] = useState<UserLinks>()
+
+  const handleCategoryClick = (category: string) => {
+    setSelectedCategory(category)
+  }
 
   useEffect(() => {
-    const fetchFolder = async () => {
+    const fetchData = async () => {
       try {
-        const folder = await getFolderData()
-        setFolderData(folder)
+        setIsLoading(true)
+        const categories = await getUserCategories()
+        const links = await getUserLinks()
+        setCategories(categories)
+        setLinks(links)
       } catch (error) {
-        console.error('요청 실패:', error)
-        toast.error('데이터 요청에 실패하였습니다.')
+        console.error('error:', error)
+        toast.error('데이터를 불러오지 못했습니다.')
       } finally {
         setIsLoading(false)
       }
     }
-    fetchFolder()
+
+    fetchData()
   }, [])
 
   return (
     <main className='py-20'>
-      <section className='bg-slate-100 flex flex-col items-center py-10'>
-        {isLoading && (
-          <div className='flex flex-col space-y-3'>
-            <Skeleton className='h-14 w-14 rounded-full' />
-            <div className='space-y-4'>
-              <Skeleton className='h-4' />
-              <Skeleton className='h-12' />
-            </div>
-          </div>
-        )}
-        {!isLoading && folderData && (
-          <>
-            <UserIcon url={folderData.owner.profileImageSource} size='xl' />
-            <p className='mt-2 text-sm text-gray-700'>
-              @{folderData.owner.name}
-            </p>
-            <div className='mt-4 text-4xl font-bold'>{folderData.name}</div>
-          </>
-        )}
-        {!isLoading && !folderData && (
-          <Button variant='primary' className='rounded-md '>
-            로그인
-          </Button>
-        )}
-      </section>
-      <section className='lg:w-[1024px] lg:px-0 md:px-14 px-10 w-full mt-10 mx-auto'>
+      <HeroWrapper>
+        <LinkSearchBar />
+      </HeroWrapper>
+      <FeedWrapper>
         <SearchBar />
-        <div className='mt-10 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-x-5 gap-y-8'>
-          {isLoading &&
-            Array.from({ length: 9 }).map((_, index) => (
-              <SkeletonCard key={index} />
-            ))}
-          {!isLoading &&
-            (folderData ? (
-              folderData.links.map((link) => (
-                <LinkCard
-                  key={link.id}
-                  id={link.id}
-                  content={link.description}
-                  url={link.imageSource!}
-                  createdAt={link.createdAt}
+        <div className='my-5 flex justify-between'>
+          {!isLoading ? (
+            categories && (
+              <div className='space-y-3'>
+                <LinkCategoryButton
+                  category={allCategories}
+                  selectedCategory={selectedCategory}
+                  onClick={() => handleCategoryClick(allCategories)}
                 />
-              ))
-            ) : (
-              <div className='flex justify-center text-5xl font-bold col-span-3'>
-                콘탠츠가 존재하지 않습니다.
+                {categories.data.map((category) => (
+                  <LinkCategoryButton
+                    key={category.id}
+                    category={category.name}
+                    selectedCategory={selectedCategory}
+                    onClick={() => handleCategoryClick(category.name)}
+                  />
+                ))}
               </div>
-            ))}
+            )
+          ) : (
+            <div className='my-5 flex justify-between'>
+              {Array.from({ length: 8 }, (_, index) => (
+                <Skeleton key={index} className='h-9 w-14 mr-2' />
+              ))}
+            </div>
+          )}
+
+          <Button
+            variant='ghost'
+            className='mt-3 text-sm text-violet-500'
+            size='sm'
+          >
+            폴더 추가
+            <PlusIcon className='h-5 w-5' />
+          </Button>
         </div>
-      </section>
+        <div className='flex justify-between'>
+          {!isLoading ? (
+            categories && (
+              <>
+                <h2 className='font-bold text-2xl'>{selectedCategory}</h2>
+                {selectedCategory !== allCategories && <ActionButtonGroup />}
+              </>
+            )
+          ) : (
+            <Loader className='animate-spin' />
+          )}
+        </div>
+        <CardWrapper>
+          {isLoading ? (
+            Array.from({ length: 3 }).map((_, index) => (
+              <SkeletonCard key={index} />
+            ))
+          ) : links && selectedCategory === allCategories ? (
+            links.data.map((link) => (
+              <LinkCard
+                key={link.id}
+                id={link.id}
+                content={link.description}
+                url={link.image_source}
+                createdAt={link.created_at}
+              />
+            ))
+          ) : (
+            <div className='col-span-3 flex justify-center mb-56'>
+              저장된 링크가 없습니다.
+            </div>
+          )}
+        </CardWrapper>
+      </FeedWrapper>
     </main>
   )
 }

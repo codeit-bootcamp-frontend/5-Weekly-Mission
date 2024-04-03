@@ -1,6 +1,6 @@
 import api from '@/lib/api'
 
-interface Link {
+export interface Link {
   id: number
   createdAt: string
   url: string
@@ -16,14 +16,16 @@ interface Owner {
 }
 
 export interface Folder {
-  id: number
-  name: string
-  owner: Owner
-  links: Link[]
-  count: number
+  folder: {
+    id: number
+    name: string
+    owner: Owner
+    links: Link[]
+    count: number
+  }
 }
 
 export const getFolderData = async (): Promise<Folder> => {
-  const response = await api.get<{ folder: Folder }>('/sample/folder')
-  return response.data.folder
+  const response = await api.get<Folder>('/sample/folder')
+  return response.data
 }

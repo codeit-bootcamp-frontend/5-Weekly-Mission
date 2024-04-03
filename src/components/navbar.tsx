@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 
 import { UserData, getUserData } from '@/data/users'
 import { toast } from 'sonner'
-import { UserAccountNav } from '../pages/folder/_components/user-account-nav'
+import { UserAccountNav } from '../pages/shared/_components/user-account-nav'
 import { Link } from 'react-router-dom'
 
 export const Navbar = () => {
