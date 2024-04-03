@@ -18,9 +18,9 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <HomePage /> },
-      { path: 'shared', element: <SharedPage /> },
-      { path: 'folder', element: <FolderPage /> },
-      { path: 'links/:linkId', element: <LinkDetailPage /> },
+      { path: '/shared', element: <SharedPage /> },
+      { path: '/folder', element: <FolderPage /> },
+      { path: '/links/:linkId', element: <LinkDetailPage /> },
     ],
   },
 ])
