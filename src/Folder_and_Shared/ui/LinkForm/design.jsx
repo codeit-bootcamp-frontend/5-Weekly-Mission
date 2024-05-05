@@ -13,6 +13,24 @@ export const LinkFormTemplate = styled.div`
   }
 `;
 
+export const FixedLinkFormTemplate = styled.div`
+  background-color: #f0f6ff;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  flex-direction: row;
+
+  position: fixed;
+  padding: 1.6rem 3.2rem;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+
+  @media (min-width: 768px) {
+    padding: 2.4rem 3.2rem;
+  }
+`;
+
 export const Form = styled.form`
   display: flex;
   flex-direction: row;
@@ -65,7 +83,7 @@ export const InputField = styled.input`
 
   ::placeholder {
     color: #9fa6b2;
-  };
+  }
 
   @media (min-width: 768px) {
     font-size: 1.6rem;

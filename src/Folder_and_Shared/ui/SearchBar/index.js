@@ -1,1 +1,1 @@
-export * from "./architecture";
+export * from "./architecture.tsx";

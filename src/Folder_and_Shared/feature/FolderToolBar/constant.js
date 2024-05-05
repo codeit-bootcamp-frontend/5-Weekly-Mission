@@ -1,3 +1,7 @@
+import shareButtonImg from "./images/share.svg"
+import editButtonImg from "./images/pen.svg"
+import deleteButtonImg from "./images/trash.svg"
+
 export const MODALS_ID = {
   addFolder: "addFolder",
   share: "share",
@@ -7,17 +11,17 @@ export const MODALS_ID = {
 
 export const BUTTONS = [
   {
-    iconSource: "images/share.svg",
+    iconSource: shareButtonImg,
     text: "공유",
     modalId: MODALS_ID.share,
   },
   {
-    iconSource: "images/pen.svg",
+    iconSource: editButtonImg,
     text: "이름 변경",
     modalId: MODALS_ID.rename,
   },
   {
-    iconSource: "images/trash.svg",
+    iconSource: deleteButtonImg,
     text: "삭제",
     modalId: MODALS_ID.delete,
   },
