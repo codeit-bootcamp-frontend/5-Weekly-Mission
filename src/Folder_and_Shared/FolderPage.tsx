@@ -3,23 +3,36 @@ import Layout from "Layout";
 import { FolderPageLayout } from "./page-frame";
 import { FolderToolBar } from "./feature";
 import { useState } from "react";
-import { SelectedFolderId } from "./folderType.ts";
 import { SearchBar, LinkForm } from "./ui";
-
+import { useIntersectionObserver } from "./util/useIntersectionObserver.ts";
+import { useSearchLink } from "./util/useSearchLink.ts";
 import { CardList } from "./feature/CardList";
 
 const ALL_LINKS_ID = "all";
 
+type SelectedFolderId = number | "all";
+
 export const FolderPage = function () {
   const { data: folders } = useGetFolders();
-  const [selectedFolderId, setSelectedFolderId] = useState(ALL_LINKS_ID);
+  const [selectedFolderId, setSelectedFolderId] =
+    useState < SelectedFolderId > (ALL_LINKS_ID);
   const { data: links, loading } = useGetLinks(selectedFolderId);
+  const { searchValue, handleChange, handleCloseClick, result } =
+    useSearchLink(links);
+  const { ref, isIntersecting } =
+    useIntersectionObserver < HTMLDivElement > false;
 
   return (
     <Layout position={"static"}>
       <FolderPageLayout
-        linkForm={<LinkForm />}
-        searchBar={<SearchBar />}
+        linkForm={<LinkForm hideFixedLinkForm={isIntersecting} />}
+        searchBar={
+          <SearchBar
+            value={searchValue}
+            onChange={handleChange}
+            onCloseClick={handleCloseClick}
+          />
+        }
         folderToolBar={
           <FolderToolBar
             folders={folders}

@@ -1,2 +1,2 @@
 export * from "./SharedPage"
-export * from "./FolderPage"
+export * from "./FolderPage.tsx"

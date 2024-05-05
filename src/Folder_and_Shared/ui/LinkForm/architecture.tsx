@@ -80,7 +80,7 @@ export const LinkForm = function ({
         onKeyDown={handleKeyDown}
       />
 
-      {!showFixedLinkForm && (
+      {showFixedLinkForm && (
         <FixedLinkFormTemplate>
           <Form ref={ref} onSubmit={handleSubmit}>
             <InputBox>
