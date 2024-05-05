@@ -4,6 +4,7 @@ import {
   InputBox,
   LinkIcon,
   InputField,
+  FixedLinkFormTemplate,
 } from "./design";
 import { Button, ButtonLabel } from "components/button";
 import IconImg from "./imgSrc/link.svg";
@@ -53,10 +54,7 @@ export const LinkForm = function ({
 
   return (
     <LinkFormTemplate>
-      <Form
-        ref={ref}
-        onSubmit={handleSubmit}
-      >
+      <Form ref={ref} onSubmit={handleSubmit}>
         <InputBox>
           <LinkIcon src={IconImg} alt="링크 아이콘" />
           <InputField
@@ -71,7 +69,7 @@ export const LinkForm = function ({
         </Button>
       </Form>
 
-	  <AddLinkModal
+      <AddLinkModal
         isOpen={isModalOpen}
         folders={folders}
         description={linkUrl}
@@ -81,6 +79,25 @@ export const LinkForm = function ({
         onCloseClick={closeModal}
         onKeyDown={handleKeyDown}
       />
+
+      {!showFixedLinkForm && (
+        <FixedLinkFormTemplate>
+          <Form ref={ref} onSubmit={handleSubmit}>
+            <InputBox>
+              <LinkIcon src={IconImg} alt="링크 아이콘" />
+              <InputField
+                type="text"
+                placeholder={"링크를 추가해 보세요"}
+                value={linkUrl}
+                onChange={handleChange}
+              />
+            </InputBox>
+            <Button type="submit">
+              <ButtonLabel>추가하기</ButtonLabel>
+            </Button>
+          </Form>
+        </FixedLinkFormTemplate>
+      )}
     </LinkFormTemplate>
   );
 };
