@@ -6,9 +6,9 @@ import YoutubeLogo from './imgSrc/youtube_logo.svg'
 import InstagramLogo from './imgSrc/instagram_logo.svg'
 import {FooterFrame, ContentsFrame, Codeit, Linkbox, Iconbox, StyledLink, FooterTemplate} from "./design"
 
-export const Footer = function () {
+export const Footer = function ({ ref }) {
 	return (
-	  <FooterTemplate>
+	  <FooterTemplate ref={ref}>
 		<FooterFrame>
 		  <ContentsFrame>
 			<Codeit>©codeit - 2023</Codeit>

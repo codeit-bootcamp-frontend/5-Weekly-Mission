@@ -1,12 +1,12 @@
-import { useGetFolders } from "./data-access/useGetFolders";
-import { useGetLinks } from "./data-access/useGetLinks";
+import { useGetFolders, useGetLinks } from "./data-access";
 import Layout from "Layout";
 import { FolderPageLayout } from "./page-frame";
-import { SearchBar } from "./ui/SearchBar";
-import { LinkForm } from "./ui/LinkForm";
-import { FolderToolBar } from "./feature/FolderToolBar/FolderToolBar";
-import { CardList } from "./feature/CardList";
+import { FolderToolBar } from "./feature";
 import { useState } from "react";
+import { SelectedFolderId } from "./folderType.ts";
+import { SearchBar, LinkForm } from "./ui";
+
+import { CardList } from "./feature/CardList";
 
 const ALL_LINKS_ID = "all";
 

@@ -2,16 +2,16 @@ import { useGetUser } from "./data-access/useGetUser";
 import { Footer } from "./Footer";
 import { Navigation } from "./Navigation";
 
-const Layout = function ({ children, position }) {
+export const Layout = function ({ children, position, footerRef }) {
   const { data } = useGetUser();
   const { email, profileImageSource } = data || {};
   const profile = data ? { email, profileImageSource } : null;
 
   return (
     <>
-      <Navigation profile={profile} position={position}/>
+      <Navigation profile={profile} position={position} />
       {children}
-      <Footer />
+      <Footer ref={footerRef} />
     </>
   );
 };
