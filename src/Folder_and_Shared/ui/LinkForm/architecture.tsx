@@ -10,6 +10,7 @@ import IconImg from "./imgSrc/link.svg";
 import { useState } from "react";
 import { useGetFolders } from "Folder_and_Shared/data-access";
 import { useIntersectionObserver } from "Folder_and_Shared/util/useIntersectionObserver.ts";
+import { AddLinkModal } from "Folder_and_Shared/feature";
 import {
   ChangeEvent,
   ChangeEventHandler,
@@ -69,6 +70,17 @@ export const LinkForm = function ({
           <ButtonLabel>추가하기</ButtonLabel>
         </Button>
       </Form>
+
+	  <AddLinkModal
+        isOpen={isModalOpen}
+        folders={folders}
+        description={linkUrl}
+        selectedFolderId={selectedFolderId}
+        setSelectedFolderId={setSelectedFolderId}
+        onAddClick={() => {}}
+        onCloseClick={closeModal}
+        onKeyDown={handleKeyDown}
+      />
     </LinkFormTemplate>
   );
 };
