@@ -17,10 +17,10 @@ function FolderList() {
   const [selectedFolder, setSelectedFolder] = useState<FolderProps | null>(
     null
   );
-  const [curFolder, setCurFolder] = useState(null);
   const [folderId, setFolderId] = useState<number>(0);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const handleFolderClick = (folder: any) => {
+  const handleFolderClick = (folder: FolderProps) => {
     setSelectedFolder(folder);
     if (folder) {
       setFolderId(folder.id);
@@ -29,9 +29,14 @@ function FolderList() {
     }
   };
 
+  const handleSearch = (searchTerm: string) => {
+    // 입력값 처리 로직을 작성
+    setSearchTerm(searchTerm);
+  };
+
   return (
     <div className={`${styles.FolderListContainer}`}>
-      <SearchBar />
+      <SearchBar onSearch={handleSearch} />
       <FolderListMenu
         folderList={folderList}
         onFolderClick={handleFolderClick}
@@ -47,7 +52,7 @@ function FolderList() {
           </>
         )}
       </div>
-      <FolderCardList folderId={folderId} />
+      <FolderCardList folderId={folderId} searchTerm={searchTerm} />
     </div>
   );
 }

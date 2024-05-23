@@ -8,7 +8,7 @@
 
 .CardList {
   display: grid;
-  grid-template-columns: repeat(32.5rem);
+  grid-template-columns: repeat(auto, 32.5rem);
   margin-top: 20px;
   justify-content: center;
   width: 100%;
@@ -47,9 +47,6 @@
   flex-direction: column;
   justify-content: space-between;
   position: relative;
-}
-
-.CardList-item-createdAt {
 }
 
 .CardList_item_description {

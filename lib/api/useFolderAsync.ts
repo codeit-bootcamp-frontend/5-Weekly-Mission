@@ -5,7 +5,6 @@ import {
   GetFolderListProps,
   GetAllFolderListProps,
 } from "./getUserFolder";
-const BASE_URL = "https://bootcamp-api.codeit.kr/api";
 
 export function useFolderAsync() {
   const [loading, setLoading] = useState(true);

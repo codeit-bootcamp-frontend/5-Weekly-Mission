@@ -3,6 +3,7 @@ import { format } from "date-fns/format";
 import { useState } from "react";
 import React from "react";
 import styles from "./CardList.module.css";
+import DEFAULT_IMAGE from "@/public/assets/card-default.png";
 
 interface ItemProps {
   item: {
@@ -13,9 +14,9 @@ interface ItemProps {
   };
 }
 
-function FolderItem({ item }: ItemProps) {
+const FolderItem: React.FC<ItemProps> = (props) => {
+  const { item } = props;
   const createdAd = getElapsedTime(item.createdAt);
-  const DEFAULT_IMAGE = "../assets/card-default.png";
   const [isHovered, setIsHovered] = useState(false);
   const handleMouseOver = () => setIsHovered(true);
   const handleMouseLeave = () => setIsHovered(false);
@@ -48,5 +49,5 @@ function FolderItem({ item }: ItemProps) {
       </div>
     </a>
   );
-}
+};
 export default FolderItem;

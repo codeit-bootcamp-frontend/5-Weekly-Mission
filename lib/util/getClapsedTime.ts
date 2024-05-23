@@ -1,11 +1,11 @@
 const second: number = 1000;
-const minute: number = second * 60;
-const hour: number = minute * 60;
-const day: number = hour * 24;
-const month: number = day * 31;
-const year: number = month * 12;
+const minute = second * 60;
+const hour = minute * 60;
+const day = hour * 24;
+const month = day * 31;
+const year = month * 12;
 
-const TIME_IN_MILLISECONDS: { [key: string]: number } = {
+const TIME_IN_MILLISECONDS: Record<string, number> = {
   second,
   minute,
   hour,
@@ -20,32 +20,26 @@ export const getElapsedTime = (createdAt: string): string => {
   const elapsedTime: number = now.getTime() - createdAtDate.getTime();
   const { minute, hour, day, month, year } = TIME_IN_MILLISECONDS;
 
-  if (year * 2 <= elapsedTime) {
-    return `${Math.floor(elapsedTime / year)} years ago`;
+  switch (true) {
+    case year * 2 <= elapsedTime:
+      return `${Math.floor(elapsedTime / year)} years ago`;
+    case year <= elapsedTime:
+      return `1 year ago`;
+    case month * 2 <= elapsedTime:
+      return `${Math.floor(elapsedTime / month)} months ago`;
+    case month <= elapsedTime:
+      return `1 month ago`;
+    case day * 2 <= elapsedTime:
+      return `${Math.floor(elapsedTime / day)} days ago`;
+    case day <= elapsedTime:
+      return `1 day ago`;
+    case hour * 2 <= elapsedTime:
+      return `${Math.floor(elapsedTime / hour)} hours ago`;
+    case hour <= elapsedTime:
+      return `1 hour ago`;
+    case minute * 2 <= elapsedTime:
+      return `${Math.floor(elapsedTime / minute)} minutes ago`;
+    default:
+      return `1 minute ago`;
   }
-  if (year <= elapsedTime) {
-    return `1 year ago`;
-  }
-  if (month * 2 <= elapsedTime) {
-    return `${Math.floor(elapsedTime / month)} months ago`;
-  }
-  if (month <= elapsedTime) {
-    return `1 month ago`;
-  }
-  if (day * 2 <= elapsedTime) {
-    return `${Math.floor(elapsedTime / day)} days ago`;
-  }
-  if (day <= elapsedTime) {
-    return `1 day ago`;
-  }
-  if (hour * 2 <= elapsedTime) {
-    return `${Math.floor(elapsedTime / hour)} hours ago`;
-  }
-  if (hour <= elapsedTime) {
-    return `1 hour ago`;
-  }
-  if (minute * 2 <= elapsedTime) {
-    return `${Math.floor(elapsedTime / minute)} minutes ago`;
-  }
-  return `1 minute ago`;
 };

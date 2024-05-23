@@ -1,12 +1,12 @@
-import { useAsync } from "@/lib/api/useAsync";
+import { useUserContext } from "@/lib/api/useUserContext";
 import Image from "next/image";
 import React from "react";
 import styles from "./NavigationBar.module.css";
 
 function NavProfile() {
-  const { userInfo, userFolder, loading, error } = useAsync();
+  const { userInfo, userFolder, isloading, error } = useUserContext();
   // 로딩 중일 때
-  if (loading) {
+  if (isloading) {
     return <div>Loading...</div>;
   }
 

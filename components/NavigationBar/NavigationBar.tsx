@@ -1,4 +1,4 @@
-import { useAsync } from "@/lib/api/useAsync";
+import { useUserContext } from "@/lib/api/useUserContext";
 import NavProfile from "./NavProfile";
 import styles from "./NavigationBar.module.css";
 import React from "react";
@@ -13,7 +13,7 @@ function NavigationBar({
   className?: string;
   position: any;
 }) {
-  const { userInfo, userFolder, loading, error } = useAsync();
+  const { userInfo, userFolder, isloading, error } = useUserContext();
 
   return (
     <nav className={`${styles.NavigationBar}`}>

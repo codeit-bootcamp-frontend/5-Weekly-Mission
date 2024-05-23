@@ -1,6 +1,7 @@
 import React from "react";
 import { GetFolderListProps } from "@/lib/api/getUserFolder";
 import styles from "./FolderList.module.css";
+import { isEmpty } from "lodash";
 
 interface FolderListMenuProps {
   folderList: GetFolderListProps | null;
@@ -19,7 +20,7 @@ function FolderListMenu({
 
   return (
     <>
-      {folderList && folderList.data && folderList.data.length > 0 ? (
+      {folderList && folderList.data && isEmpty(!folderList.data) ? (
         <div className={`${styles.FolderList_list_menu_container}`}>
           <button
             className={`${styles.FolderList_button}`}

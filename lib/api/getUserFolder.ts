@@ -1,6 +1,4 @@
-const BASE_URL = "https://bootcamp-api.codeit.kr/api";
-
-interface LinksProps {
+interface Links {
   id: number;
   createdAt: string;
   url: string;
@@ -11,7 +9,7 @@ interface LinksProps {
 interface Folder {
   id: number;
   count: number;
-  links: LinksProps[];
+  links: Links[];
   name: string;
   owner: {
     id: number;
@@ -19,7 +17,7 @@ interface Folder {
     profileImageSource: string;
   };
 }
-export interface GetUserFolderProps {
+export interface GetUserFolder {
   folder: Folder;
 }
 
@@ -38,7 +36,25 @@ export interface GetFolderListProps {
   data: FolderDataProps[];
 }
 
-interface LinksProps2 {
+interface LinksByFolder {
+  id: number;
+  created_at: Date;
+  description: string;
+  folder_id: number;
+  image_source: string;
+  title: string;
+  updated_at: string | null;
+  url: string;
+}
+export interface GetAllFolderListProps {
+  data: LinksByFolder[];
+}
+
+interface FolderIdProps {
+  folderId: number;
+}
+
+interface Folder {
   id: number;
   created_at: string;
   description: string;
@@ -48,12 +64,12 @@ interface LinksProps2 {
   updated_at: string | null;
   url: string;
 }
-export interface GetAllFolderListProps {
-  data: LinksProps2[];
+export interface FolderListResponse {
+  data: Folder[];
 }
 
-export const getUserFolder = async (): Promise<GetUserFolderProps> => {
-  const response = await fetch(`${BASE_URL}/sample/folder`, {
+export const getUserFolder = async (): Promise<GetUserFolder> => {
+  const response = await fetch(`${process.env.BASE_URL}/sample/folder`, {
     method: "GET",
   });
   if (!response.ok) {
@@ -65,7 +81,7 @@ export const getUserFolder = async (): Promise<GetUserFolderProps> => {
 };
 
 export const getFolderList = async (): Promise<GetFolderListProps> => {
-  const response = await fetch(`${BASE_URL}/users/1/folders`, {
+  const response = await fetch(`${process.env.BASE_URL}/users/1/folders`, {
     method: "GET",
   });
   if (!response.ok) {
@@ -76,7 +92,7 @@ export const getFolderList = async (): Promise<GetFolderListProps> => {
 };
 
 export const getAllFolderList = async (): Promise<GetAllFolderListProps> => {
-  const response = await fetch(`${BASE_URL}/users/1/links`, {
+  const response = await fetch(`${process.env.BASE_URL}/users/1/links`, {
     method: "GET",
   });
   if (!response.ok) {
@@ -86,9 +102,11 @@ export const getAllFolderList = async (): Promise<GetAllFolderListProps> => {
   return folder;
 };
 
-export const getFolderListById = async (folderId: number) => {
+export const getFolderListById = async (
+  folderId: number
+): Promise<FolderListResponse> => {
   const response = await fetch(
-    `${BASE_URL}/users/1/links?folderId=${folderId}`,
+    `${process.env.BASE_URL}/users/1/links?folderId=${folderId}`,
     {
       method: "GET",
     }

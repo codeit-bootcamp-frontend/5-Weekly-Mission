@@ -3,14 +3,14 @@ import { useState, useEffect } from "react";
 import styles from "./Profile.module.css";
 import React from "react";
 import { getUserInfo } from "@/lib/api/getUserInfo";
-import { useAsync } from "@/lib/api/useAsync";
+import { useUserContext } from "@/lib/api/useUserContext";
 import { getUserFolder } from "@/lib/api/getUserFolder";
 
 function Profile() {
-  const { userInfo, userFolder, loading, error } = useAsync();
+  const { userInfo, userFolder, isloading, error } = useUserContext();
 
   // 로딩 중일 때
-  if (loading) {
+  if (isloading) {
     return <div>Loading...</div>;
   }
 

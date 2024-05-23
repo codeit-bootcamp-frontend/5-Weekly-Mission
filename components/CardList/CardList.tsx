@@ -2,13 +2,13 @@ import styles from "./CardList.module.css";
 import FolderItem from "./FolderItem";
 import SearchBar from "../SearchBar/SearchBar";
 import React from "react";
-import { useAsync } from "@/lib/api/useAsync";
+import { useUserContext } from "@/lib/api/useUserContext";
 
 export const CardList = () => {
-  const { userInfo, userFolder, loading, error } = useAsync();
+  const { userInfo, userFolder, isloading, error } = useUserContext();
 
   // 로딩 중일 때
-  if (loading) {
+  if (isloading) {
     return <div>Loading...</div>;
   }
 
@@ -24,7 +24,6 @@ export const CardList = () => {
   if (!userFolder) {
     return null;
   }
-  const folderLinks = Object.keys(userFolder.folder.links);
 
   return (
     <div className={`${styles.CardListForm}`}>
