@@ -1,0 +1,139 @@
+@import "@/styles/global.scss";
+
+.container {
+  display: grid;
+  justify-content: center;
+  row-gap: 1.6rem;
+
+  padding: 4rem 3.2rem;
+  width: 100%;
+  height: fit-content;
+
+  @include tablet {
+    row-gap: 1rem;
+    column-gap: 5.1rem;
+    padding: 5rem 0;
+    height: 41.5rem;
+  }
+
+  @include desktop {
+    column-gap: 15.7rem;
+    height: 55rem;
+  }
+}
+
+.container:nth-of-type(odd) {
+  grid-template-areas:
+    "title"
+    "image"
+    "description";
+
+  @include tablet {
+    grid-template-areas:
+      ". image"
+      "title image"
+      "description image"
+      ". image";
+    grid-template-columns: 26.2rem 38.5rem;
+  }
+
+  @include desktop {
+    grid-template-columns: 29.1rem 55rem;
+  }
+}
+
+.container:nth-of-type(even) {
+  grid-template-areas:
+    "title"
+    "image"
+    "description";
+
+  @include tablet {
+    grid-template-areas:
+      "image ."
+      "image title"
+      "image description"
+      "image .";
+    grid-template-columns: 38.5rem 26.2rem;
+  }
+
+  @include desktop {
+    grid-template-columns: 55rem 29.1rem;
+  }
+}
+
+.title {
+  grid-area: title;
+  font-weight: 700;
+  letter-spacing: -0.03rem;
+  font-size: 2.4rem;
+
+  @media (min-width: 768px) {
+    font-size: 4.8rem;
+    line-height: 5.8rem;
+  }
+}
+
+.gradient1 {
+  background: linear-gradient(117deg, #fe8a8a 2.29%, #a4ceff 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.gradient2 {
+  background: linear-gradient(304deg, #6fbaff 0%, #ffd88b 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.gradient3 {
+  background: linear-gradient(133deg, #2945c7 0%, #dbe1f8 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.gradient4 {
+  background: linear-gradient(310deg, #fe578f 0%, #68e8f9 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.description {
+  grid-area: description;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #6b6b6b;
+  line-height: 150%;
+  word-break: break-all;
+
+  @include tablet {
+    font-size: 1.6rem;
+    white-space: nowrap;
+  }
+}
+
+.image {
+  grid-area: image;
+  width: 100%;
+  padding-top: 0.4rem;
+
+  @include tablet {
+    width: 38.5rem;
+    height: 31.5rem;
+    padding-top: 0;
+  }
+
+  @include desktop {
+    width: 55rem;
+    height: 45rem;
+  }
+}
+
+.container br {
+  display: none;
+
+  @include tablet {
+    display: inline;
+  }
+}
