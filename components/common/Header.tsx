@@ -1,13 +1,15 @@
+'use client';
 import { useContext, useEffect, useState } from 'react';
 import { Email, HeaderControl, HeaderInner, HeaderLogo, HeaderWrap } from './headerStyle';
 import { Profile } from '@/styles/commonStyle';
-import { AuthContext } from '@/lib/auto.context';
+
 import { joinInstance } from '@/lib/axios';
 import LinkButton from './atoms/LinkButton';
 import Button from './atoms/Button';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
+import { AuthContext } from '@/lib/auto.provider';
 
 const LOGO_IMAGE = '/assets/logo/logo.svg';
 
@@ -24,8 +26,7 @@ const hidePages = ['/signin', '/signup'];
 const noHeaderFixed = ['/folder'];
 
 function Header() {
-  const router = useRouter();
-  const { pathname } = router;
+  const pathName = usePathname();
   const { isLoggedIn, handleLogout } = useContext(AuthContext);
   const [isfixed, setIsFixed] = useState(true);
   const [isHideHeader, setIsHideHeader] = useState(true);
@@ -38,9 +39,9 @@ function Header() {
 
   useEffect(() => {
     handleUserInfo();
-    setIsHideHeader(hidePages.includes(pathname));
-    setIsFixed(noHeaderFixed.includes(pathname));
-  }, [pathname]);
+    setIsHideHeader(hidePages.includes(pathName));
+    setIsFixed(noHeaderFixed.includes(pathName));
+  }, [pathName]);
 
   if (isHideHeader) return null;
 

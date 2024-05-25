@@ -27,9 +27,9 @@ const folderControlBtn = [
 ];
 
 interface iControll {
-  $title: string;
+  $title?: string;
   onclick: (type: string) => void;
-  $id?: number;
+  $id?: string;
 }
 
 function FolderContentControll({ $title, onclick, $id }: iControll) {
@@ -39,7 +39,7 @@ function FolderContentControll({ $title, onclick, $id }: iControll) {
 
   return (
     <ShareBox>
-      {$id && $id === -1 ? (
+      {$id && $id === `전체` ? (
         <FontLS
           as='strong'
           className='font--size-ls tab-title'>

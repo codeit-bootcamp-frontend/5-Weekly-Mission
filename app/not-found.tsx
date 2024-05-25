@@ -1,3 +1,4 @@
+'use client';
 import Link from 'next/link';
 import { NotFoundWrap } from '../styles/errorStyle';
 import { TitleMs } from '@/styles/commonStyle';

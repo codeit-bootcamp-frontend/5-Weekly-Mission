@@ -1,3 +1,4 @@
+'use client';
 import { Container, TitleLs, TitleMs } from '@/styles/commonStyle';
 import { Section } from '../styles/mainStyle';
 import LinkButton from '@/components/common/atoms/LinkButton';

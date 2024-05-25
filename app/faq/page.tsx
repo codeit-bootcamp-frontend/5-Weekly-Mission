@@ -1,9 +1,10 @@
+'use client';
 import { Container, InnerLarge } from '@/styles/commonStyle';
 
-export default function Policy() {
+export default function Faq() {
   return (
     <Container>
-      <InnerLarge>Privacy Policy</InnerLarge>
+      <InnerLarge>Faq</InnerLarge>
     </Container>
   );
 }

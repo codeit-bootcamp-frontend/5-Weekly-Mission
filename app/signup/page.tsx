@@ -1,59 +1,19 @@
-import { FontSM, Relative } from '@/styles/commonStyle';
-import LinkButton from '@/components/common/atoms/LinkButton';
+'use client';
 import Button from '@/components/common/atoms/Button';
+import LinkButton from '@/components/common/atoms/LinkButton';
 import { ErrorText, FormRowBox, FormWrap } from '@/components/join/formStyle';
-import { JoinAccessControlBox, JoinBody, JoinTitle, JoinWrap, JoinSocial } from '../../styles/loginStyle';
+import { IJoinForm } from '@/components/join/interfase';
+import Loading from '@/components/loading/Loading';
+import { joinInstance } from '@/lib/axios';
+import { FontSM, Relative } from '@/styles/commonStyle';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { joinInstance } from '@/lib/axios';
-import { useRouter } from 'next/router';
-import { IJoinForm } from '@/components/join/interfase';
-import { GetServerSidePropsContext } from 'next';
-import Image from 'next/image';
-import Loading from '@/components/loading/Loading';
+import { JoinAccessControlBox, JoinBody, JoinSocial, JoinTitle, JoinWrap } from '../../styles/loginStyle';
 
 const BASE_PAGE_URL = '/';
 const SIGNUP_PAGE_URL = '/signup';
-
-export async function getServerSideProps(contaxt: GetServerSidePropsContext) {
-  const { req, resolvedUrl } = contaxt;
-  const isSignupPage = resolvedUrl === SIGNUP_PAGE_URL;
-
-  if (req.headers.referer) {
-    // 내부 접속
-    if (req.headers.cookie) {
-      return {
-        redirect: {
-          destination: req.headers.referer,
-          permanent: false,
-        },
-      };
-    }
-  }
-
-  if (!req.headers.referer) {
-    //외부 접속
-    if (req.headers.cookie) {
-      return {
-        redirect: {
-          destination: BASE_PAGE_URL,
-          permanent: false,
-        },
-      };
-    }
-  }
-
-  if (!req.headers.cookie && !isSignupPage) {
-    return {
-      redirect: {
-        destination: SIGNUP_PAGE_URL,
-        permanent: false,
-      },
-    };
-  }
-
-  return { props: {} };
-}
 
 export default function SignUp() {
   const router = useRouter();
@@ -83,6 +43,7 @@ export default function SignUp() {
   const handlePassWordCheck = (password: IJoinForm['password'], passwordConfirm: IJoinForm['passwordConfirm']) => {
     if (password !== passwordConfirm) {
       setError('passwordConfirm', { message: '비밀번호가 다릅니다.' }, { shouldFocus: true });
+      return;
     }
   };
 

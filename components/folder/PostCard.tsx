@@ -47,10 +47,6 @@ export default function PostCard({ id, folder_id, image_source, description, cre
     setIsModalShow(false);
   };
 
-  const date = useMemo(() => {
-    return new Date(`${created_at}`);
-  }, []);
-
   const handleModalProps = async () => {
     // 클릭한 link의 폴더명
     const resMenu = await instance.get(`/folders`);
@@ -101,7 +97,7 @@ export default function PostCard({ id, folder_id, image_source, description, cre
                 className='card__content'>
                 {description}
               </EllipsisLine>
-              <p className='card__date'>{date.toLocaleString()}</p>
+              <p className='card__date'>{new Date(`${created_at}`).toLocaleString()}</p>
             </figcaption>
           </figure>
         </Link>

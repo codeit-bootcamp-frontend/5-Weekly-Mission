@@ -1,9 +1,10 @@
+'use client';
 import { useEffect, useState } from 'react';
 import { FootInner, FootNav, FootSign, FootSocial, FootWrap } from './footerStyle';
 import LinkButton from './atoms/LinkButton';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 
 export const snsIconSrc = [
   {
@@ -31,12 +32,12 @@ export const snsIconSrc = [
 const hidePages = ['/signin', '/signup'];
 
 function Footer() {
-  const { pathname } = useRouter();
+  const pathName = usePathname();
   const [isHideFooter, setIsHideFooter] = useState(true);
 
   useEffect(() => {
-    setIsHideFooter(hidePages.includes(pathname));
-  }, [pathname]);
+    setIsHideFooter(hidePages.includes(pathName));
+  }, [pathName]);
 
   if (isHideFooter) return null;
 

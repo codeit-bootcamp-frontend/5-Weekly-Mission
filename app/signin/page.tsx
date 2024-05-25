@@ -1,62 +1,20 @@
-import { useContext, useEffect, useState } from 'react';
-import { FontSM, Relative } from '@/styles/commonStyle';
-import { JoinBody, JoinAccessControlBox, JoinSocial, JoinTitle, JoinWrap } from '../../styles/loginStyle';
-import { ErrorText, FormRowBox, FormWrap } from '@/components/join/formStyle';
-import LinkButton from '@/components/common/atoms/LinkButton';
+'use client';
 import Button from '@/components/common/atoms/Button';
+import LinkButton from '@/components/common/atoms/LinkButton';
+import { ErrorText, FormRowBox, FormWrap } from '@/components/join/formStyle';
 import { loginForm } from '@/components/join/interfase';
-import { joinInstance } from '@/lib/axios';
-import { AuthContext } from '@/lib/auto.context';
-import { GetServerSidePropsContext } from 'next';
-import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
-import Image from 'next/image';
 import Loading from '@/components/loading/Loading';
+import { AuthContext } from '@/lib/auto.provider';
+import { joinInstance } from '@/lib/axios';
+import { FontSM, Relative } from '@/styles/commonStyle';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useContext, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { JoinAccessControlBox, JoinBody, JoinSocial, JoinTitle, JoinWrap } from '../../styles/loginStyle';
 
 const BASE_PAGE_URL = '/';
 const SIGNIN_PAGE_URL = '/signin';
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const { req, resolvedUrl } = context;
-  if (!req) return { props: {} };
-
-  const isSigninPage = resolvedUrl === SIGNIN_PAGE_URL;
-
-  if (req.headers.referer) {
-    // 내부 접속
-    if (req.headers.cookie) {
-      return {
-        redirect: {
-          destination: req.headers.referer,
-          permanent: false,
-        },
-      };
-    }
-  }
-
-  if (!req.headers.referer) {
-    //외부 접속
-    if (req.headers.cookie) {
-      return {
-        redirect: {
-          destination: BASE_PAGE_URL,
-          permanent: false,
-        },
-      };
-    }
-  }
-
-  if (!req.headers.cookie && !isSigninPage) {
-    return {
-      redirect: {
-        destination: SIGNIN_PAGE_URL,
-        permanent: false,
-      },
-    };
-  }
-
-  return { props: {} };
-}
 
 export default function SignIn() {
   const router = useRouter();
@@ -100,7 +58,6 @@ export default function SignIn() {
   }, [router]);
 
   if (!isStylesLoaded) return <Loading />;
-
   return (
     <JoinWrap className='no-header--container signin__wrap'>
       <JoinBody>
