@@ -2,7 +2,7 @@
 import Button from '@/components/common/atoms/Button';
 import LinkButton from '@/components/common/atoms/LinkButton';
 import { ErrorText, FormRowBox, FormWrap } from '@/components/join/formStyle';
-import { IJoinForm } from '@/components/join/interfase';
+import { IJoinForm } from '@/components/join/interface';
 import Loading from '@/components/loading/Loading';
 import { instance } from '@/lib/axios';
 import { FontSM, Relative } from '@/styles/commonStyle';
@@ -11,9 +11,6 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { JoinAccessControlBox, JoinBody, JoinSocial, JoinTitle, JoinWrap } from '../../../styles/loginStyle';
-
-const BASE_PAGE_URL = '/';
-const SIGNUP_PAGE_URL = '/signup';
 
 export default function SignUp() {
   const router = useRouter();
@@ -68,7 +65,7 @@ export default function SignUp() {
     <JoinWrap className='no-header--container signup__wrap'>
       <JoinBody>
         <JoinTitle>
-          <LinkButton $link={`/`}>
+          <LinkButton href={`/`}>
             <Image
               src='/assets/logo/logo.svg'
               alt='linkbrary'
@@ -79,7 +76,7 @@ export default function SignUp() {
         </JoinTitle>
         <JoinAccessControlBox className='login__sign'>
           <span>이미 회원이신가요?</span>
-          <LinkButton $link={`/login`}>로그인 하기</LinkButton>
+          <LinkButton href={`/login`}>로그인 하기</LinkButton>
         </JoinAccessControlBox>
         <FormWrap>
           <form onSubmit={handleSubmit(handleValid)}>
@@ -129,7 +126,7 @@ export default function SignUp() {
                   className={errors.password ? 'error' : ''}
                 />
                 <Button
-                  $btnClass={'button--input-password'}
+                  btnClass={'button--input-password'}
                   onclick={() => setPwVisibility((prev) => !prev)}>
                   <Image
                     src={`/assets/icon/icon-eye-${pwVisibility ? 'on' : 'off'}.svg`}
@@ -163,7 +160,7 @@ export default function SignUp() {
                   className={errors.passwordConfirm ? 'error' : ''}
                 />
                 <Button
-                  $btnClass={'button--input-password'}
+                  btnClass={'button--input-password'}
                   onclick={() => setPwConfirmVisibility((prev) => !prev)}>
                   <Image
                     src={`/assets/icon/icon-eye-${pwConfirmVisibility ? 'on' : 'off'}.svg`}
@@ -176,8 +173,8 @@ export default function SignUp() {
               <ErrorText className='error__text'>{errors.passwordConfirm?.message}</ErrorText>
             </FormRowBox>
             <Button
-              $type='submit'
-              $btnClass={`button--gradient large btn_login`}>
+              type='submit'
+              btnClass={`button--gradient large btn_login`}>
               회원가입
             </Button>
           </form>
@@ -186,8 +183,8 @@ export default function SignUp() {
           <FontSM as={'h6'}>다른 방식으로 가입하기</FontSM>
           <div className='login__sns'>
             <LinkButton
-              $link={'https://www.google.co.kr/?hl=ko'}
-              $target='_blank'>
+              href={'https://www.google.co.kr/?hl=ko'}
+              target='_blank'>
               <Image
                 fill
                 src='/assets/icon/icon_google.png'
@@ -195,8 +192,8 @@ export default function SignUp() {
               />
             </LinkButton>
             <LinkButton
-              $link={'https://www.kakaocorp.com/page/'}
-              $target='_blank'>
+              href={'https://www.kakaocorp.com/page/'}
+              target='_blank'>
               <Image
                 fill
                 src='/assets/icon/icon_kakao.png'

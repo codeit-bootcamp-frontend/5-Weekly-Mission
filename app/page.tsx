@@ -1,9 +1,9 @@
 'use client';
-import { Container, TitleLs, TitleMs } from '@/styles/commonStyle';
-import { Section } from '../styles/mainStyle';
 import LinkButton from '@/components/common/atoms/LinkButton';
-import { useEffect, useState } from 'react';
 import Loading from '@/components/loading/Loading';
+import { Container, TitleLs, TitleMs } from '@/styles/commonStyle';
+import { useEffect, useState } from 'react';
+import { Section } from '../styles/mainStyle';
 
 export default function Home() {
   const [isStylesLoaded, setIsStylesLoaded] = useState(false);
@@ -23,8 +23,8 @@ export default function Home() {
           관리해 보세요
         </TitleLs>
         <LinkButton
-          $link='/folder'
-          $linkClass='link--gradient large btn__link-add'>
+          href='/folder'
+          linkClass='link--gradient large btn__link-add'>
           링크 추가하기
         </LinkButton>
       </Section>

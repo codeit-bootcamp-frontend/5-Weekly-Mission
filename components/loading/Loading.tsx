@@ -1,6 +1,6 @@
+import Image from 'next/image';
 import { memo } from 'react';
 import styled from './loading.module.css';
-import Image from 'next/image';
 
 function Loading() {
   return (

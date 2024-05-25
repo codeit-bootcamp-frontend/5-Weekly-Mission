@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import { theme } from '@/styles/theme';
+import styled from 'styled-components';
 
 export const CardWrap = styled.div`
   position: relative;
@@ -99,10 +99,10 @@ export const CardMenu = styled.div`
   cursor: pointer;
   z-index: 2;
   .card {
-    &__dropdown-contant {
+    &__dropdown-content {
       width: 21px;
       height: 17px;
-      background: url(/assets/icon/icon_dotte.svg) no-repeat center;
+      background: url(/assets/icon/icon_dotted.svg) no-repeat center;
     }
     &__dropdown-menu {
       position: absolute;

@@ -1,7 +1,7 @@
 import { theme } from '@/styles/theme';
 import styled from 'styled-components';
 
-export const InputModule = styled.input<{ $beforeBgIcon: string }>`
+export const InputModule = styled.input<{ beforeIcon: string }>`
   padding: 0 15px;
   width: 100%;
   line-height: 58px;
@@ -26,7 +26,7 @@ export const InputModule = styled.input<{ $beforeBgIcon: string }>`
         line-height: 54px;
         color: ${theme.color.gray6};
         border-radius: 0.625rem;
-        background: #f5f5f5 url(${({ $beforeBgIcon }) => $beforeBgIcon || ''}) no-repeat left 1rem center;
+        background: #f5f5f5 url(${({ beforeIcon }) => beforeIcon || ''}) no-repeat left 1rem center;
         background-size: 1rem 1rem;
         box-sizing: border-box;
         @media screen and (max-width: ${theme.screenSize.moLarge}) {
@@ -38,7 +38,7 @@ export const InputModule = styled.input<{ $beforeBgIcon: string }>`
         width: 100%;
         padding: 0 120px 0 52px;
         line-height: 67px;
-        background: #fff url(${({ $beforeBgIcon }) => $beforeBgIcon || ''}) no-repeat left 20px center;
+        background: #fff url(${({ beforeIcon }) => beforeIcon || ''}) no-repeat left 20px center;
         border-radius: 15px;
         @media screen and (max-width: ${theme.screenSize.moLarge}) {
           padding: 0 100px 0 34px;

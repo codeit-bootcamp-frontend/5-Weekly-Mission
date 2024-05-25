@@ -1,7 +1,7 @@
 import { BoxLinkSearch, SearchResults } from '@/styles/folderStyle';
-import Input from '../common/atoms/Input';
-import { memo, useState } from 'react';
 import Image from 'next/image';
+import { memo, useState } from 'react';
+import Input from '../common/atoms/Input';
 
 interface ISearch {
   $inputIconImg: string;
@@ -18,12 +18,12 @@ function SearchInputBox({ $inputIconImg, onchange }: ISearch) {
   return (
     <BoxLinkSearch>
       <Input
-        $inputClass={'input__link--search'}
-        $placeholder={'링크를 검색해 보세요.'}
-        $beforeBgIcon={$inputIconImg}
-        $btnShow={true}
-        $btnClass={'button--modal-close'}
-        $clickEvent={'reset'}
+        inputClass={'input__link--search'}
+        placeholder={'링크를 검색해 보세요.'}
+        beforeIcon={$inputIconImg}
+        btnShow={true}
+        btnClass={'button--modal-close'}
+        clickEventType={'reset'}
         onchange={handleSearchResult}>
         <Image
           src='/assets/icon/icon_close.svg'

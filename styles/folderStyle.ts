@@ -43,7 +43,7 @@ export const LinkAddHeadInner = styled.div`
     z-index: 100;
   }
 
-  .button--gradient.mideum {
+  .button--gradient.medium {
     position: absolute;
     right: 20px;
     top: 50%;
@@ -54,7 +54,7 @@ export const LinkAddHeadInner = styled.div`
   @media screen and (max-width: ${theme.screenSize.moLarge}) {
     padding: 16px 32px;
 
-    .button--gradient.mideum {
+    .button--gradient.medium {
       right: 12px;
     }
   }

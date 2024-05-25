@@ -1,8 +1,8 @@
-import Image from 'next/image';
-import Button from '../common/atoms/Button';
 import { snsShare } from '@/src/constant/share';
-import { ShareBox } from './shareStyle';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
+import Button from '../common/atoms/Button';
+import { ShareBox } from './shareStyle';
 
 function ShareModal() {
   const router = useRouter();
@@ -23,7 +23,7 @@ function ShareModal() {
       {snsShare.map((sns) => (
         <Button
           key={sns.id}
-          $btnClass={'button--sns-share'}
+          btnClass={'button--sns-share'}
           onclick={() => handlerSns(sns.id)}>
           <Image
             src={sns.src}

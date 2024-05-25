@@ -1,7 +1,6 @@
 import { getFolderProps, getLinkProps } from '@/api/folder.api';
-import { redirect } from 'next/navigation';
-import FolderClient from './FolderClient';
 import { IFolderContent, IFolderMenuButton } from '@/components/folder/interface';
+import FolderClient from './FolderClient';
 
 export interface IFolderClientProps {
   menuData: IFolderMenuButton[];

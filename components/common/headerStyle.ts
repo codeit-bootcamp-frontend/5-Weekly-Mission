@@ -1,7 +1,6 @@
-import { DFlaxAlignCenter, DFlaxAlignCenterBtw, dflexCenter } from '@/styles/commonStyle';
+import { DFlaxAlignCenterBtw, dflexCenter } from '@/styles/commonStyle';
 import { theme } from '@/styles/theme';
 import styled from 'styled-components';
-import Button from './atoms/Button';
 
 export const HeaderWrap = styled.header<{ $position: boolean | undefined }>`
   position: ${({ $position }) => ($position ? 'absolute' : 'fixed')};

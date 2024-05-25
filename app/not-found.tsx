@@ -1,7 +1,7 @@
 'use client';
+import { TitleMs } from '@/styles/commonStyle';
 import Link from 'next/link';
 import { NotFoundWrap } from '../styles/errorStyle';
-import { TitleMs } from '@/styles/commonStyle';
 
 export default function NotFound() {
   return (

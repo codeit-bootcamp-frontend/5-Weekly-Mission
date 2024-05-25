@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import { font24 } from '@/styles/commonStyle';
 import { theme } from '@/styles/theme';
 import Link from 'next/link';
-import { font24 } from '@/styles/commonStyle';
+import styled from 'styled-components';
 
 export const LinkModule = styled(Link)`
   position: relative;
@@ -40,7 +40,7 @@ export const LinkModule = styled(Link)`
       line-height: 37px;
     }
   }
-  &.mideum {
+  &.medium {
     width: 80px;
     font-size: 14px;
     line-height: 37px;

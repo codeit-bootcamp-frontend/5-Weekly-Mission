@@ -1,9 +1,9 @@
 'use client';
+import Footer from '@/components/common/Footer';
+import Header from '@/components/common/Header';
+import { Wrap } from '@/styles/mainStyle';
 import { createContext } from 'react';
 import AuthProvider from './auto.provider';
-import { Wrap } from '@/styles/mainStyle';
-import Header from '@/components/common/Header';
-import Footer from '@/components/common/Footer';
 
 export const ThemeContext = createContext({});
 

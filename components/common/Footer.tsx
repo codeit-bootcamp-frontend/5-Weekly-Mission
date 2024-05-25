@@ -1,10 +1,10 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { FootInner, FootNav, FootSign, FootSocial, FootWrap } from './footerStyle';
-import LinkButton from './atoms/LinkButton';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import LinkButton from './atoms/LinkButton';
+import { FootInner, FootNav, FootSign, FootSocial, FootWrap } from './footerStyle';
 
 export const snsIconSrc = [
   {
@@ -61,8 +61,8 @@ function Footer() {
           {snsIconSrc.map((sns) => (
             <LinkButton
               key={sns.id}
-              $link={sns.link}
-              $linkClass={`link--social-emoji`}>
+              href={sns.link}
+              linkClass={`link--social-emoji`}>
               <Image
                 src={sns.src}
                 alt={sns.id}

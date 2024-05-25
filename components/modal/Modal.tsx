@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react';
-import { ModalBody, ModalContainer, ModalDim, ModalFoot, ModalHead, ModalWrap } from './modalStyle';
-import { ModlaTitle } from '@/styles/commonStyle';
 import { IModal, modalOrder } from '@/src/constant/modal';
+import { ModalTitle } from '@/styles/commonStyle';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import Button from '../common/atoms/Button';
 import CheckBox from '../common/atoms/CheckBox';
 import Input from '../common/atoms/Input';
 import ShareModal from '../share/ShareModal';
-import Button from '../common/atoms/Button';
-import Image from 'next/image';
+import { ModalBody, ModalContainer, ModalDim, ModalFoot, ModalHead, ModalWrap } from './modalStyle';
 
 export interface IModalInfo {
   $card_Id?: string;
   $folder_Id?: string;
-  $type: string;
+  type: string;
   $descText?: string;
   onOpen: boolean;
   onClose: () => void;
@@ -24,19 +24,19 @@ function bodyContent(body: string, data?: IModal<any>) {
   } else if (body === 'sns') {
     return <ShareModal />;
   } else if (body === 'checkbox') {
-    return <CheckBox $data={data} />;
+    return <CheckBox data={data} />;
   }
 }
 
-function Modal({ onOpen, onClose, $type, $card_Id, $folder_Id, $descText, $modalData }: IModalInfo) {
+function Modal({ onOpen, onClose, type, $card_Id, $folder_Id, $descText, $modalData }: IModalInfo) {
   const [value, setSetValue] = useState<IModal<any>>();
   const modalClose = () => {
     onClose();
   };
 
   useEffect(() => {
-    setSetValue(modalOrder[$type]);
-  }, [$type]);
+    setSetValue(modalOrder[type]);
+  }, [type]);
 
   if (!onOpen) return null;
 
@@ -48,14 +48,14 @@ function Modal({ onOpen, onClose, $type, $card_Id, $folder_Id, $descText, $modal
           {value && (
             <>
               <ModalHead>
-                <ModlaTitle>{value.title}</ModlaTitle>
+                <ModalTitle>{value.title}</ModalTitle>
                 {$descText && <div className='desc'>{$descText}</div>}
               </ModalHead>
               {value.bodyType && <ModalBody>{bodyContent(value.bodyType, $modalData ? $modalData : undefined)}</ModalBody>}
               {value.buttonStyle && (
                 <ModalFoot>
                   <Button
-                    $btnClass={value.buttonStyle}
+                    btnClass={value.buttonStyle}
                     onclick={() => modalClose()}>
                     {value.buttonText}
                   </Button>
@@ -65,7 +65,7 @@ function Modal({ onOpen, onClose, $type, $card_Id, $folder_Id, $descText, $modal
           )}
 
           <Button
-            $btnClass={'button--modal-close'}
+            btnClass={'button--modal-close'}
             onclick={() => modalClose()}>
             <Image
               src='/assets/icon/icon_close.svg'

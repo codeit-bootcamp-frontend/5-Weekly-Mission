@@ -13,8 +13,8 @@ function FolderButtonList({ $menu, $activeBtnId, onClick }: IButtonList) {
   return (
     <BookMarkBtnList>
       <Button
-        $id={`전체`}
-        $btnClass={`button--outlined ${$activeBtnId === '전체' ? 'active' : ''}`}
+        id={`전체`}
+        btnClass={`button--outlined ${$activeBtnId === '전체' ? 'active' : ''}`}
         onclick={() => onClick(`전체`)}>
         전체
       </Button>
@@ -22,8 +22,8 @@ function FolderButtonList({ $menu, $activeBtnId, onClick }: IButtonList) {
         $menu.map((item) => (
           <Button
             key={item.id}
-            $id={`${item.id}`}
-            $btnClass={`button--outlined ${$activeBtnId === `${item.id}` ? 'active' : ''}`}
+            id={`${item.id}`}
+            btnClass={`button--outlined ${$activeBtnId === `${item.id}` ? 'active' : ''}`}
             onclick={() => onClick(`${item.id}`)}>
             {item.name}
           </Button>

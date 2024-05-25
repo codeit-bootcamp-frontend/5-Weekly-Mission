@@ -70,7 +70,7 @@ export const TitleMs = styled.h3`
     line-height: 1.79rem;
   }
 `;
-export const ModlaTitle = styled.h2`
+export const ModalTitle = styled.h2`
   font-size: ${theme.font.l};
   font-weight: 700;
   text-align: center;

@@ -1,17 +1,17 @@
-import { useEffect, useMemo, useState } from 'react';
-import Link from 'next/link';
+import { instance } from '@/lib/axios';
+import { IModal } from '@/src/constant/modal';
+import { calculateTimeAgo } from '@/src/utils/calcTilmAgo';
+import { DFlaxAlignCenterBtw, EllipsisLine } from '@/styles/commonStyle';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import Modal, { IModalInfo } from '../modal/Modal';
 import { BookMarkBtn, CardMenu, CardWrap } from './PostCardStyle';
-import { DFlaxAlignCenterBtw, EllipsisLine } from '@/styles/commonStyle';
-import { calculateTimeAgo } from '@/src/utils/calcTilmAgo';
-import { IModal } from '@/src/constant/modal';
-import { instance } from '@/lib/axios';
 import { IFolderContent } from './interface';
 
 const EMPTY_IMAGE = '/assets/logo/logo.svg';
 
-type SelectedModalInfo = { $type: string } & Partial<Pick<IModalInfo, '$card_Id' | '$folder_Id' | '$descText'>>;
+type SelectedModalInfo = { type: string } & Partial<Pick<IModalInfo, '$card_Id' | '$folder_Id' | '$descText'>>;
 
 export default function PostCard({ id, folder_id, image_source, description, created_at, url }: IFolderContent) {
   const [isBookMark, setIsBookMark] = useState(false);
@@ -19,17 +19,17 @@ export default function PostCard({ id, folder_id, image_source, description, cre
   const [isModalShow, setIsModalShow] = useState(false);
   const [modalType, setModalType] = useState<SelectedModalInfo>({
     $card_Id: '',
-    $type: '',
+    type: '',
   });
   const [modalData, setModalData] = useState<IModal<any>>();
-  const handelerBookMarkActive = () => setIsBookMark((prev) => !prev);
-  const handelerCardDropdown = () => setIsCardMenu((prev) => !prev);
+  const handlerBookMarkActive = () => setIsBookMark((prev) => !prev);
+  const handlerCardDropdown = () => setIsCardMenu((prev) => !prev);
 
   const handleModalOpen = (type: string) => {
     // 미트볼메뉴-삭제하기
     if (type === 'linkDelete') {
       setModalType({
-        $type: type,
+        type: type,
         $card_Id: `${id}`,
         $descText: url,
       });
@@ -37,7 +37,7 @@ export default function PostCard({ id, folder_id, image_source, description, cre
     // 미트볼메뉴-폴더에추가
     if (type === 'folderInAdd') {
       setModalType({
-        $type: type,
+        type: type,
       });
     }
     setIsModalShow(true);
@@ -63,7 +63,7 @@ export default function PostCard({ id, folder_id, image_source, description, cre
       <CardWrap>
         <BookMarkBtn
           className={isBookMark ? 'active' : ''}
-          onClick={handelerBookMarkActive}>
+          onClick={handlerBookMarkActive}>
           북마크버튼
         </BookMarkBtn>
         <Link
@@ -103,10 +103,10 @@ export default function PostCard({ id, folder_id, image_source, description, cre
         </Link>
         <CardMenu>
           <button
-            className='card__dropdown-contant'
-            onClick={handelerCardDropdown}>
+            className='card__dropdown-content'
+            onClick={handlerCardDropdown}>
             <Image
-              src='/assets/icon/icon_dotte.svg'
+              src='/assets/icon/icon_dotted.svg'
               alt='메뉴'
               width={21}
               height={17}
@@ -131,7 +131,7 @@ export default function PostCard({ id, folder_id, image_source, description, cre
       <Modal
         onOpen={isModalShow}
         onClose={handleModalClose}
-        $type={modalType.$type}
+        type={modalType.type}
         $card_Id={`${id}`}
         $modalData={modalData}
       />

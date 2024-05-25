@@ -1,7 +1,7 @@
 'use client';
 import Button from '@/components/common/atoms/Button';
 import FolderButtonList from '@/components/folder/FolderButtonList';
-import FolderContentControll from '@/components/folder/FolderContentControll';
+import FolderContentControl from '@/components/folder/FolderContentControl';
 import LinkAddHeader from '@/components/folder/LinkAddHeader';
 import PostCardList from '@/components/folder/PostCardList';
 import SearchInputBox from '@/components/folder/SearchInputBox';
@@ -109,15 +109,15 @@ export default function FolderClient({ menuData, contentData, pageId }: IFolderC
               onClick={handleClick}
             />
             <Button
-              $btnClass={'button--icon-after button--folder-add'}
-              $afterButtonIcon={ADD_IMAGE}
+              btnClass={'button--icon-after button--folder-add'}
+              afterIcon={ADD_IMAGE}
               onclick={() => handleModalOpen('folderAdd')}>
               폴더추가
             </Button>
           </BookmarkBox>
           {/* 탭 타이틀, 설정 버튼 */}
-          <FolderContentControll
-            $id={activeBtn}
+          <FolderContentControl
+            id={activeBtn}
             $title={tabTitle}
             onclick={handleModalOpen}
           />
@@ -129,7 +129,7 @@ export default function FolderClient({ menuData, contentData, pageId }: IFolderC
       <Modal
         onOpen={isModalShow}
         onClose={handleModalClose}
-        $type={modalType}
+        type={modalType}
         $descText={modalType === 'folderDelete' ? tabTitle : ''}
       />
     </Container>

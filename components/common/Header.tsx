@@ -1,15 +1,15 @@
 'use client';
+import { Profile } from '@/styles/commonStyle';
 import { useContext, useEffect, useState } from 'react';
 import { Email, HeaderControl, HeaderInner, HeaderLogo, HeaderWrap } from './headerStyle';
-import { Profile } from '@/styles/commonStyle';
 
-import { instance } from '@/lib/axios';
-import LinkButton from './atoms/LinkButton';
-import Button from './atoms/Button';
-import Link from 'next/link';
-import Image from 'next/image';
-import { usePathname } from 'next/navigation';
 import { AuthContext } from '@/lib/auto.provider';
+import { instance } from '@/lib/axios';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import Button from './atoms/Button';
+import LinkButton from './atoms/LinkButton';
 
 const LOGO_IMAGE = '/assets/logo/logo.svg';
 
@@ -68,8 +68,8 @@ function Header() {
             </Button>
           ) : (
             <LinkButton
-              $link={'/login'}
-              $linkClass={'link--gradient link--login large'}>
+              href={'/login'}
+              linkClass={'link--gradient link--login large'}>
               로그인
             </LinkButton>
           )}
