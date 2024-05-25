@@ -49,7 +49,7 @@ export default function PostCard({ id, folder_id, image_source, description, cre
 
   const handleModalProps = async () => {
     // 클릭한 link의 폴더명
-    const resMenu = await instance.get(`/folders`);
+    const resMenu = await instance.get(`/users/1/folders`);
     const folderName = resMenu.data.data;
     if (folderName) setModalData(folderName);
   };

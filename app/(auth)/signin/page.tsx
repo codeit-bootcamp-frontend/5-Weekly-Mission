@@ -5,13 +5,13 @@ import { ErrorText, FormRowBox, FormWrap } from '@/components/join/formStyle';
 import { loginForm } from '@/components/join/interfase';
 import Loading from '@/components/loading/Loading';
 import { AuthContext } from '@/lib/auto.provider';
-import { joinInstance } from '@/lib/axios';
+import { instance } from '@/lib/axios';
 import { FontSM, Relative } from '@/styles/commonStyle';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { JoinAccessControlBox, JoinBody, JoinSocial, JoinTitle, JoinWrap } from '../../styles/loginStyle';
+import { JoinAccessControlBox, JoinBody, JoinSocial, JoinTitle, JoinWrap } from '../../../styles/loginStyle';
 
 const BASE_PAGE_URL = '/';
 const SIGNIN_PAGE_URL = '/signin';
@@ -31,7 +31,7 @@ export default function SignIn() {
 
   const handleLoginCheck = async (email: loginForm['email'], password: loginForm['password']) => {
     try {
-      const res = await joinInstance.post('/sign-in', { email, password });
+      const res = await instance.post('/users/1/sign-in', { email, password });
       const { data } = res;
       if (data) {
         handleLogin(data.data.accessToken);

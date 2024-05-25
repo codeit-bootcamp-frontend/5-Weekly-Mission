@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Email, HeaderControl, HeaderInner, HeaderLogo, HeaderWrap } from './headerStyle';
 import { Profile } from '@/styles/commonStyle';
 
-import { joinInstance } from '@/lib/axios';
+import { instance } from '@/lib/axios';
 import LinkButton from './atoms/LinkButton';
 import Button from './atoms/Button';
 import Link from 'next/link';
@@ -33,7 +33,7 @@ function Header() {
   const [userInfo, setUserInfo] = useState<IHeaderUser | null>();
 
   const handleUserInfo = async () => {
-    const res = await joinInstance.get(`/sample/user`);
+    const res = await instance.get(`/users/1/sample/user`);
     setUserInfo(JSON.parse(JSON.stringify(res.data)));
   };
 

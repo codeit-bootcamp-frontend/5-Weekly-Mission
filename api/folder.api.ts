@@ -1,7 +1,7 @@
 import { instance } from '@/lib/axios';
 
-const FOLDERS = '/folders';
-const LINKS = '/links';
+const FOLDERS = '/users/1/folders';
+const LINKS = '/users/1/links';
 
 // folder name
 export async function getFolderProps() {

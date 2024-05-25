@@ -4,8 +4,8 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | LinkBrary',
-    default: 'LinkBrary',
+    template: '%s | Linkbrary',
+    default: 'Linkbrary',
   },
 };
 

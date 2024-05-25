@@ -4,13 +4,13 @@ import LinkButton from '@/components/common/atoms/LinkButton';
 import { ErrorText, FormRowBox, FormWrap } from '@/components/join/formStyle';
 import { IJoinForm } from '@/components/join/interfase';
 import Loading from '@/components/loading/Loading';
-import { joinInstance } from '@/lib/axios';
+import { instance } from '@/lib/axios';
 import { FontSM, Relative } from '@/styles/commonStyle';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { JoinAccessControlBox, JoinBody, JoinSocial, JoinTitle, JoinWrap } from '../../styles/loginStyle';
+import { JoinAccessControlBox, JoinBody, JoinSocial, JoinTitle, JoinWrap } from '../../../styles/loginStyle';
 
 const BASE_PAGE_URL = '/';
 const SIGNUP_PAGE_URL = '/signup';
@@ -30,7 +30,7 @@ export default function SignUp() {
 
   const handleEmailCheck = async (email: IJoinForm['email']) => {
     try {
-      const res = await joinInstance.post('/check-email', { email });
+      const res = await instance.post('/users/1/check-email', { email });
       if (res) {
         return true;
       }
