@@ -1,4 +1,4 @@
-import { snsShare } from '@/src/constant/share';
+import { snsShare } from '@/src/constant/share.constant';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Button from '../common/atoms/Button';

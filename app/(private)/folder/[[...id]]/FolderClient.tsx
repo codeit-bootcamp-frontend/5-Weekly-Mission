@@ -6,6 +6,7 @@ import LinkAddHeader from '@/components/folder/LinkAddHeader';
 import PostCardList from '@/components/folder/PostCardList';
 import SearchInputBox from '@/components/folder/SearchInputBox';
 import { IFolderContent, IFolderMenuButton } from '@/components/folder/interface';
+import Loading from '@/components/loading/Loading';
 import Modal from '@/components/modal/Modal';
 import { ContainBody, Container } from '@/styles/commonStyle';
 import { BodyInner, BookmarkBox, FolderContainHead } from '@/styles/folderStyle';
@@ -30,7 +31,7 @@ export default function FolderClient({ menuData, contentData, pageId }: IFolderC
   const [isModalShow, setIsModalShow] = useState(false);
   const [modalType, setModalType] = useState<string>('');
   const [searchContatn, setSearchContent] = useState<any>();
-  const [isStylesLoaded, setIsStylesLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // 폴더리스트버튼
   const handleClick = (id: string) => {
@@ -85,8 +86,10 @@ export default function FolderClient({ menuData, contentData, pageId }: IFolderC
       router.push(`/folder`);
     }
 
-    setIsStylesLoaded(true);
+    setIsLoading(true);
   }, [menu, router, pageId]);
+
+  if (!isLoading) return <Loading />;
 
   return (
     <Container>
@@ -110,7 +113,7 @@ export default function FolderClient({ menuData, contentData, pageId }: IFolderC
             />
             <Button
               btnClass={'button--icon-after button--folder-add'}
-              afterIcon={ADD_IMAGE}
+              $afterIcon={ADD_IMAGE}
               onclick={() => handleModalOpen('folderAdd')}>
               폴더추가
             </Button>

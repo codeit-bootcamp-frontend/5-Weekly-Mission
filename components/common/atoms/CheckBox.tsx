@@ -1,4 +1,4 @@
-import { IModal } from '@/src/constant/modal';
+import { IModal } from '@/src/constant/modal.constant';
 import { CheckBoxWrap } from './checkBoxStyle';
 
 function CheckBox({ data }: IModal<any>['modalData']) {

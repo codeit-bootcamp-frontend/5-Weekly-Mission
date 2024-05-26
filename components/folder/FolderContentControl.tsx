@@ -60,7 +60,7 @@ function FolderContentControl({ $title, onclick, id }: iControl) {
               key={btn.id}
               id={btn.id}
               btnClass={'button--icon-before'}
-              beforeIcon={btn.imgSrc}
+              $beforeIcon={btn.imgSrc}
               onclick={() => handleModalOpen(`${btn.bodyType}`)}>
               {btn.name}
             </Button>

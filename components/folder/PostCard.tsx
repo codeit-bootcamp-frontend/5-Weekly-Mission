@@ -1,5 +1,5 @@
 import { instance } from '@/lib/axios';
-import { IModal } from '@/src/constant/modal';
+import { IModal } from '@/src/constant/modal.constant';
 import { calculateTimeAgo } from '@/src/utils/calcTilmAgo';
 import { DFlaxAlignCenterBtw, EllipsisLine } from '@/styles/commonStyle';
 import Image from 'next/image';
@@ -8,8 +8,7 @@ import { useEffect, useState } from 'react';
 import Modal, { IModalInfo } from '../modal/Modal';
 import { BookMarkBtn, CardMenu, CardWrap } from './PostCardStyle';
 import { IFolderContent } from './interface';
-
-const EMPTY_IMAGE = '/assets/logo/logo.svg';
+import { LINKBRARY_LOGO } from '@/src/constant/image.constant';
 
 type SelectedModalInfo = { type: string } & Partial<Pick<IModalInfo, '$card_Id' | '$folder_Id' | '$descText'>>;
 
@@ -83,7 +82,7 @@ export default function PostCard({ id, folder_id, image_source, description, cre
               ) : (
                 <Image
                   className='empty'
-                  src={EMPTY_IMAGE}
+                  src={LINKBRARY_LOGO}
                   alt='로고'
                   width={133}
                   height={25}

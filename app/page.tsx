@@ -6,13 +6,13 @@ import { useEffect, useState } from 'react';
 import { Section } from '../styles/mainStyle';
 
 export default function Home() {
-  const [isStylesLoaded, setIsStylesLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setIsStylesLoaded(true);
+    setIsLoading(true);
   }, []);
 
-  if (!isStylesLoaded) return <Loading />;
+  if (!isLoading) return <Loading />;
 
   return (
     <Container className='body__main'>

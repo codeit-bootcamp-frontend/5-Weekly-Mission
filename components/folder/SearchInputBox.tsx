@@ -20,7 +20,7 @@ function SearchInputBox({ $inputIconImg, onchange }: ISearch) {
       <Input
         inputClass={'input__link--search'}
         placeholder={'링크를 검색해 보세요.'}
-        beforeIcon={$inputIconImg}
+        $beforeIcon={$inputIconImg}
         btnShow={true}
         btnClass={'button--modal-close'}
         clickEventType={'reset'}

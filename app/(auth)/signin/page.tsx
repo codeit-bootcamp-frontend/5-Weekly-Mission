@@ -12,12 +12,17 @@ import { useRouter } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { JoinAccessControlBox, JoinBody, JoinSocial, JoinTitle, JoinWrap } from '../../../styles/loginStyle';
+import { LINKBRARY_LOGO } from '@/src/constant/image.constant';
+import AuthTitle from '@/components/Auth/AuthLogo';
+import AuthLogo from '@/components/Auth/AuthLogo';
+import AuthLink from '@/components/Auth/AuthLink';
+import AuthRegister from '@/components/Auth/AuthRegister';
 
 export default function SignIn() {
   const router = useRouter();
   const { handleLogin } = useContext(AuthContext);
   const [IsVisibility, setIsVisibility] = useState(false);
-  const [isStylesLoaded, setIsStylesLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -28,7 +33,7 @@ export default function SignIn() {
 
   const handleLoginCheck = async (email: loginForm['email'], password: loginForm['password']) => {
     try {
-      const res = await instance.post('/users/1/sign-in', { email, password });
+      const res = await instance.post('/sign-in', { email, password });
       const { data } = res;
       if (data) {
         handleLogin(data.data.accessToken);
@@ -51,116 +56,83 @@ export default function SignIn() {
       alert('로그인한 상태입니다.');
       router.push('/folder');
     }
-    setIsStylesLoaded(true);
+    setIsLoading(true);
   }, [router]);
 
-  if (!isStylesLoaded) return <Loading />;
+  if (!isLoading) return <Loading />;
+
   return (
-    <JoinWrap className='no-header--container signin__wrap'>
-      <JoinBody>
-        <JoinTitle>
-          <LinkButton href={`/`}>
-            <Image
-              src='/assets/logo/logo.svg'
-              alt='linkbrary'
-              width={202}
-              height={38}
+    <>
+      <AuthLogo />
+      <AuthLink
+        desc={'회원이 아니신가요?'}
+        href={`/signup`}
+        btnText={'회원 가입하기'}
+      />
+      <FormWrap>
+        <form onSubmit={handleSubmit(handleValid)}>
+          <FormRowBox className='input__id'>
+            <label
+              htmlFor='input__id-element'
+              className='input__id-label'>
+              이메일
+            </label>
+            <input
+              {...register('email', {
+                required: '이메일을 입력해 주세요.',
+                pattern: {
+                  value: /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/,
+                  message: '올바른 이메일 주소가 아닙니다',
+                },
+              })}
+              type='email'
+              name='email'
+              id='input__id-element'
+              className={errors.email ? 'error' : ''}
             />
-          </LinkButton>
-        </JoinTitle>
-        <JoinAccessControlBox className='login__sign'>
-          <span>회원이 아니신가요?</span>
-          <LinkButton href={`/signup`}>회원 가입하기</LinkButton>
-        </JoinAccessControlBox>
-        <FormWrap>
-          <form onSubmit={handleSubmit(handleValid)}>
-            <FormRowBox className='input__id'>
-              <label
-                htmlFor='input__id-element'
-                className='input__id-label'>
-                이메일
-              </label>
+            <ErrorText className='error__text'>{errors.email?.message}</ErrorText>
+          </FormRowBox>
+          <FormRowBox className='input__password'>
+            <label
+              htmlFor='input__password-element'
+              className='input__password-label'>
+              비밀번호
+            </label>
+            <Relative>
               <input
-                {...register('email', {
-                  required: '이메일을 입력해 주세요.',
+                {...register('password', {
+                  required: '비밀번호를 입력해 주세요',
                   pattern: {
-                    value: /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/,
-                    message: '올바른 이메일 주소가 아닙니다',
+                    value: /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+                    message: '비밀번호는 영문, 숫자 조합 8자 이상 입력해 주세요.',
                   },
                 })}
-                type='email'
-                name='email'
-                id='input__id-element'
-                className={errors.email ? 'error' : ''}
+                type={IsVisibility ? 'text' : 'password'}
+                name='password'
+                id='input__password-element'
+                className={errors.password ? 'error' : ''}
               />
-              <ErrorText className='error__text'>{errors.email?.message}</ErrorText>
-            </FormRowBox>
-            <FormRowBox className='input__password'>
-              <label
-                htmlFor='input__password-element'
-                className='input__password-label'>
-                비밀번호
-              </label>
-              <Relative>
-                <input
-                  {...register('password', {
-                    required: '비밀번호를 입력해 주세요',
-                    pattern: {
-                      value: /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-                      message: '비밀번호는 영문, 숫자 조합 8자 이상 입력해 주세요.',
-                    },
-                  })}
-                  type={IsVisibility ? 'text' : 'password'}
-                  name='password'
-                  id='input__password-element'
-                  className={errors.password ? 'error' : ''}
+              <Button
+                btnClass={'button--input-password'}
+                onclick={() => setIsVisibility((prev) => !prev)}>
+                <Image
+                  src={`/assets/icon/icon-eye-${IsVisibility ? 'on' : 'off'}.svg`}
+                  alt='비밀번호 보기'
+                  width={16}
+                  height={16}
                 />
-                <Button
-                  btnClass={'button--input-password'}
-                  onclick={() => setIsVisibility((prev) => !prev)}>
-                  <Image
-                    src={`/assets/icon/icon-eye-${IsVisibility ? 'on' : 'off'}.svg`}
-                    alt='비밀번호 보기'
-                    width={16}
-                    height={16}
-                  />
-                </Button>
-              </Relative>
-              <ErrorText className='error__text'>{errors.password?.message}</ErrorText>
-            </FormRowBox>
-            <Button
-              type='submit'
-              btnClass={`button--gradient large btn_login`}>
-              로그인
-            </Button>
-          </form>
-        </FormWrap>
-        <JoinSocial>
-          <FontSM as={'h6'}>소셜 로그인</FontSM>
-          <div className='login__sns'>
-            <LinkButton
-              href={'https://www.google.co.kr/?hl=ko'}
-              target='_blank'>
-              <Image
-                fill
-                src='/assets/icon/icon_google.png'
-                alt='구글로고'
-                sizes='40px 40px'
-              />
-            </LinkButton>
-            <LinkButton
-              href={'https://www.kakaocorp.com/page/'}
-              target='_blank'>
-              <Image
-                fill
-                src='/assets/icon/icon_kakao.png'
-                alt='카카오로고'
-                sizes='40px 40px'
-              />
-            </LinkButton>
-          </div>
-        </JoinSocial>
-      </JoinBody>
-    </JoinWrap>
+              </Button>
+            </Relative>
+            <ErrorText className='error__text'>{errors.password?.message}</ErrorText>
+          </FormRowBox>
+          <Button
+            type='submit'
+            btnClass={`button--gradient large btn_login`}>
+            로그인
+          </Button>
+        </form>
+      </FormWrap>
+      <AuthRegister title='소셜 로그인' />
+    </>
   );
 }

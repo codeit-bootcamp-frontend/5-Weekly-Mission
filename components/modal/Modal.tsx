@@ -1,4 +1,4 @@
-import { IModal, modalOrder } from '@/src/constant/modal';
+import { IModal, modalOrder } from '@/src/constant/modal.constant';
 import { ModalTitle } from '@/styles/commonStyle';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';

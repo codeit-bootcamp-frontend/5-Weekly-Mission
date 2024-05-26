@@ -9,7 +9,7 @@ interface IButtonModule {
   inputClass?: string;
   btnShow?: boolean;
   placeholder?: string;
-  beforeIcon?: string;
+  $beforeIcon?: string;
   btnClass?: string;
   clickEventType?: string | undefined;
   children?: ReactNode;
@@ -17,7 +17,7 @@ interface IButtonModule {
   onchange?: (value: string) => void;
 }
 
-function Input({ id, btnShow = false, type = 'text', inputClass, placeholder, beforeIcon = '', btnClass = '', clickEventType, children, onchange }: IButtonModule) {
+function Input({ id, btnShow = false, type = 'text', inputClass, placeholder, $beforeIcon = '', btnClass = '', clickEventType, children, onchange }: IButtonModule) {
   const [value, setValue] = useState('');
   const refInput = useRef(null);
 
@@ -50,7 +50,7 @@ function Input({ id, btnShow = false, type = 'text', inputClass, placeholder, be
           placeholder={placeholder}
           value={value}
           onChange={handleChangInput}
-          beforeIcon={beforeIcon}
+          $beforeIcon={$beforeIcon}
           ref={refInput}
         />
         {btnShow && clickEventType && (

@@ -10,8 +10,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Button from './atoms/Button';
 import LinkButton from './atoms/LinkButton';
-
-const LOGO_IMAGE = '/assets/logo/logo.svg';
+import { LINKBRARY_LOGO } from '@/src/constant/image.constant';
 
 export interface IHeaderUser {
   id: number;
@@ -30,15 +29,15 @@ function Header() {
   const { isLoggedIn, handleLogout } = useContext(AuthContext);
   const [isfixed, setIsFixed] = useState(true);
   const [isHideHeader, setIsHideHeader] = useState(true);
-  const [userInfo, setUserInfo] = useState<IHeaderUser | null>();
+  // const [userInfo, setUserInfo] = useState<IHeaderUser | null>();
 
-  const handleUserInfo = async () => {
-    const res = await instance.get(`/users/1/sample/user`);
-    setUserInfo(JSON.parse(JSON.stringify(res.data)));
-  };
+  // const handleUserInfo = async () => {
+  //   const res = await instance.get(`/users/1/sample/user`);
+  //   setUserInfo(JSON.parse(JSON.stringify(res.data)));
+  // };
 
   useEffect(() => {
-    handleUserInfo();
+    // handleUserInfo();
     setIsHideHeader(hidePages.includes(pathName));
     setIsFixed(noHeaderFixed.includes(pathName));
   }, [pathName]);
@@ -53,7 +52,7 @@ function Header() {
         <HeaderLogo className='head__logo'>
           <Link href='/'>
             <Image
-              src={LOGO_IMAGE}
+              src={LINKBRARY_LOGO}
               alt='linkbrary'
               width={133}
               height={25}
@@ -64,7 +63,7 @@ function Header() {
           {isLoggedIn ? (
             <Button onclick={handleLogout}>
               <Profile></Profile>
-              <Email>{userInfo?.email}</Email>
+              {/* <Email>{userInfo?.email}</Email> */}
             </Button>
           ) : (
             <LinkButton

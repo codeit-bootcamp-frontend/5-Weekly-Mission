@@ -9,7 +9,7 @@ function LinkAddHeader({ $inputIconImg }: { $inputIconImg: string }) {
         <Input
           inputClass={'input__link--add'}
           placeholder={'링크를 추가해 보세요'}
-          beforeIcon={$inputIconImg}
+          $beforeIcon={$inputIconImg}
           btnShow={true}
           btnClass={'button--gradient medium'}>
           추가하기

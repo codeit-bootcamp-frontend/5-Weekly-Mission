@@ -1,6 +1,7 @@
 import { getFolderProps, getLinkProps } from '@/api/folder.api';
 import { IFolderContent, IFolderMenuButton } from '@/components/folder/interface';
 import FolderClient from './FolderClient';
+import Loading from '@/components/loading/Loading';
 
 export interface IFolderClientProps {
   menuData: IFolderMenuButton[];
@@ -24,6 +25,7 @@ export default async function Folder({ params }: { params: { id: string } }) {
   const { menuData, contentData } = await getFolderProp(params.id);
   const { id: pageId } = params;
   const props = { menuData, contentData, pageId };
-  if (!menuData || !contentData) return <div>데이터가 없습니다.</div>;
+  // if (!menuData || !contentData) return <Loading />;
+
   return <FolderClient {...props} />;
 }
