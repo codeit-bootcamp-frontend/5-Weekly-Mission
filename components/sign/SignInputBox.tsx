@@ -1,5 +1,5 @@
 import * as S from "./SignInputBox.styled";
-import validationMsg from "@/constants/validationMsg";
+import VALIDATION_MESSAGE from "@/constants/validationMsg";
 import { emailValidation, passwordValidation } from "@/utills/validation";
 import { useState, useRef } from "react";
 import { SignInputProps } from "@/types/Sign";
@@ -62,11 +62,11 @@ const SignInputBox = ({
   switch (type) {
     case "email":
       const emailRegisterOptions: IRegisterOption = {
-        required: { value: true, message: validationMsg.checkInputEmail },
+        required: { value: true, message: VALIDATION_MESSAGE.checkInputEmail },
         ...(inputType.inputRegex && {
           pattern: {
             value: inputType.inputRegex,
-            message: validationMsg.checkValidationEmail,
+            message: VALIDATION_MESSAGE.checkValidationEmail,
           },
         }),
       };
@@ -74,7 +74,7 @@ const SignInputBox = ({
       if (pageType === "signUp") {
         emailRegisterOptions.validate = async (value: string) => {
           const checkEmailResult = await checkEmailExist(value);
-          return checkEmailResult || validationMsg.findDuplicateEmail;
+          return checkEmailResult || VALIDATION_MESSAGE.findDuplicateEmail;
         };
       }
       checkRegister = register(type, emailRegisterOptions);
@@ -83,14 +83,17 @@ const SignInputBox = ({
     case "password":
     case "signUpPassword":
       const passwordRegisterOptions: IRegisterOption = {
-        required: { value: true, message: validationMsg.checkInputPassword },
+        required: {
+          value: true,
+          message: VALIDATION_MESSAGE.checkInputPassword,
+        },
       };
 
       if (type === "signUpPassword") {
         if (inputType.inputRegex) {
           passwordRegisterOptions.pattern = {
             value: inputType.inputRegex,
-            message: validationMsg.checkValidationPassword,
+            message: VALIDATION_MESSAGE.checkValidationPassword,
           };
         }
       }
@@ -99,9 +102,13 @@ const SignInputBox = ({
 
     case "signUpPasswordCheck":
       checkRegister = register(type, {
-        required: { value: true, message: validationMsg.checkInputPassword },
+        required: {
+          value: true,
+          message: VALIDATION_MESSAGE.checkInputPassword,
+        },
         validate: (value) =>
-          value === passwordRef.current || validationMsg.checkPasswordMatch,
+          value === passwordRef.current ||
+          VALIDATION_MESSAGE.checkPasswordMatch,
       });
       break;
   }
@@ -130,7 +137,7 @@ const SignInputBox = ({
             type="button"
             onClick={handlePasswordToggle}
             isEyeOpen={isPwdEyeOn}
-          ></S.ViewPassword>
+          />
         )}
       </S.BoxWrap>
       {errors[type] && (

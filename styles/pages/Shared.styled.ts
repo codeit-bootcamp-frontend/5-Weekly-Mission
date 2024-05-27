@@ -10,6 +10,10 @@ export const SharedInfoWrap = styled.section`
   }
 `;
 
+export const ContentSection = styled.section`
+  min-height: calc(100vh - 691px);
+`;
+
 export const ContentWrap = styled.div`
   max-width: 1060px;
   margin: 40px auto;

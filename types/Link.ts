@@ -1,10 +1,10 @@
 export interface LinkItem {
   id: number;
-  createdAt: string;
+  created_at: string;
   url: string;
   title: string;
   description: string;
-  imageSource: string;
+  image_source: string;
 }
 
 export interface LinkParam {

@@ -7,6 +7,10 @@ export const LinkAddWrap = styled.section`
   justify-content: center;
 `;
 
+export const ContentSection = styled.section`
+  min-height: calc(100vh - 611px);
+`;
+
 export const ContentBox = styled.div`
   max-width: 1060px;
   margin: 40px auto;

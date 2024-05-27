@@ -4,6 +4,7 @@ import GlobalStyle from "@/styles/Global.styled";
 import Layout from "@/components/layout/Layout";
 import Modal from "@/context/Modal";
 import ModalPortal from "@/components/common/modal/ModalPortal";
+import UserToken from "@/context/User";
 
 export default function App({ Component, pageProps }: AppProps) {
   let isRemoveLayoutPage = false;
@@ -33,7 +34,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <StyledComponentsRegistry>
       <GlobalStyle isRemoveLayoutPage={isRemoveLayoutPage} />
-      {childContent}
+      <UserToken>{childContent}</UserToken>
     </StyledComponentsRegistry>
   );
 }

@@ -13,8 +13,8 @@ export interface FormValues {
 }
 
 export interface SignInputProps {
-  pageType: string;
-  type: string;
+  pageType: "signUp" | "signIn";
+  type: "email" | "password" | "signUpPassword" | "signUpPasswordCheck";
   register: UseFormRegister<FormValues>;
   errors: FieldErrors<FieldValues>;
   watch?: UseFormWatch<FormValues>;

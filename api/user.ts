@@ -30,6 +30,23 @@ export const getSignInProfile = async (userToken: string) => {
   return result;
 };
 
+export const getUserInfo = async (userId: string) => {
+  let result = null;
+
+  try {
+    const response = await fetch(`${BASE_URL}/api/users/${userId}`);
+    if (!response.ok) {
+      throw new Error(`${response.status}`);
+    }
+
+    result = await response.json();
+  } catch (error) {
+    if (error instanceof Error) alert(`${error.message}에러 발생!`);
+  }
+
+  return result;
+};
+
 export const postSign = async (apiUrl: string, userData: SignUserData) => {
   let result = null;
 

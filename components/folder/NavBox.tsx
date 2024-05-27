@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { getFolderNavInfo } from "@/api/folder";
 import * as S from "./NavBox.styled";
 import useModal from "@/hooks/useModal";
@@ -11,40 +11,45 @@ import deleteIcon from "@/public/image/icon/delete.svg";
 import { ModalParam } from "@/types/Modal";
 import { INavItem } from "@/types/FolderNav";
 import Image from "next/image";
-import navEntireTab from "@/constants/folderNav";
+import { UserInfoContext } from "@/context/User";
 
 interface FolderNav {
-  navId?: number;
-  onClickNavItem: (navId: number) => void;
+  pageNavId?: string | string[];
 }
 
-const NavBox = ({ navId, onClickNavItem }: FolderNav) => {
+const NavBox = ({ pageNavId }: FolderNav) => {
   const { openModal } = useModal();
   const [navList, setNavList] = useState<INavItem[]>([]);
   const [currentNav, setCurrentNav] = useState("전체");
+  const userInfo = useContext(UserInfoContext);
 
-  const handleLoadInfo = async () => {
-    const folderNavInfo = await getFolderNavInfo();
+  const handleGetNavData = async () => {
+    if (!userInfo) return;
+    const folderNavInfo = await getFolderNavInfo(userInfo.id);
 
     if (folderNavInfo !== null) {
-      setNavList(folderNavInfo.data);
+      setNavList(folderNavInfo.data.folder);
     }
   };
 
   useEffect(() => {
-    handleLoadInfo();
-  }, []);
+    handleGetNavData();
+  }, [userInfo]);
 
   useEffect(() => {
-    if (navId === navEntireTab) {
+    if (!pageNavId) {
       setCurrentNav("전체");
     }
 
     navList.forEach((navListItem: INavItem) => {
-      if (navListItem.name && navListItem.id === navId)
+      if (
+        navListItem.name &&
+        pageNavId &&
+        navListItem.id === parseInt(pageNavId[0])
+      )
         setCurrentNav(navListItem.name);
     });
-  }, [navId, navList]);
+  }, [pageNavId]);
 
   const handleOpenModal = ({ type, props }: ModalParam) => {
     openModal({ type, props });
@@ -53,13 +58,8 @@ const NavBox = ({ navId, onClickNavItem }: FolderNav) => {
   return (
     <>
       <S.NavWrapBox>
-        <ul>
-          <NavItem
-            navName="전체"
-            onClick={onClickNavItem}
-            navId={navEntireTab}
-            isCurrentNav={navId === navEntireTab}
-          />
+        <S.NavList>
+          <NavItem navName="전체" isCurrentNav={!pageNavId} />
           {navList &&
             navList.map((navItem) => {
               return (
@@ -67,12 +67,15 @@ const NavBox = ({ navId, onClickNavItem }: FolderNav) => {
                   key={navItem.id}
                   navName={navItem.name}
                   navId={navItem.id}
-                  onClick={onClickNavItem}
-                  isCurrentNav={navItem.id === navId ? true : false}
+                  isCurrentNav={
+                    pageNavId && navItem.id?.toString() === pageNavId[0]
+                      ? true
+                      : false
+                  }
                 />
               );
             })}
-        </ul>
+        </S.NavList>
         <button
           onClick={() =>
             handleOpenModal({
@@ -88,7 +91,7 @@ const NavBox = ({ navId, onClickNavItem }: FolderNav) => {
       </S.NavWrapBox>
       <S.NavSettingBox>
         <span>{currentNav}</span>
-        {navId !== navEntireTab && (
+        {pageNavId && (
           <div>
             <button
               onClick={() =>

@@ -1,11 +1,12 @@
 import * as S from "@/styles/pages/Folder.styled";
 import LinkAdd from "@/components/folder/LinkAdd";
-import SerchBar from "@/components/common/SearchBar";
+import SearchBar from "@/components/common/SearchBar";
 import NavBox from "@/components/folder/NavBox";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getFolderListInfo } from "@/api/folder";
 import LinkList from "@/components/common/LinkList";
-import navEntireTab from "@/constants/folderNav";
+import { UserInfoContext } from "@/context/User";
+import { useRouter } from "next/router";
 
 interface FolderItem {
   id: number;
@@ -20,32 +21,30 @@ interface FolderItem {
 
 const Folder = () => {
   const [linkList, setLinkList] = useState([]);
-  const [navId, setNavId] = useState<number>(navEntireTab);
   const [searchValue, setSearchValue] = useState("");
-
-  const handleLoadInfo = async () => {
-    const folderListInfo = await getFolderListInfo(navId);
-
-    if (folderListInfo !== null) {
-      const modifiedData = folderListInfo.data.map(
-        (item: FolderItem, i: number) => ({
-          createdAt: item.created_at,
-          imageSource: item.image_source,
-
-          ...folderListInfo.data[i],
-        })
-      );
-
-      setLinkList(modifiedData);
-    }
-  };
+  const router = useRouter();
+  const { navId } = router.query;
+  const userInfo = useContext(UserInfoContext);
 
   useEffect(() => {
-    handleLoadInfo();
-  }, [navId]);
+    if (!localStorage.getItem("userToken")) router.replace("/signin");
+  }, []);
+
+  useEffect(() => {
+    if (!userInfo) return;
+
+    handleGetLinkListData(navId);
+  }, [navId, userInfo]);
 
   const handleSearchChange = (value: string) => {
     setSearchValue(value);
+  };
+
+  const handleGetLinkListData = async (
+    navId: string | string[] | undefined
+  ) => {
+    const resultData = await getFolderListInfo(navId, userInfo?.token);
+    setLinkList(resultData.data.folder);
   };
 
   const handleSearchList = () => {
@@ -64,7 +63,6 @@ const Folder = () => {
 
   const handleDeleteBtn = () => {
     setSearchValue("");
-    handleLoadInfo();
   };
 
   return (
@@ -72,21 +70,21 @@ const Folder = () => {
       <S.LinkAddWrap>
         <LinkAdd />
       </S.LinkAddWrap>
-      <section>
+      <S.ContentSection>
         <S.ContentBox>
-          <SerchBar
+          <SearchBar
             value={searchValue}
             onChangeEvent={handleSearchChange}
             onClickDeleteBtn={handleDeleteBtn}
           />
           <S.FolderBox>
-            <NavBox navId={navId} onClickNavItem={setNavId} />
+            <NavBox pageNavId={navId} />
           </S.FolderBox>
           <S.ContentItemBox>
             <LinkList listInfo={filterLinkList} isSetting />
           </S.ContentItemBox>
         </S.ContentBox>
-      </section>
+      </S.ContentSection>
     </>
   );
 };

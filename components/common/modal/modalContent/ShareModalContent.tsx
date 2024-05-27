@@ -74,15 +74,15 @@ const ShareModalContent = () => {
 
   return (
     <>
-      {SHARE_OPTION.map((itme) => {
+      {SHARE_OPTION.map((item) => {
         return (
           <>
             <S.ShareContent
-              key={itme.keyId}
-              onClick={() => handleShareIcon(itme.keyId)}
+              key={item.keyId}
+              onClick={() => handleShareIcon(item.keyId)}
             >
-              <Image src={itme.img} alt={itme.imgAlt} />
-              <span>{itme.buttonName}</span>
+              <Image src={item.img} alt={item.imgAlt} />
+              <span>{item.buttonName}</span>
             </S.ShareContent>
           </>
         );

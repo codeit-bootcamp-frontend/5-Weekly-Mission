@@ -5,21 +5,13 @@ interface GlobalStyleProps {
 }
 
 const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
-
+    @font-face {   
+        font-family: 'Pretendard Variable';   
+        src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')     
+        format('woff');   
+    }
     /* -------Reset styles------- */
-    html, body, div, span, applet, object, iframe,
-    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-    a, abbr, acronym, address, big, cite, code,
-    del, dfn, em, img, ins, kbd, q, s, samp,
-    small, strike, strong, sub, sup, tt, var,
-    b, u, i, center,
-    dl, dt, dd, ol, ul, li,
-    fieldset, form, label, legend,
-    table, caption, tbody, tfoot, thead, tr, th, td,
-    article, aside, canvas, details, embed, 
-    figure, figcaption, footer, header, hgroup, 
-    menu, nav, output, ruby, section, summary,
-    time, mark, audio, video, input {
+   * {
         margin: 0;
         padding: 0;
         border: 0;
@@ -60,6 +52,11 @@ const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
         cursor: pointer;
         background: none;
     }
+    
+    a{
+        text-decoration: none;
+        color: inherit;
+    }
 
 
     /* -------Color styles------- */
@@ -78,6 +75,7 @@ const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
         --zindex-basic: 100;
         --zindex-modal: 900;
     }
+    
 `;
 
 export default GlobalStyle;

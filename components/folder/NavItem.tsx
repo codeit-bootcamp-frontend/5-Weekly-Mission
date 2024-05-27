@@ -1,22 +1,19 @@
+import Link from "next/link";
 import * as S from "./NavItem.styled";
+import { useRouter } from "next/router";
 
 interface NavItemProps {
   navName?: string;
   navId?: number;
-  onClick: (navId: number) => void;
+  //onClick: (navId: number) => void;
   isCurrentNav: boolean;
 }
 
-const NavItem = ({ navName, navId, onClick, isCurrentNav }: NavItemProps) => {
-  const handleNavItemClick = () => {
-    if (navId) {
-      onClick(navId);
-    }
-  };
-
+const NavItem = ({ navName, navId, isCurrentNav }: NavItemProps) => {
+  const navUrl = navId ? `/folder/${navId}` : "/folder";
   return (
     <S.NavItem
-      onClick={handleNavItemClick}
+      href={navUrl}
       className={isCurrentNav ? "current-nav" : undefined}
     >
       {navName}

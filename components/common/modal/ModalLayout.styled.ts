@@ -11,16 +11,17 @@ export const ModalWrapper = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(0,0,0,0.4);
-`
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 101;
+`;
 
 export const ModalContent = styled.div`
   width: 360px;
   background-color: white;
-  border: 1px solid #DEE2E6;
+  border: 1px solid #dee2e6;
   border-radius: 15px;
   position: relative;
-`
+`;
 
 export const CloseButton = styled.button`
   width: 24px;
@@ -28,7 +29,7 @@ export const CloseButton = styled.button`
   position: absolute;
   top: 16px;
   right: 20px;
-`
+`;
 
 export const FolerInfo = styled.div`
   display: flex;
@@ -42,7 +43,7 @@ export const FolerInfo = styled.div`
     line-height: 23.87px;
   }
   > span {
-    color: #9FA6B2;
+    color: #9fa6b2;
     line-height: 22px;
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -51,11 +52,11 @@ export const FolerInfo = styled.div`
     overflow: hidden;
     word-break: break-word;
   }
-`
+`;
 
 export const ShareInfo = styled.div`
   padding: 24px 34px 32px;
   display: flex;
   justify-content: center;
   gap: 32px;
-`
+`;

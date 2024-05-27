@@ -1,9 +1,8 @@
 import { BASE_URL } from "@/constants/url";
-import navEntireTab from "@/constants/folderNav";
 
-export const getFolderNavInfo = async () => {
+export const getFolderNavInfo = async (userId: number) => {
   try {
-    const response = await fetch(`${BASE_URL}/api/users/1/folders`);
+    const response = await fetch(`${BASE_URL}/api/users/${userId}/folders`);
     if (!response.ok) {
       throw new Error(`${response.status}`);
     }
@@ -16,15 +15,25 @@ export const getFolderNavInfo = async () => {
   }
 };
 
-export const getFolderListInfo = async (id: number) => {
-  let query = "/api/users/1/links";
-  if (id !== navEntireTab) {
-    query = `${query}?folderId=${id}`;
+export const getFolderListInfo = async (
+  navId: string | string[] | undefined,
+  userToken: string | undefined
+) => {
+  let query = "/api/links";
+  if (navId) {
+    query += `?folderId=${navId}`;
   }
 
   try {
-    const response = await fetch(BASE_URL + query);
+    const response = await fetch(BASE_URL + query, {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    });
     if (!response.ok) {
+      if (response.status === 401) {
+        throw new Error("로그인 인증 ");
+      }
       throw new Error(`${response.status}`);
     }
 

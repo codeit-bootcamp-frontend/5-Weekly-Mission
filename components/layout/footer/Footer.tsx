@@ -7,30 +7,30 @@ import SnsLink from "@/components/layout/footer/SnsLink";
 import { aTagPreventDefault } from "@/utills/temp";
 import Link from "next/link";
 
-const Footer = () => {
-  const snsInfo = [
-    {
-      url: "https://www.facebook.com/",
-      img: icon_facebook,
-      imgAlt: "페이스북 아이콘",
-    },
-    {
-      url: "https://twitter.com/",
-      img: icon_twitter,
-      imgAlt: "트위터 아이콘",
-    },
-    {
-      url: "https://www.youtube.com/",
-      img: icon_youtube,
-      imgAlt: "유튜브 아이콘",
-    },
-    {
-      url: "https://www.instagram.com/",
-      img: icon_instagram,
-      imgAlt: "인스타그램 아이콘",
-    },
-  ];
+const snsInfo = [
+  {
+    url: "https://www.facebook.com/",
+    img: icon_facebook,
+    imgAlt: "페이스북 아이콘",
+  },
+  {
+    url: "https://twitter.com/",
+    img: icon_twitter,
+    imgAlt: "트위터 아이콘",
+  },
+  {
+    url: "https://www.youtube.com/",
+    img: icon_youtube,
+    imgAlt: "유튜브 아이콘",
+  },
+  {
+    url: "https://www.instagram.com/",
+    img: icon_instagram,
+    imgAlt: "인스타그램 아이콘",
+  },
+];
 
+const Footer = () => {
   return (
     <S.Footer>
       <div>

@@ -26,7 +26,7 @@ const Link = ({ linkInfo, isSetting }: LinkItemParam) => {
           <Image
             width={400}
             height={400}
-            src={linkInfo.imageSource ? linkInfo.imageSource : noImg}
+            src={linkInfo.image_source ? linkInfo.image_source : noImg}
             alt="링크 이미지"
           />
         </S.ImgBox>
@@ -42,7 +42,7 @@ const Link = ({ linkInfo, isSetting }: LinkItemParam) => {
         )}
         <S.ContentBox className="content-box">
           <S.AgoBox>
-            {getTimeAgo(linkInfo.createdAt)}
+            {getTimeAgo(linkInfo.created_at)}
             {isSetting && (
               <button onClick={handleKebabClick}>
                 <Image width={20} height={20} src={kebab} alt="케밥 아이콘" />
@@ -54,7 +54,7 @@ const Link = ({ linkInfo, isSetting }: LinkItemParam) => {
           </S.AgoBox>
           <S.ContentParagraph>{linkInfo.description}</S.ContentParagraph>
           <S.CreateParagraph>
-            {formatDate(linkInfo.createdAt)}
+            {formatDate(linkInfo.created_at)}
           </S.CreateParagraph>
         </S.ContentBox>
       </LinkTag>

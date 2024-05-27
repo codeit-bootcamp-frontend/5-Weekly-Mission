@@ -5,12 +5,6 @@ export const NavWrapBox = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  > ul {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
   > button {
     display: flex;
     flex-shrink: 0;
@@ -20,11 +14,6 @@ export const NavWrapBox = styled.div`
     .mo {
       display: none;
     }
-  }
-
-  > div {
-    display: flex;
-    align-items: center;
   }
 
   & span {
@@ -60,6 +49,12 @@ export const NavWrapBox = styled.div`
       color: white;
     }
   }
+`;
+
+export const NavList = styled.div`
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 `;
 
 export const NavSettingBox = styled.div`

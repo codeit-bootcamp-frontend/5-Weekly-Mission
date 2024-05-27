@@ -5,11 +5,13 @@ import Link from "next/link";
 import SignInputBox from "@/components/sign/SignInputBox";
 import Button from "@/components/common/Button";
 import SignSns from "@/components/sign/SignSns";
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { postSign } from "@/api/user";
 import { useRouter } from "next/router";
 import { FormValues } from "@/types/Sign";
+import { UserSetTokenContext } from "@/context/User";
+import useIsTokenRedirect from "@/hooks/useIsTokenRedirect";
 
 export const getStaticProps = async () => {
   return {
@@ -26,17 +28,9 @@ const Signin = () => {
     formState: { isSubmitting, errors },
   } = useForm<FormValues>({ mode: "onBlur" });
   const router = useRouter();
-  const [auth, setAuth] = useState<string | null>(null);
+  const setUserToken = useContext(UserSetTokenContext);
 
-  useEffect(() => {
-    try {
-      const token = localStorage.getItem("userToken");
-      setAuth(token);
-    } catch (error) {
-      console.error("Error fetching token:", error);
-    }
-  }, []);
-  if (auth) router.replace("/folder");
+  useIsTokenRedirect();
 
   const handleSiginIn: SubmitHandler<FormValues> = async (data) => {
     const result = await postSign("sign-in", data);
@@ -46,6 +40,7 @@ const Signin = () => {
     }
 
     localStorage.setItem("userToken", result.data.accessToken);
+    setUserToken(result.data.accessToken);
     router.push(`/folder`);
   };
 
@@ -75,7 +70,7 @@ const Signin = () => {
             />
           </S.EmailBox>
 
-          <S.PassWrodBox>
+          <S.PassWordBox>
             <S.LoginBoxSpan>비밀번호</S.LoginBoxSpan>
             <SignInputBox
               pageType="signIn"
@@ -83,7 +78,7 @@ const Signin = () => {
               register={register}
               errors={errors}
             />
-          </S.PassWrodBox>
+          </S.PassWordBox>
 
           <Button btnType="submit" type="sign" disabled={isSubmitting}>
             로그인

@@ -1,4 +1,4 @@
-const validationMsg = {
+const VALIDATION_MESSAGE = {
   checkEmail: "이메일을 확인해 주세요.",
   checkInputEmail: "이메일을 입력해 주세요.",
   checkValidationEmail: "올바른 이메일 주소가 아닙니다.",
@@ -9,4 +9,4 @@ const validationMsg = {
   checkPasswordMatch: "비밀번호가 일치하지 않아요.",
 };
 
-export default validationMsg;
+export default VALIDATION_MESSAGE;

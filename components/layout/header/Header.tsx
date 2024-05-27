@@ -2,30 +2,33 @@ import * as S from "@/components/layout/header/Header.styled";
 import Image from "next/image";
 import Link from "next/link";
 import main_logo from "@/public/image/icon/main_logo.svg";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
-import { getSignInProfile } from "@/api/user";
 import UserProfile from "@/components/layout/header/UserProfile";
 import { IUserData } from "@/types/User";
+import { UserInfoContext } from "@/context/User";
 
 const Header = () => {
   const [user, setUser] = useState<IUserData | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
 
   const location = useRouter();
+  const userInfo = useContext(UserInfoContext);
 
-  const handleLoadUserProfile = async (userToken: string) => {
-    const userProfile = await getSignInProfile(userToken);
-
-    if (userProfile !== null) {
-      setUser(userProfile.data[0]);
-    }
+  const handleLoadUserProfile = (userInfo: IUserData) => {
+    setUser({
+      id: userInfo.id,
+      name: userInfo.name,
+      email: userInfo.email,
+      image_source: userInfo.image_source,
+    });
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("userToken");
-    if (token) handleLoadUserProfile(token);
-  }, []);
+    if (userInfo) {
+      handleLoadUserProfile(userInfo);
+    }
+  }, [userInfo]);
 
   useEffect(() => {
     const handleHeaderScroll = () => {
@@ -56,7 +59,7 @@ const Header = () => {
     >
       <S.HeaderWrap>
         <h1>
-          <Link href="/shared">
+          <Link href="/">
             <Image src={main_logo} alt="로고" />
           </Link>
         </h1>

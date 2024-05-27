@@ -3,16 +3,17 @@ import * as S from "./BookMark.styled";
 
 interface Props {
   ownerInfo: {
-    name?: string;
-    owner?: { [key: string]: string | undefined };
+    name: string;
+    image_source: string;
   } | null;
+  folderName: string | null;
 }
 
-const BookMark = ({ ownerInfo }: Props) => {
-  if (!ownerInfo) {
+const BookMark = ({ ownerInfo, folderName }: Props) => {
+  if (!ownerInfo || !folderName) {
     return;
   }
-  const { name, owner } = ownerInfo;
+  const { name, image_source } = ownerInfo;
 
   return (
     <div>
@@ -20,15 +21,13 @@ const BookMark = ({ ownerInfo }: Props) => {
         <Image
           width={50}
           height={50}
-          src={
-            owner && owner.profileImageSource ? owner.profileImageSource : ""
-          }
+          src={image_source ? image_source : ""}
           alt="소유자 프로필"
         />
-        <span>{owner && owner.name}</span>
+        <span>{name}</span>
       </S.OwnerInfoWrap>
 
-      <S.OwnerShared>{name}</S.OwnerShared>
+      <S.OwnerShared>{folderName}</S.OwnerShared>
     </div>
   );
 };
