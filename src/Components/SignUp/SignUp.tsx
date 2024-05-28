@@ -8,12 +8,12 @@ import { validateEmail, validatePassword } from "../../utils/validate";
 import { useRouter } from "next/router";
 
 function SignUp() {
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
-    const [passwordCheck, setPasswordCheck] = useState<string>("");
-    const [emailError, setEmailError] = useState<string>("");
-    const [passwordError, setPasswordError] = useState<string>("");
-    const [passwordCheckError, setPasswordCheckError] = useState<string>("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [passwordCheck, setPasswordCheck] = useState("");
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [passwordCheckError, setPasswordCheckError] = useState("");
 
     const [emailStatus] = useCheckEmail({ email });
     const router = useRouter();
@@ -26,11 +26,7 @@ function SignUp() {
     }, [router]);
 
     const handleEmailBlur = () => {
-        if (emailStatus) {
-            setEmailError(emailStatus);
-        } else {
-            setEmailError("");
-        }
+        setEmailError(emailStatus || "");
     };
 
     const handleSubmit = async () => {
@@ -172,7 +168,7 @@ function SignUp() {
                         </Link>
                         <Link href='https://www.kakaocorp.com/page/'>
                             <Image
-                                src='/assets/kakaoLogin.svg'
+                                src='/assets/kakaologin.svg'
                                 width={42}
                                 height={42}
                                 alt='kakao_login_icon'

@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Cards from "../Cards/Cards";
 import Article from "../Article/Article";
 import styles from "./FolderMain.module.css";
-import { useFolderDataAll, useFolderData } from "../../api/parseData";
-import { useFetch } from "../../hooks/useFetch";
-import { BASE_URL } from "../../constants/baseURL";
+import { useUserData, useFolderDataAll, useFolderData, useUserFolders } from "../../api/parseData";
 import Modal from "../Modal/Modal";
 import Image from "next/image";
-import { Link, Card } from "../../types/interface";
 import useModalScrollLock from "../../hooks/useModalScrollLock";
+import { Card } from "@/types/interface";
+import { useRouter } from "next/router";
 
 const ALL_FOLDERS = "전체";
 const MODAL_TYPES = {
@@ -20,17 +19,42 @@ const MODAL_TYPES = {
 
 type ModalType = keyof typeof MODAL_TYPES | null;
 
-function FolderMain() {
-    const [activeButton, setActiveButton] = useState(ALL_FOLDERS);
-    const [activeButtonId, setActiveButtonId] = useState("");
+interface Props {
+    folderId?: string | null;
+}
+
+function FolderMain({ folderId }: Props) {
+    const [activeButton, setActiveButton] = useState<string>(ALL_FOLDERS);
+    const [activeButtonId, setActiveButtonId] = useState<string | null>(folderId || null);
     const [searchTerm, setSearchTerm] = useState("");
     const [modalType, setModalType] = useState<ModalType>(null);
 
-    const folderList = useFetch(`${BASE_URL}users/1/folders`); // 개별 폴더
+    const userData = useUserData();
+    const userId = userData?.id;
+    const router = useRouter();
 
+    useEffect(() => {
+        if (folderId) {
+            setActiveButtonId(folderId);
+            setActiveButton("");
+        } else {
+            setActiveButtonId(null);
+            setActiveButton(ALL_FOLDERS);
+        }
+    }, [folderId]);
+
+    const folders = useUserFolders(userId);
+    const allFolderData = useFolderDataAll(userId);
+    const folderData = useFolderData(userId, activeButtonId);
     const handleFolderClick = (folderId: string, folderName: string) => {
         setActiveButton(folderName);
         setActiveButtonId(folderId);
+
+        if (folderId) {
+            router.push(`/folder/${folderId}`);
+        } else {
+            router.push("/folder");
+        }
     };
 
     const openModal = (type: ModalType) => {
@@ -47,14 +71,12 @@ function FolderMain() {
 
     useModalScrollLock(modalType);
 
-    const filteredCards: Card[] =
-        activeButtonId === "" ? useFolderDataAll() : useFolderData(activeButtonId);
+    const filteredCards: Card[] = activeButtonId ? folderData : allFolderData;
 
     const handleClearSearch = () => {
         setSearchTerm("");
     };
 
-    // 검색어가 있을 때만 필터링
     const filteredCardsBySearchTerm: Card[] = searchTerm
         ? filteredCards.filter((card) => {
               const { url, title, description } = card;
@@ -110,8 +132,8 @@ function FolderMain() {
                                 {ALL_FOLDERS}
                             </button>
                         </li>
-                        {folderList &&
-                            folderList.data.map((folder: Link) => (
+                        {folders &&
+                            folders.map((folder: any) => (
                                 <li key={folder.id}>
                                     <button
                                         className={`${styles.folder_btn_lg} ${

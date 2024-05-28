@@ -14,7 +14,7 @@ interface ModalProps {
     btnText?: string;
     btnColor?: "submit" | "delete";
     share?: boolean;
-    folderId?: string;
+    folderId?: string | null;
     onClose: () => void;
     onSubmit?: (value: string) => void;
 }
@@ -32,10 +32,10 @@ const Modal: React.FC<ModalProps> = ({
     onClose,
     onSubmit,
 }: ModalProps) => {
-    const [inputValue, setInputValue] = useState<string>("");
+    const [inputValue, setInputValue] = useState("");
     const folderList = useFetch(`${BASE_URL}users/1/folders`);
-    const [isError, setIsError] = useState<boolean>(false);
-    const url = `${DEPLOY_URL}shared?user=1&folder=${folderId}`;
+    const [isError, setIsError] = useState(false);
+    const url = `${DEPLOY_URL}shared/${folderId}`;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value);

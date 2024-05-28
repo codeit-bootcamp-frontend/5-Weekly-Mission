@@ -71,7 +71,7 @@ const Input: React.FC<InputProps> = ({
                     className={`${styles.eye_button} ${passwordVisible ? styles.on : ""}`}
                     onClick={handleEyeToggle}
                     type='button'
-                ></button>
+                />
             )}
         </div>
     );

@@ -8,11 +8,10 @@ import { validateEmail } from "../../utils/validate";
 import { useRouter } from "next/router";
 
 function SignIn() {
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
-    const [emailError, setEmailError] = useState<string>("");
-    const [passwordError, setPasswordError] = useState<string>("");
-
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
     const router = useRouter();
 
     useEffect(() => {

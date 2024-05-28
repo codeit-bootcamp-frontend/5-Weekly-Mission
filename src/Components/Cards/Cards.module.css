@@ -166,7 +166,7 @@
 
 .no_links_message {
     width: 100%;
-    height: 150px;
+    height: 80vh;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useFetch } from "../hooks/useFetch";
 import { BASE_URL } from "../constants/baseURL";
+import { FolderInfo } from "@/types/interface";
+import { useRouter } from "next/router";
 
 export interface Card {
     id: string;
@@ -21,20 +23,42 @@ export interface Folder extends Card {
     };
 }
 
-export function useSharedData() {
-    const [data, setData] = useState<Card[]>([]);
+export function useFolderInfo(folderId: string) {
+    const [data, setData] = useState<FolderInfo[]>([]);
 
-    const folderData = useFetch(`${BASE_URL}sample/folder`);
+    const folderData = useFetch(`${BASE_URL}folders/${folderId}`);
 
     useEffect(() => {
         if (folderData && folderData.folder) {
-            const parsedData = folderData.folder.links.map((link: Card) => ({
+            const parsedData = folderData.data[0].links.map((link: FolderInfo) => ({
+                id: link.id,
+                created_at: link.created_at,
+                name: link.name,
+                user_id: link.user_id,
+                favorite: link.favorite,
+            }));
+            setData(parsedData);
+        }
+    }, [folderData]);
+
+    return data;
+}
+export function useSharedData(userId: number | null, folderId: string) {
+    const [data, setData] = useState<Card[]>([]);
+
+    const folderData = useFetch(
+        userId ? `${BASE_URL}users/${userId}/links?folderId=${folderId}` : ""
+    );
+
+    useEffect(() => {
+        if (folderData && folderData.data) {
+            const parsedData = folderData.data.map((link: any) => ({
                 id: link.id,
                 created_at: link.created_at,
                 url: link.url,
                 title: link.title || "",
                 description: link.description || "",
-                image_source: link.imageSource || "",
+                image_source: link.image_source || "",
                 showDot: false,
                 showStar: false,
             }));
@@ -45,54 +69,165 @@ export function useSharedData() {
     return data;
 }
 
-// 폴더 전체
-export function useFolderDataAll() {
-    const [data, setData] = useState<Card[]>([]);
-
-    const linksData = useFetch(`${BASE_URL}users/1/links`);
+export function useUserData() {
+    const [userData, setUserData] = useState<any>(null);
+    const router = useRouter();
 
     useEffect(() => {
-        if (linksData) {
-            const parsedData = linksData.data.map((link: Card) => ({
-                id: link.id,
-                created_at: link.created_at,
-                url: link.url,
-                title: link.title || "",
-                description: link.description || "",
-                image_source: link.image_source || "",
-                showDot: true,
-                showStar: true,
-            }));
-            setData(parsedData);
+        const accessToken = localStorage.getItem("accessToken");
+        if (!accessToken) {
+            router.push("/signin");
+            return;
         }
-    }, [linksData]);
+
+        const fetchUserData = async () => {
+            try {
+                const response = await fetch(`${BASE_URL}users`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch user data");
+                }
+
+                const userData = await response.json();
+                setUserData(userData.data[0]);
+            } catch (error) {
+                console.error("Fetch user data error:", error);
+            }
+        };
+
+        fetchUserData();
+    }, [router]);
+
+    return userData;
+}
+
+// 폴더 전체
+export function useFolderDataAll(userId: string | null) {
+    const [data, setData] = useState<Card[]>([]);
+
+    useEffect(() => {
+        if (!userId) return;
+
+        const fetchLinkData = async () => {
+            try {
+                const accessToken = localStorage.getItem("accessToken");
+                if (!accessToken) return;
+
+                const response = await fetch(`${BASE_URL}links`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch user links");
+                }
+
+                const linksData = await response.json();
+
+                const parsedData =
+                    linksData.data.folder?.map((link: any) => ({
+                        id: link.id,
+                        created_at: link.created_at,
+                        url: link.url,
+                        title: link.title || "",
+                        description: link.description || "",
+                        image_source: link.image_source || "",
+                        showDot: true,
+                        showStar: true,
+                    })) || [];
+                setData(parsedData);
+            } catch (error) {
+                console.error("Fetch user links error:", error);
+            }
+        };
+
+        fetchLinkData();
+    }, [userId]);
 
     return data;
 }
 
-// 개별 폴더
-export function useFolderData(folderId: string) {
-    const [data, setData] = useState<Folder[]>([]);
-
-    const linksData = useFetch(`${BASE_URL}users/1/links?folderId=${folderId}`);
+export function useFolderData(userId: string | null, folderId: string | null) {
+    const [data, setData] = useState<Card[]>([]);
 
     useEffect(() => {
-        if (linksData) {
-            const parsedData = linksData.data.map((folder: Folder) => ({
-                id: folder.id,
-                created_at: folder.created_at,
-                url: folder.url,
-                title: folder.title || "",
-                description: folder.description || "",
-                image_source: folder.image_source || "",
-                showDot: true,
-                showStar: true,
-                count: folder.link?.count || 0,
-                favorite: folder.favorite,
-            }));
-            setData(parsedData);
-        }
-    }, [linksData]);
+        if (!userId || !folderId) return;
+
+        const fetchFolderData = async () => {
+            try {
+                const accessToken = localStorage.getItem("accessToken");
+                if (!accessToken) return;
+
+                const response = await fetch(`${BASE_URL}links?folderId=${folderId}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch folder data");
+                }
+
+                const linksData = await response.json();
+
+                const parsedData =
+                    linksData.data.folder?.map((link: any) => ({
+                        id: link.id,
+                        created_at: link.created_at,
+                        url: link.url,
+                        title: link.title || "",
+                        description: link.description || "",
+                        image_source: link.image_source || "",
+                        showDot: true,
+                        showStar: true,
+                    })) || [];
+                setData(parsedData);
+            } catch (error) {
+                console.error("Fetch folder data error:", error);
+            }
+        };
+
+        fetchFolderData();
+    }, [userId, folderId]);
 
     return data;
+}
+
+export function useUserFolders(userId: string | null) {
+    const [folders, setFolders] = useState<any[]>([]);
+
+    useEffect(() => {
+        if (!userId) return;
+
+        const fetchUserFolders = async () => {
+            try {
+                const accessToken = localStorage.getItem("accessToken");
+                if (!accessToken) return;
+
+                const response = await fetch(`${BASE_URL}folders`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch user folders");
+                }
+
+                const foldersData = await response.json();
+                setFolders(foldersData.data.folder);
+            } catch (error) {
+                console.error("Fetch user folders error:", error);
+            }
+        };
+
+        fetchUserFolders();
+    }, [userId]);
+
+    return folders;
 }

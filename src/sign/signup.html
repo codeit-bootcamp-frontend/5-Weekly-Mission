@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./sign.css">
+    <title>Linkbrary</title>
+</head>
+<body>
+    <main>
+        <div class="logo_container">
+            <a href="/" class="logo">
+                <img src="../../public/logo.svg" width="210" height="38"/>
+            </a>
+            <p class="question_p">
+                이미 회원이신가요? <a href="signin.html"><span>로그인 하기</span></a>
+            </p>
+        </div>
+        <div class="input_container">
+            <div class="input_box">
+                <label for="email">이메일</label>
+                <input type="email" id="email" placeholder="이메일을 입력하세요" autofocus>
+                <p class="error_msg" id="email_error"></p>
+            </div>
+        </div>
+        <div class="input_container">
+            <div class="input_box">
+                <label for="password">비밀번호</label>
+                <input type="password" id="password" placeholder="비밀번호를 입력하세요">
+                <p class="error_msg" id="password_error"></p>
+                <button class="eye_button" id="eye_toggle" type="button"></button>
+            </div>
+        </div>
+        <div class="input_container">
+            <div class="input_box">
+                <label for="password">비밀번호 확인</label>
+                <input type="password" id="passwordCheck" placeholder="비밀번호를 입력하세요">
+                <p class="error_msg" id="passwordCheck_error"></p>
+                <button class="eye_button" id="eye_toggle2" type="button"></button>
+            </div>
+        </div>
+        <button class="submit_btn">회원가입</button>
+        <div class="other_div">
+            <p>다른 방식으로 가입하기</p>
+            <div class="other_icons">
+                <a href="https://www.google.com/">
+                    <div class="other_icon">
+                        <img class="icon_style_back" src="../../public/google2.png" width="44" height="44">
+                        <img class="icon_style_front" src="../../public/google1.png" width="22" height="22">
+                    </div>
+                </a>
+                <a href="https://www.kakaocorp.com/page/">
+                    <div class="other_icon">
+                        <div class="other_icon">
+                            <img class="icon_style_back" src="../../public/kakaologin2.png" width="44" height="44">
+                            <img class="icon_style_front" src="../../public/kakaologin1.png" width="22" height="22">
+                        </div>
+                    </div>
+                </a>                                    
+            </div>
+        </div>
+    </main>
+    <script type="module" src="signup.js"></script>
+</body>
+</html>
