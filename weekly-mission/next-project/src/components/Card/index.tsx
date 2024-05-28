@@ -12,56 +12,27 @@ import styles from "./Card.module.css";
 interface CardProps {
   link: {
     id: number;
-    createdAt?: string;
-    created_at?: string;
+    created_at: string;
+    updated_at: string | null;
     url: string;
-    title?: string;
-    description?: string;
-    imageSource?: string;
-    image_source?: string;
+    title: string;
+    description: string;
+    image_source: string;
+    folder_id: number | null;
   };
   isFolderPage: boolean;
 }
 
 const Card = ({ link, isFolderPage }: CardProps) => {
+  const { url, title, description } = link;
+  const createdAt = link.created_at || "";
+  const imageSource = link.image_source;
+
   const [isPopoverOpen, setPopoverOpen] = useState(false);
 
   const handleTogglePopover = () => {
     setPopoverOpen(!isPopoverOpen);
   };
-
-  return (
-    <>
-      {Array.isArray(link) ? (
-        link.map((item, index) => (
-          <Card key={index} link={item} isFolderPage={isFolderPage} />
-        ))
-      ) : (
-        <SingleCard
-          link={link}
-          isFolderPage={isFolderPage}
-          isPopoverOpen={isPopoverOpen}
-          handleTogglePopover={handleTogglePopover}
-        />
-      )}
-    </>
-  );
-};
-
-interface SingleCardProps extends CardProps {
-  isPopoverOpen: boolean;
-  handleTogglePopover: () => void;
-}
-
-const SingleCard = ({
-  link,
-  isFolderPage,
-  isPopoverOpen,
-  handleTogglePopover,
-}: SingleCardProps) => {
-  const { url, title, description } = link;
-  const createdAt = link.createdAt || link.created_at || "";
-  const imageSource = link.imageSource || link.image_source;
 
   return (
     <div className={styles.card_container}>
@@ -102,4 +73,5 @@ const SingleCard = ({
     </div>
   );
 };
+
 export default Card;

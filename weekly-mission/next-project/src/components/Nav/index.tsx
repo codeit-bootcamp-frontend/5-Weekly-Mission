@@ -1,13 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import profileImage from "../../images/profileimg.jpg";
 import LinkbraryImage from "../../images/Linkbrary.png";
-import useProfileData from "pages/service/useProfileData";
 import styles from "./Nav.module.css";
+import instance from "lib/api";
 
-const Nav = () => {
-  const { data, isLoading } = useProfileData();
+export interface User {
+  id: number;
+  created_at: string;
+  name: string;
+  image_source: string;
+  email: string;
+  auth_id: string;
+}
+
+interface NavProps {
+  userId?: number | null;
+  user?: User | null;
+}
+
+const Nav = ({ userId, user }: NavProps) => {
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+  async function getUser() {
+    const res = await instance.get(`/users/${userId}`);
+    const userData: User = res.data.data[0];
+    setCurrentUser(userData);
+  }
+
+  useEffect(() => {
+    if (user) {
+      setCurrentUser(user);
+    } else if (userId) {
+      getUser();
+    }
+  }, [userId]);
 
   return (
     <nav className={styles.NavContainer}>
@@ -22,10 +50,10 @@ const Nav = () => {
             />
           </Link>
         </div>
-        {data ? (
+        {currentUser ? (
           <div className={styles.ProfileInfo}>
             <Image src={profileImage} alt="프로필 이미지" />
-            <span>{data.email}</span>
+            <span>{currentUser.email}</span>
           </div>
         ) : (
           <Link href="/signin">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Card from "@components/Card";
 import NoLink from "@components/NoLink";
 import ActionButton from "@components/ActionButton";
@@ -8,16 +8,24 @@ import { Folder } from "pages/service/useFoldersByUserId";
 
 import styles from "./LinksContent.module.css";
 
+interface Link {
+  id: number;
+  url: string;
+  title: string;
+  description: string;
+  folder_id: number;
+  created_at: string;
+  updated_at: string | null;
+  image_source: string;
+}
+
+interface FolderData {
+  folder: Link[] | null | undefined;
+}
+
 interface LinksContentProps {
   foldersData: Folder;
-  linksData: {
-    id: number;
-    title: string;
-    created_at: string;
-    url: string;
-    description?: string;
-    image_source?: string;
-  }[];
+  linksData: FolderData;
   activeFolderName: string;
   activeFolderId: number;
 }
@@ -28,16 +36,40 @@ const LinksContent = ({
   activeFolderName,
   activeFolderId,
 }: LinksContentProps) => {
-  const isEmpty = !linksData || linksData.length === 0;
   const { modalState, openModal, closeModal } = useModal();
+  const [isLoading, setIsLoading] = useState(true);
+
+  /*useEffect(() => {
+    setIsLoading(!linksData || !linksData.folder);
+  }, [linksData.folder]);*/
 
   const handleModalToggle = (modalType: string) => {
     if (modalState[modalType]) {
-      closeModal(modalType);
-    } else {
-      openModal(modalType);
+      return closeModal(modalType);
     }
+    return openModal(modalType);
   };
+
+  if (isLoading || !linksData.folder) {
+    return (
+      <>
+        <div className={styles.foldermenu_toolbar}>
+          <div className={styles.foldermenu_selectedfolder}>
+            {activeFolderName}
+          </div>
+          {activeFolderId !== null && (
+            <ActionButton handleModalToggle={handleModalToggle} />
+          )}
+        </div>
+
+        <div className={styles.folder_container}>
+          <p>Loading...</p>
+        </div>
+      </>
+    );
+  }
+
+  const isEmpty = linksData.folder.length === 0;
 
   return (
     <>
@@ -50,11 +82,11 @@ const LinksContent = ({
         )}
       </div>
 
-      <div className={styles.folder_containter}>
+      <div className={styles.folder_container}>
         {isEmpty ? (
           <NoLink />
         ) : (
-          linksData.map((link) => (
+          linksData.folder.map((link) => (
             <Card key={link.id} link={link} isFolderPage={true} />
           ))
         )}

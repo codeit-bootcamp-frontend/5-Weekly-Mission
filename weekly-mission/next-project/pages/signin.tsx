@@ -10,13 +10,6 @@ function SigninPage() {
     {}
   );
 
-  useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    if (accessToken) {
-      router.push("/folder");
-    }
-  }, []);
-
   const handleSignIn = async (data: any) => {
     const { email, password } = data;
 
@@ -24,8 +17,11 @@ function SigninPage() {
       const response = await instance.post(`/sign-in`, { email, password });
       if (response.status === 200) {
         // 로그인 성공
-        const { accessToken } = response.data;
+
+        const { accessToken } = response.data.data;
+
         localStorage.setItem("accessToken", accessToken);
+
         router.push("/folder");
       } else {
         // 로그인 실패
@@ -39,6 +35,14 @@ function SigninPage() {
       });
     }
   };
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+
+    if (accessToken) {
+      router.push("/folder");
+    }
+  }, []);
 
   return (
     <div className={styles.sign_container}>
