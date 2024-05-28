@@ -50,7 +50,9 @@ function Header() {
       $position={isfixed}>
       <HeaderInner>
         <HeaderLogo className='head__logo'>
-          <Link href='/'>
+          <Link
+            href='/'
+            scroll={false}>
             <Image
               src={LINKBRARY_LOGO}
               alt='linkbrary'

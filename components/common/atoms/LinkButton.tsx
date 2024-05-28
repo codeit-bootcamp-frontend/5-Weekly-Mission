@@ -11,7 +11,8 @@ export default function LinkButton({ children, href, linkClass, target = '_self'
     <LinkModule
       href={href}
       className={linkClass}
-      target={target}>
+      target={target}
+      scroll={false}>
       {children}
     </LinkModule>
   );

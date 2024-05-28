@@ -2,7 +2,7 @@
 import Loading from '@/components/loading/Loading';
 import { ACCESS_TOKEN_KEY } from '@/lib/axios';
 import { JoinBody, JoinWrap } from '@/styles/loginStyle';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 function getCookie(name: string) {
@@ -11,22 +11,25 @@ function getCookie(name: string) {
   for (const cookie of cookies) {
     const [cookieName] = cookie.split('=');
     if (cookieName === name) {
-      redirect('/folder');
+      return true;
     }
   }
   return false;
 }
 
 export default function Template({ children }: { children: React.ReactNode }) {
-  const [isLoading, setIsLoading] = useState(false);
-
-  getCookie(ACCESS_TOKEN_KEY);
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true);
+    if (getCookie(ACCESS_TOKEN_KEY)) {
+      router.push('/folder');
+      return;
+    }
+    setIsLoading(false);
   }, [isLoading]);
 
-  if (!isLoading) return <Loading />;
+  if (isLoading) return <Loading />;
 
   return (
     <JoinWrap className='no-header--container signup__wrap'>

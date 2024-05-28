@@ -1,28 +1,22 @@
 'use client';
+import AuthLink from '@/components/Auth/AuthLink';
+import AuthLogo from '@/components/Auth/AuthLogo';
+import AuthRegister from '@/components/Auth/AuthRegister';
 import Button from '@/components/common/atoms/Button';
-import LinkButton from '@/components/common/atoms/LinkButton';
 import { ErrorText, FormRowBox, FormWrap } from '@/components/join/formStyle';
 import { loginForm } from '@/components/join/interface';
-import Loading from '@/components/loading/Loading';
 import { AuthContext } from '@/lib/auto.provider';
 import { instance } from '@/lib/axios';
-import { FontSM, Relative } from '@/styles/commonStyle';
+import { Relative } from '@/styles/commonStyle';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { JoinAccessControlBox, JoinBody, JoinSocial, JoinTitle, JoinWrap } from '../../../styles/loginStyle';
-import { LINKBRARY_LOGO } from '@/src/constant/image.constant';
-import AuthTitle from '@/components/Auth/AuthLogo';
-import AuthLogo from '@/components/Auth/AuthLogo';
-import AuthLink from '@/components/Auth/AuthLink';
-import AuthRegister from '@/components/Auth/AuthRegister';
 
 export default function SignIn() {
   const router = useRouter();
   const { handleLogin } = useContext(AuthContext);
   const [IsVisibility, setIsVisibility] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -50,16 +44,6 @@ export default function SignIn() {
     const { email, password } = data;
     handleLoginCheck(email, password);
   };
-
-  useEffect(() => {
-    if (localStorage.getItem('linkbrary')) {
-      alert('로그인한 상태입니다.');
-      router.push('/folder');
-    }
-    setIsLoading(true);
-  }, [router]);
-
-  if (!isLoading) return <Loading />;
 
   return (
     <>

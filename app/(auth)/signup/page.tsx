@@ -3,15 +3,14 @@ import Button from '@/components/common/atoms/Button';
 import LinkButton from '@/components/common/atoms/LinkButton';
 import { ErrorText, FormRowBox, FormWrap } from '@/components/join/formStyle';
 import { IJoinForm } from '@/components/join/interface';
-import Loading from '@/components/loading/Loading';
 import { instance } from '@/lib/axios';
+import { LINKBRARY_LOGO } from '@/src/constant/image.constant';
 import { FontSM, Relative } from '@/styles/commonStyle';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { JoinAccessControlBox, JoinBody, JoinSocial, JoinTitle, JoinWrap } from '../../../styles/loginStyle';
-import { LINKBRARY_LOGO } from '@/src/constant/image.constant';
+import { JoinAccessControlBox, JoinSocial, JoinTitle } from '../../../styles/loginStyle';
 
 export default function SignUp() {
   const router = useRouter();
@@ -22,9 +21,7 @@ export default function SignUp() {
     handleSubmit,
     formState: { errors },
     setError,
-    setValue,
   } = useForm<IJoinForm>({ mode: 'onBlur' });
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleEmailCheck = async (email: IJoinForm['email']) => {
     try {
@@ -51,16 +48,6 @@ export default function SignUp() {
     handlePassWordCheck(password, passwordConfirm);
     router.push('/folder');
   };
-
-  useEffect(() => {
-    if (localStorage.getItem('linkbrary')) {
-      alert('로그인한 상태입니다.');
-      router.push('/folder');
-    }
-    setIsLoading(true);
-  }, [router]);
-
-  if (!isLoading) return <Loading />;
 
   return (
     <>
