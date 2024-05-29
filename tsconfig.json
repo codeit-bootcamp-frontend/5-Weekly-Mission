@@ -21,6 +21,6 @@
     }
   },
   "ts-node": { "esm": true },
-  "include": ["src", "components", "Hooks", "Portal"],
+  "include": ["src", "components", "Hooks", "Portal", "Api", "Hooks", "lib"],
   "exclude": ["node_modules"]
 }

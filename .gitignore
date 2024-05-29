@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 /WeeklyMissionPart1
+/.next
 .pnp.js
 
 # testing

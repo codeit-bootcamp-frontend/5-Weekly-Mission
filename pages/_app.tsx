@@ -1,6 +1,7 @@
 import type { AppProps } from "next/app";
 import React from "react";
 import { createGlobalStyle } from "styled-components";
+import { UserProvider } from "../contexts/UserContext";
 
 const GlobalStyle = createGlobalStyle`
 * {box-sizing: border-box};
@@ -144,9 +145,9 @@ button {
 `;
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <UserProvider>
       <GlobalStyle />
       <Component {...pageProps} />
-    </>
+    </UserProvider>
   );
 }

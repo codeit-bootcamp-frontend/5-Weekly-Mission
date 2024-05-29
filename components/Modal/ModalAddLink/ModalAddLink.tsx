@@ -1,13 +1,12 @@
 import ModalFrame from "../ModalFrame";
 import BlueButton from "../BlueButton";
 import styled from "styled-components";
-import { FolderObject, LinkItem } from "../../CardList";
 import Folder from "./Folder";
 
 interface AddLinkProps {
   url?: string;
   onClick: (...props: any[]) => void;
-  folder: FolderObject;
+  folder: any;
 }
 
 const ModalAddLink = ({ url, onClick, folder }: AddLinkProps) => {
@@ -18,7 +17,7 @@ const ModalAddLink = ({ url, onClick, folder }: AddLinkProps) => {
     <ModalFrame name="폴더에 추가" onClick={onClick}>
       <Span>{url}</Span>
       <Folders>
-        {folder?.data.map((item) => {
+        {folder.map((item: any) => {
           if (item.id !== 14)
             return <Folder item={item} key={item?.id * -17} />;
         })}

@@ -4,8 +4,7 @@ import FolderNameBar from "@/components/FolderPage/FolderNameBar";
 import { MouseEvent, ReactNode, useState } from "react";
 import Portal from "../../Portal/Portal";
 import ModalAddFolder from "../Modal/ModalAddFolder";
-import { FolderType } from "../../pages/folder";
-
+import { FolderType } from "../../pages/folder/[[...folderid]]";
 
 const FolderBlock = ({
   itemId,
@@ -73,7 +72,7 @@ function FolderBar({
       <Bar>
         <FolderIndex
           onClick={onClick}
-          items={folderInfo?.data}
+          items={folderInfo}
           selectedId={selectedId}
         />
         <AddFolder type="button" onClick={handleAddFolder}>
@@ -90,83 +89,83 @@ function FolderBar({
 
 export default FolderBar;
 
-  const Block = styled.button<{ $clicked: boolean }>`
-    display: flex;
-    align-items: center;
-    height: 35px;
-    font-family: Pretendard;
-    font-size: 16px;
-    padding: 8px 12px;
-    border-radius: 5px;
-    border: 1px solid ${PRIMARY};
-  
-    &:hover {
-      background-color: ${GRAY4};
-      transition: all 300ms ease-in-out;
-    }
-  
-    @media (max-width: 767px) {
-      padding: 6px 10px;
-      font-size: 14px;
-      height: 29px;
-    }
-  
-    ${({ $clicked }) =>
-      $clicked &&
-      `background-color: ${PRIMARY};
+const Block = styled.button<{ $clicked: boolean }>`
+  display: flex;
+  align-items: center;
+  height: 35px;
+  font-family: Pretendard;
+  font-size: 16px;
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: 1px solid ${PRIMARY};
+
+  &:hover {
+    background-color: ${GRAY4};
+    transition: all 300ms ease-in-out;
+  }
+
+  @media (max-width: 767px) {
+    padding: 6px 10px;
+    font-size: 14px;
+    height: 29px;
+  }
+
+  ${({ $clicked }) =>
+    $clicked &&
+    `background-color: ${PRIMARY};
     color: ${WHITE};
     &:hover{
       background-color: ${PRIMARY};
     }`}
-  `;
-  
-  const FolderList = styled.ul`
-    display: flex;
-    gap: 12px 8px;
-    flex-wrap: wrap;
-  `;
-  
-  const Bar = styled.div`
-    display: flex;
-    column-gap: 12px;
-    justify-content: space-between;
-    align-items: center;
-  `;
-  
-  const AddFolder = styled.button`
-    color: ${PRIMARY};
-    display: flex;
-    align-items: center;
-    font-family: Pretendard;
-    flex-shrink: 0;
-    font-size: 16px;
-    font-weight: 500;
-    letter-spacing: -0.3px;
-  
+`;
+
+const FolderList = styled.ul`
+  display: flex;
+  gap: 12px 8px;
+  flex-wrap: wrap;
+`;
+
+const Bar = styled.div`
+  display: flex;
+  column-gap: 12px;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const AddFolder = styled.button`
+  color: ${PRIMARY};
+  display: flex;
+  align-items: center;
+  font-family: Pretendard;
+  flex-shrink: 0;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.3px;
+
+  &::after {
+    content: "";
+    background-image: url("/add.svg");
+    background-size: cover;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-left: 4px;
+  }
+
+  @media (max-width: 767px) {
+    color: ${WHITE};
+    padding: 8px 24px;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 101px;
+    border-radius: 20px;
+    border: 1px solid ${WHITE};
+    background: ${PRIMARY};
+    z-index: 4;
+
     &::after {
-      content: "";
-      background-image: url("/add.svg");
-      background-size: cover;
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      margin-left: 4px;
+      background-image: url("/addWhite.svg");
     }
-  
-    @media (max-width: 767px) {
-      color: ${WHITE};
-      padding: 8px 24px;
-      position: fixed;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 101px;
-      border-radius: 20px;
-      border: 1px solid ${WHITE};
-      background: ${PRIMARY};
-      z-index: 4;
-  
-      &::after {
-        background-image: url("/addWhite.svg");
-      }
-    }
-  `;
+  }
+`;

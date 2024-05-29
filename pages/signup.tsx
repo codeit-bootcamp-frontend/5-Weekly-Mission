@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import AuthFrame from "../components/auth/AuthFrame";
 import AuthSocial from "../components/auth/AuthSocial";
-import AuthFormCase from "../components/auth/AuthFormCase";
+import AuthFormTop from "../components/auth/AuthFormTop";
+import SignupForm from "../components/auth/SignupForm";
 import { useRouter } from "next/router";
-import { SIGN_UP_TOKKEN } from "../components/Api/Api";
+import { SIGN_UP_TOKKEN } from "../Api/Api";
 
 export default function signup() {
   const router = useRouter();
@@ -17,12 +18,15 @@ export default function signup() {
 
   useEffect(() => {
     checkSignUpToken();
-  }, [checkSignUpToken]);
+  }, []);
 
   return (
     <AuthFrame>
-      <AuthFormCase auth="signup"></AuthFormCase>
-      <AuthSocial auth="signup"></AuthSocial>
+      <AuthFormTop auth="signup" />
+      <SignupForm />
+      <AuthSocial>
+        <span>다른 방식으로 가입하기</span>
+      </AuthSocial>
     </AuthFrame>
   );
 }

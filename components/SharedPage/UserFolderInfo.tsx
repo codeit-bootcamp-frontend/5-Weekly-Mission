@@ -2,9 +2,9 @@ import Image from "next/image";
 import styled from "styled-components";
 
 interface Props {
-  name: string;
-  profileImg: string;
-  folderName: string;
+  name: string | null;
+  profileImg: string | null;
+  folderName: string | null;
 }
 
 const UserFolderInfo = ({ name, profileImg, folderName }: Props) => {

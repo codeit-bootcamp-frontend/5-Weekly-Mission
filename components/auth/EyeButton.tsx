@@ -1,17 +1,17 @@
 import styled from "styled-components";
-import { MouseEvent, RefObject, useState } from "react";
+import { MouseEvent, useState } from "react";
 import Image from "next/image";
 
-const AuthButton = ({
-  target,
+const EyeButton = ({
+  setShow,
 }: {
-  target: React.Dispatch<React.SetStateAction<boolean>>;
+  setShow: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [hide, setHide] = useState<boolean>(true);
 
   const eyeClick = (e: MouseEvent) => {
     setHide(!hide);
-    target((prev) => !prev);
+    setShow((prev) => !prev);
   };
 
   return (
@@ -25,7 +25,7 @@ const AuthButton = ({
   );
 };
 
-export default AuthButton;
+export default EyeButton;
 
 const Button = styled.button`
   position: absolute;

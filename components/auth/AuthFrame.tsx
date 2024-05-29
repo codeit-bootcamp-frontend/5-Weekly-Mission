@@ -1,14 +1,14 @@
 import styled from "styled-components";
-import { GRAY3, GRAY5, PRIMARY, WHITE } from "../color";
+import { GRAY5 } from "../color";
 import { ReactNode } from "react";
 
 const AuthFrame = ({ children }: { children: ReactNode }) => {
-  return <Div>{children}</Div>;
+  return <LayOut>{children}</LayOut>;
 };
 
 export default AuthFrame;
 
-const Div = styled.div`
+const LayOut = styled.div`
   min-height: 100vh;
   display: flex;
   flex-direction: column;

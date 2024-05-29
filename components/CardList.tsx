@@ -5,11 +5,13 @@ export interface LinkItem {
   id: number;
   createdAt?: string;
   created_at?: string;
+  updated_at?: string | null;
   url: string;
   title: string;
   description: string;
   imageSource?: string;
   image_source?: string;
+  folder_id?: number;
 }
 
 export type FolderObject = {

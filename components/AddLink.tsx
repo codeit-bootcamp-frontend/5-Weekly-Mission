@@ -19,6 +19,7 @@ const AddLink = ({ folder, footView }: { folder: any; footView: boolean }) => {
     e.preventDefault();
     setAdd(!add);
     setUrl(AddLink.current?.value);
+    console.log(folder);
   };
 
   return (

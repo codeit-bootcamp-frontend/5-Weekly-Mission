@@ -2,28 +2,37 @@ import styled from "styled-components";
 import { GRAY5 } from "../../color";
 import { useState } from "react";
 
-const Folder = ({ item }: { item: { [folder: string]: any } }) => {
+interface Item {
+  id: number;
+  created_at: string;
+  favorite: boolean;
+  link: { count: number };
+  name: string;
+  user_id: number;
+}
+
+const Folder = ({ item }: { item: Item }) => {
   const [clicked, setClicked] = useState(false);
 
   const handleClick = () => {
     setClicked(!clicked);
   };
   return (
-    <Folderr
+    <Folders
       tabIndex={0}
       role="button"
       $clicked={clicked}
       onClick={handleClick}
     >
       <FolderName>{item?.name}</FolderName>
-      <FolderLinks>{item?.link.count}개 링크</FolderLinks>
-    </Folderr>
+      {/* <FolderLinks>{item?.link.count}개 링크</FolderLinks> */}
+    </Folders>
   );
 };
 
 export default Folder;
 
-const Folderr = styled.li<{ $clicked: boolean }>`
+const Folders = styled.li<{ $clicked: boolean }>`
   display: flex;
   padding: 8px;
   column-gap: 8px;

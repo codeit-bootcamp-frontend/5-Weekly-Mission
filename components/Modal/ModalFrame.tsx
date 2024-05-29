@@ -10,7 +10,7 @@ interface ModalProps {
 const ModalFrame = ({ children, name, onClick }: ModalProps) => {
   useEffect(() => {
     document.body.style.cssText = `
-    position: fixed; 
+    position: fixed;
     top: -${window.scrollY}px;
     overflow-y: scroll;
     width: 100%;`;

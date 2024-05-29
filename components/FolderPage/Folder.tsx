@@ -3,7 +3,7 @@ import MainContent from "../MainContent";
 import SearchBar from "../SearchBar";
 import FolderBar from "./FolderBar";
 import CardList, { LinkItem } from "../CardList";
-import { FolderType } from "../../pages/folder";
+import { FolderType } from "../../pages/folder/[[...folderid]]";
 import { MouseEvent, useRef, useState } from "react";
 
 interface Props {

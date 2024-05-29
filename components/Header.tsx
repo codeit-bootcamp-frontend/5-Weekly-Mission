@@ -2,14 +2,24 @@ import styled from "styled-components";
 import { GRAY5 } from "./color";
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { useUser } from "@/contexts/UserContext";
 
 interface UserProfileProps {
-  email: string;
-  img: string;
+  email?: string;
+  img?: string;
 }
 
-interface HeaderProps extends UserProfileProps {
-  isLogIn: boolean;
+export interface UserData {
+  id: number;
+  created_at: string;
+  name: string;
+  image_source: string;
+  email: string;
+  auth_id: string;
+}
+
+interface HeaderProps {
   fixed: boolean;
 }
 
@@ -29,7 +39,18 @@ const UserProfile = ({ email, img }: UserProfileProps) => {
   );
 };
 
-const Header = ({ isLogIn, email, img, fixed }: HeaderProps) => {
+const Header = ({ fixed }: HeaderProps) => {
+  const { user: userData, isLogin: isLogIn } = useUser();
+  const [img, setImg] = useState<string>();
+  const [email, setEmail] = useState<string>();
+
+  useEffect(() => {
+    if (userData) {
+      setEmail(userData.data[0].email);
+      setImg(userData.data[0].image_source);
+    }
+  }, [userData]);
+
   return (
     <Heading $headerFixed={fixed}>
       <HeaderContent>

@@ -4,7 +4,7 @@ import { useState } from "react";
 import ModalDeleteFolder from "../Modal/ModalDeleteFolder";
 import ModalEdit from "../Modal/ModalEdit";
 import ModalShare from "../Modal/ModalShare";
-import { FolderType } from "../../pages/folder";
+import { FolderType } from "../../pages/folder/[[...folderid]]";
 import { GRAY2 } from "../color";
 
 const ICON_MARGIN = "4px";

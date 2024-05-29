@@ -9,19 +9,17 @@ export interface AuthProps {
   password: string;
 }
 
-export async function getUserData() {
-  const response = await fetch(`${BASE_URL}/sample/user`, {
+export async function getUserData(userToken: string) {
+  const response = await fetch(`${BASE_URL}/users`, {
     method: "GET",
-    headers: { accept: `*/*` },
+    headers: { accept: `*/*`, Authorization: userToken },
   });
   if (!response.ok) throw new Error(`유저데이터 ${BASE_ERROR_MESSAGE}`);
-  const { name, id, email, profileImageSource } = await response.json();
-
-  return { name, id, email, profileImageSource };
+  return response.json();
 }
 
-export async function getFolderData() {
-  const response = await fetch(`${BASE_URL}/sample/folder`, {
+export async function getFolderData(folderId?: string | number) {
+  const response = await fetch(`${BASE_URL}/folders/${folderId}`, {
     method: "GET",
     headers: { accept: `*/*` },
   });
@@ -38,8 +36,8 @@ export async function getUsersData(userId?: string | number) {
   return response.json();
 }
 
-export async function getFoldersData() {
-  const response = await fetch(`${BASE_URL}/users/1/folders`, {
+export async function getFoldersData(userId: string | number = 1) {
+  const response = await fetch(`${BASE_URL}/users/${userId}/folders`, {
     method: "GET",
     headers: { accept: `*/*` },
   });
@@ -47,9 +45,21 @@ export async function getFoldersData() {
   return response.json();
 }
 
-export async function getLinksData(folderId?: string | number) {
+export async function getFolderDataByToken(userToken: string) {
+  const response = await fetch(`${BASE_URL}/folders`, {
+    method: "GET",
+    headers: { accept: `*/*`, Authorization: userToken },
+  });
+  if (!response.ok) throw new Error(`폴더들 ${BASE_ERROR_MESSAGE}`);
+  return response.json();
+}
+
+export async function getLinksData(
+  folderId?: string | number,
+  userId: string | number = 1
+) {
   const response = await fetch(
-    `${BASE_URL}/users/1/links?folderId=${folderId}`,
+    `${BASE_URL}/users/${userId}/links?folderId=${folderId}`,
     {
       method: "GET",
       headers: { accept: `*/*` },

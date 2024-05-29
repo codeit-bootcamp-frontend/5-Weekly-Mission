@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import AuthFrame from "../components/auth/AuthFrame";
 import AuthSocial from "../components/auth/AuthSocial";
-import AuthFormCase from "../components/auth/AuthFormCase";
-import { LOGIN_TOKEN } from "../components/Api/Api";
+import AuthFormTop from "../components/auth/AuthFormTop";
+import SigninForm from "../components/auth/SigninForm";
+import { LOGIN_TOKEN } from "../Api/Api";
 import { useRouter } from "next/router";
 
 export default function signin() {
@@ -17,11 +18,15 @@ export default function signin() {
 
   useEffect(() => {
     checkSignInToken();
-  }, [checkSignInToken]);
+  }, []);
+
   return (
     <AuthFrame>
-      <AuthFormCase auth="signin"></AuthFormCase>
-      <AuthSocial auth="signin"></AuthSocial>
+      <AuthFormTop auth="signin" />
+      <SigninForm />
+      <AuthSocial>
+        <span>소셜 로그인</span>
+      </AuthSocial>
     </AuthFrame>
   );
 }

@@ -2,12 +2,12 @@ import styled from "styled-components";
 import { GRAY3, GRAY4 } from "../color";
 import Image from "next/image";
 import Link from "next/link";
+import { ReactNode } from "react";
 
-const AuthSocial = ({ auth }: { auth: string }) => {
+const AuthSocial = ({ children }: { children: ReactNode }) => {
   return (
     <Div>
-      {auth === "signin" && <span>소셜 로그인</span>}
-      {auth === "signup" && <span>다른 방식으로 가입하기</span>}
+      {children}
       <SnsButtons>
         <GoogleButton href="https://www.google.com">
           <Image src="/google.png" width={22} height={22} alt=""></Image>

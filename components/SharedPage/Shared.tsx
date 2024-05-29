@@ -11,7 +11,7 @@ function Shared({ items }: { items: LinkItem[] }) {
   const [searching, setSearching] = useState<string>("");
 
   const searchedItems = items?.filter((item: LinkItem) => {
-    if (!searching || searching === " ") return true;
+    if (!searching || searching.trim() === "") return true;
     return (
       item.url?.indexOf(searching) >= 0 ||
       item.title?.indexOf(searching) >= 0 ||
