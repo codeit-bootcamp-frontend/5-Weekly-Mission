@@ -1,12 +1,17 @@
 import Link from "next/link";
-import styles from "../styles/sign.module.scss";
+import styles from "src/styles/sign.module.scss";
 import classNames from "classnames/bind";
-import { SinginForm } from "../components/SinginForm/SinginForm";
-import { SocalLogin } from "../components/SocalLogin/SocalLogin";
+import { SignInForm, SocialLogin } from "../src/components";
+import { useEffect } from "react";
+import { checkAccessToken } from "../src/utils";
 
 const cx = classNames.bind(styles);
 
 function singInPage() {
+  useEffect(() => {
+    checkAccessToken("signInToken");
+  }, []);
+
   return (
     <div className={cx("page-container")}>
       <div className={cx("contents")}>
@@ -16,13 +21,13 @@ function singInPage() {
           </Link>
           <h2>
             회원이 아니신가요?
-            <Link className={cx("singin-link")} href="./signup">
+            <Link className={cx("singIn-link")} href="./signup">
               회원가입하기
             </Link>
           </h2>
         </div>
-        <SinginForm />
-        <SocalLogin />
+        <SignInForm />
+        <SocialLogin />
       </div>
     </div>
   );

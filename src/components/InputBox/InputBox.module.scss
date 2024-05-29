@@ -1,0 +1,49 @@
+.input-wrapper input {
+  margin-top: 12px;
+  font-size: 16px;
+  padding: 18px 15px;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.input-wrapper input:focus {
+  border: 1px #6d6afe solid;
+  outline: none;
+}
+
+.input-wrapper p {
+  margin-top: 6px;
+  color: red;
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 16px 20px;
+  background: linear-gradient(91deg, #6d6afe 0%, #6ae3fe 100%);
+  border-radius: 8px;
+  color: #f5f5f5;
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+.input-wrapper .eye-onoff {
+  position: absolute;
+  right: 15px;
+  top: 53px;
+}
+
+.red-border {
+  border: 1px solid red;
+}
+
+.default-border {
+  border: 1px solid #ccd5e3;
+}
