@@ -34,7 +34,12 @@ export const Header__contents = styled.div`
   width: 100%;
 
   @media (max-width: 768px) {
-    gap: 1.5rem;
+    gap: 2.4rem;
+
+    a {
+      width: 100%;
+      max-width: 40rem;
+    }
   }
 `;
 
@@ -61,25 +66,42 @@ export const Slogan_gradient = styled.span`
 `;
 
 export const Header__image = styled.div`
-  position: relative;
-  padding: 5rem 4rem 0 4rem;
   width: 120rem;
-  aspect-ratio: 2;
+  height: 59rem;
+  padding: 5rem 4.1rem 0;
   overflow: hidden;
 
   @media (max-width: 1199px) {
-    width: 70rem;
+    width: 69.8rem;
+    height: 34.3rem;
+    padding: 2.9rem 2.4rem 0;
   }
 
   @media (max-width: 768px) {
     width: 100%;
+    height: 100%;
+    aspect-ratio: 2 / 1;
   }
 `;
 
-export const HeaderImage = styled.img`
+export const HeaderImage = styled.div`
+  position: relative;
+  height: 65.9rem;
   width: 100%;
-  border-radius: 2.5rem;
-  box-shadow: 0px 0.4rem 2.5rem 0px rgba(0, 0, 0, 0.08);
+
+  img {
+    border-radius: 2.5rem;
+    box-shadow: 0px 0.4rem 2.5rem 0px rgba(0, 0, 0, 0.08);
+  }
+
+  @media (max-width: 1199px) {
+    height: 38rem;
+  }
+
+  @media (max-width: 768px) {
+    aspect-ratio: 1.7 / 1;
+    height: auto;
+  }
 `;
 
 export const Main__contents = styled.div`
@@ -117,7 +139,6 @@ export const Main__contents = styled.div`
         'description';
       row-gap: 0.5rem;
       column-gap: 2.6rem;
-      justify-content: center;
       padding: 4rem 3.2rem;
     }
   }

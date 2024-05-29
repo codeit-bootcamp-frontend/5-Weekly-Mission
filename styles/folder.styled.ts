@@ -15,7 +15,7 @@ export const AddButton = styled(Cta)`
 `;
 
 export const EmptyFolder = styled.div`
-  height: 30rem;
+  height: 50vh;
   font-size: 1.6rem;
   margin: 0 auto;
   display: flex;
@@ -39,9 +39,7 @@ export const AddLinkInput = styled.input`
   }
 `;
 
-export const LinkIcon = styled.img`
-  width: 2rem;
-  height: 2rem;
+export const LinkIcon = styled.div`
   position: absolute;
   left: 2rem;
   @media (max-width: 768px) {
@@ -116,10 +114,13 @@ export const FolderModalContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  font-family: Pretendard;
-  font-weight: 600;
-  font-size: 2.4rem;
   margin: 2.4rem auto;
+
+  p {
+    font-family: Pretendard;
+    font-weight: 600;
+    font-size: 2.4rem;
+  }
 
   @media (max-width: 768px) {
     flex-direction: column;

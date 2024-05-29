@@ -1,6 +1,13 @@
 import { Cta } from '@/components/Button/Button.styled';
 import styled from 'styled-components';
 
+export const Header = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+`;
+
 export const Title = styled.p`
   font-size: 2rem;
   font-style: normal;

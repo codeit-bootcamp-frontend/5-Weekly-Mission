@@ -1,19 +1,18 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import * as S from './FolderButtonContainer.styled';
 import FolderButton from '../FolderButton/FolderButton';
 import { useModal } from '../../contexts/ModalContext';
 import { Folders } from '../../hooks/useGetFolderList';
 import ModalPortal from '@/Portal';
 import AddFolderModal from '../Modal/AddFolderModal/AddFolderModal';
+import Link from 'next/link';
 
 function FolderButtonContainer({
   link,
   setOnSelect,
 }: {
   link: Folders;
-  setOnSelect: React.Dispatch<
-    React.SetStateAction<{ id: number; name: string }>
-  >;
+  setOnSelect: Dispatch<SetStateAction<{ id: string; name: string }>>;
 }) {
   const [linkSelected, setLinkSelected] = useState<string[]>([]);
   const [totalBtn, setTotalBtn] = useState(true);
@@ -29,19 +28,21 @@ function FolderButtonContainer({
   const handleClickTotalButton = () => {
     const totalArr: string[] = new Array(link.length).fill('white');
     setLinkSelected(totalArr);
-    setOnSelect({ id: 0, name: '' });
+    setOnSelect({ id: '', name: '' });
     setTotalBtn(true);
   };
 
   return (
     <S.FolderMenu>
       <S.FolderButtons>
-        <S.TotalFolderButton
-          onClick={handleClickTotalButton}
-          $select={totalBtn}
-        >
-          전체
-        </S.TotalFolderButton>
+        <Link href={'/folder'}>
+          <S.TotalFolderButton
+            onClick={handleClickTotalButton}
+            $select={totalBtn}
+          >
+            전체
+          </S.TotalFolderButton>
+        </Link>
         {link
           ? link.map((item, index: number) => (
               <FolderButton
@@ -61,7 +62,7 @@ function FolderButtonContainer({
       </S.AddFolderButton>
       {modalState.addFolder && (
         <ModalPortal>
-          <AddFolderModal />
+          <AddFolderModal setOnSelect={setOnSelect} />
         </ModalPortal>
       )}
     </S.FolderMenu>

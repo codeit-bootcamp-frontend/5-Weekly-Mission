@@ -112,6 +112,11 @@ export const SnsLogin = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 40rem;
+  }
 `;
 
 export const SnsIcons = styled.div`
@@ -154,4 +159,9 @@ export const SignForm = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 40rem;
+  }
 `;

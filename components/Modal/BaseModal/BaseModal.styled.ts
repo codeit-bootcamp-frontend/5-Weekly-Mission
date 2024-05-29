@@ -35,5 +35,5 @@ export const CloseIcon = styled.img`
   right: 1.6rem;
   width: 2.4rem;
   height: 2.4rem;
-  z-index: 10;
+  z-index: 20;
 `;

@@ -6,8 +6,14 @@ import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import { getUser } from './api/api';
+import { getUser } from '../api/api';
 import { User } from '@/hooks/useGetUser';
+
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
 
 export default function App({ Component, pageProps }: AppProps) {
   const [user, setUser] = useState<User>({
@@ -28,6 +34,10 @@ export default function App({ Component, pageProps }: AppProps) {
       };
       loadUser();
     }
+  }, []);
+
+  useEffect(() => {
+    window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_KEY);
   }, []);
 
   return (

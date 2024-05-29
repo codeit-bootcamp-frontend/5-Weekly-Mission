@@ -4,8 +4,19 @@ module.exports = {
   compiler: {
     styledComponents: true,
   },
-  assetPrefix: '.',
   experimental: {
     forceSwcTransforms: true,
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
   },
 };

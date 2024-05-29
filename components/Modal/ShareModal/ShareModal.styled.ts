@@ -35,6 +35,7 @@ export const ShareButtonBody = styled.div<{ $color: string }>`
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  cursor: pointer;
 
   p {
     color: var(--Linkbrary-gray100);
@@ -55,4 +56,9 @@ export const ShareButtonBody = styled.div<{ $color: string }>`
     border-radius: 50%;
     background-color: ${(props) => props.$color};
   }
+`;
+
+export const Toast = styled.div`
+  position: absolute;
+  bottom: -4rem;
 `;

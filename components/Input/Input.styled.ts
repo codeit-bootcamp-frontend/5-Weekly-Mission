@@ -26,6 +26,15 @@ export const InputModal = styled.div<{
   &:focus {
     border: 1px solid var(--Primary);
   }
+
+  @media (max-width: 768px) {
+    width: 100%;
+
+    input {
+      font-size: 1.4rem;
+      width: 100%;
+    }
+  }
 `;
 
 export const TextArea = styled.div`

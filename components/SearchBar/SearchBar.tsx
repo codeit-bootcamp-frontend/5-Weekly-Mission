@@ -11,6 +11,10 @@ function SearchModal({ setSearchKeyWord }: PropsType) {
 
   const searchLink = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (text.length >= 30) {
+      alert('30자 이하로 검색가능합니다!');
+      return;
+    }
     setSearchKeyWord(text);
   };
 

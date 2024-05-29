@@ -11,7 +11,6 @@ export interface InputProps {
   type: string;
   size: 'sm' | 'md' | 'lg';
   field: ControllerRenderProps<FieldValues, any>;
-  id: string;
   error: FieldError | undefined;
 }
 

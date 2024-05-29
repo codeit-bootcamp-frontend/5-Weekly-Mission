@@ -5,6 +5,7 @@ import { sectionDescription } from '../util/sectionDescription';
 import { Button } from '../components/Button/Button';
 import Link from 'next/link';
 import { UserContext } from '@/contexts/UserContext';
+import Image from 'next/image';
 
 function Main() {
   const [sectionList, setSectionList] = useState<typeof sectionDescription>([]);
@@ -29,7 +30,9 @@ function Main() {
             <Button size={'lg'}>링크 추가하기</Button>
           </Link>
           <S.Header__image>
-            <S.HeaderImage src={'/image25.png'} alt="hedaerimage" />
+            <S.HeaderImage>
+              <Image src="/image25.png" alt="헤더 이미지" fill />
+            </S.HeaderImage>
           </S.Header__image>
         </S.Header__contents>
       </S.Main__Header>

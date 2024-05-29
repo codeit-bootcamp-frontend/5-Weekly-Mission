@@ -3,6 +3,7 @@ import * as S from './Nav.styled';
 import { User } from '../../hooks/useGetUser';
 import Link from 'next/link';
 import { Dispatch, useState } from 'react';
+import Image from 'next/image';
 
 function NavUser({
   user,
@@ -20,7 +21,9 @@ function NavUser({
 
   return (
     <S.ProfileBody>
-      <S.UserPicture src={user.image_source} alt="userPicture" />
+      <S.UserPicture>
+        <Image src={user.image_source} alt="userPicture" fill />
+      </S.UserPicture>
       <p onClick={() => setToggle(!toggle)}>{user.email}</p>
       {toggle && (
         <S.ToggleMenu>
@@ -38,7 +41,12 @@ function Nav({ user }: { user: User }) {
     <S.NavBar>
       <S.NavModal>
         <Link href="/">
-          <S.NavLogo src="/logo.svg" alt="Linkbrary nav logo" />
+          <Image
+            src="/logo.svg"
+            alt="네이게이션 로고"
+            width={133}
+            height={24}
+          />
         </Link>
         <S.UserProfile>
           {user.id ? (

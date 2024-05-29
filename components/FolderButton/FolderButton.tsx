@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import * as S from './FolderButton.styled';
 import { Folder } from '@/hooks/useGetFolderList';
+import Link from 'next/link';
 
 function FolderButton({
   item,
@@ -13,9 +14,7 @@ function FolderButton({
   isSelected: string;
   handleMenuClick: (index: number) => void;
   index: number;
-  setOnSelect: React.Dispatch<
-    React.SetStateAction<{ id: number; name: string }>
-  >;
+  setOnSelect: Dispatch<SetStateAction<{ id: string; name: string }>>;
 }) {
   const changeFolder = () => {
     setOnSelect({ id: item.id, name: item.name });
@@ -23,9 +22,11 @@ function FolderButton({
   };
 
   return (
-    <S.FolderName onClick={changeFolder} $select={isSelected}>
-      {item.name}
-    </S.FolderName>
+    <Link href={`/folder/${item.id}`}>
+      <S.FolderName onClick={changeFolder} $select={isSelected}>
+        {item.name}
+      </S.FolderName>
+    </Link>
   );
 }
 

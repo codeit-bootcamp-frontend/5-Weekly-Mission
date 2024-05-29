@@ -4,7 +4,7 @@ import BaseModal from '../BaseModal/BaseModal';
 import { Folder, Folders } from '../../../hooks/useGetFolderList';
 import { Button } from '../../Button/Button';
 import Image from 'next/image';
-import { postLink } from '@/pages/api/api';
+import { postLink } from '@/api/api';
 import { useRouter } from 'next/router';
 import { useModal } from '@/contexts/ModalContext';
 
@@ -18,8 +18,8 @@ function FolderButton({
   item: Folder;
   $isSelected: string;
   index: number;
-  handleMenuClick: (index: number, folderId: number) => void;
-  folderId: number;
+  handleMenuClick: (index: number, folderId: string) => void;
+  folderId: string;
 }) {
   return (
     <S.FolderButton
@@ -41,11 +41,11 @@ function FolderButton({
 
 function AddModal({ link, url }: { link: Folders; url: string }) {
   const [folderSelected, setFolderSelected] = useState<string[]>([]);
-  const [selectedId, setSelectedId] = useState(0);
+  const [selectedId, setSelectedId] = useState('');
   const { openModal, closeModal } = useModal();
   const router = useRouter();
 
-  const handleMenuClick = (index: number, folderId: number) => {
+  const handleMenuClick = (index: number, folderId: string) => {
     const booleanArr: string[] = new Array(link.length).fill('none');
     booleanArr[index] = 'select';
     setFolderSelected(booleanArr);

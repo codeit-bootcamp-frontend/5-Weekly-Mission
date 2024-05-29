@@ -27,7 +27,6 @@ export const SectionCard = styled.div`
       'description';
     row-gap: 0.5rem;
     column-gap: 2.6rem;
-    justify-content: center;
     padding: 4rem 3.2rem;
   }
 `;
@@ -61,6 +60,7 @@ export const Description = styled.p`
   margin: 0;
   grid-area: description;
   align-self: flex-start;
+  display: inline-block;
 
   @media (max-width: 768px) {
     font-size: 1.6rem;
@@ -68,7 +68,18 @@ export const Description = styled.p`
   }
 `;
 
-export const SectionImage = styled.img`
+export const SectionImage = styled.div`
   width: 100%;
+  height: 45rem;
   grid-area: image;
+  position: relative;
+
+  @media (max-width: 1199px) {
+    height: 31.5rem;
+  }
+
+  @media (max-width: 768px) {
+    aspect-ratio: 1.2/1;
+    height: 100%;
+  }
 `;

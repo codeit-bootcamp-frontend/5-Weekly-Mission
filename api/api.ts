@@ -1,4 +1,17 @@
-import axios from '../../instance/instance';
+import axios from '../instance/instance';
+
+axios.interceptors.request.use(
+  (config) => {
+    const accessToken = localStorage.getItem('token');
+    config.headers['Authorization'] = accessToken;
+
+    return config;
+  },
+  (error) => {
+    console.log(error);
+    return Promise.reject(error);
+  }
+);
 
 export async function getSampleUser() {
   try {
@@ -49,7 +62,17 @@ export async function getFolder(id: string) {
   }
 }
 
-export async function getFolderList(id: string, folderId: number) {
+export async function getFolderData(folderId: string) {
+  try {
+    const { data } = await axios.get(`/folders/${folderId}`);
+    return data.data;
+  } catch (error) {
+    console.error('Error fetching folder:', error);
+    throw error;
+  }
+}
+
+export async function getFolderList(id: string, folderId: string) {
   if (folderId) {
     try {
       const query = `/${id}/links?folderId=${folderId}`;
@@ -85,6 +108,16 @@ export async function getUser(accessToken: string) {
   }
 }
 
+export async function getUserData(id: string) {
+  try {
+    const { data } = await axios.get(`/users/${id}`);
+    return data.data;
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    throw error;
+  }
+}
+
 export async function postSignIn(id: string, password: string) {
   try {
     const { data } = await axios.post('/sign-in', {
@@ -92,7 +125,6 @@ export async function postSignIn(id: string, password: string) {
       password: password,
     });
     localStorage.setItem('token', data.data.accessToken);
-    window.location.href = '/';
     return data;
   } catch (error) {
     console.error('Error fetching sign-in:', error);
@@ -120,7 +152,6 @@ export async function postSignUp(id: string, password: string) {
     });
     localStorage.setItem('token', data.data.accessToken);
     alert('회원가입이 완료되었습니다!');
-    window.location.href = '/';
     return data;
   } catch (error) {
     console.error('Error fetching sign-in:', error);
@@ -130,53 +161,31 @@ export async function postSignUp(id: string, password: string) {
 
 export async function postFolder(name: string) {
   try {
-    const token = localStorage.getItem('token');
-    const { data } = await axios.post(
-      '/folders',
-      {
-        name: name,
-      },
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    );
-    return data;
-  } catch (error) {
-    console.error('Error fetching post folder:', error);
-  }
-}
-
-export async function deleteFolder(folderId: number) {
-  try {
-    const token = localStorage.getItem('token');
-    const { data } = await axios.delete(`/folders/${folderId}`, {
-      headers: {
-        Authorization: token,
-      },
+    const { data } = await axios.post('/folders', {
+      name: name,
     });
+    return data.data;
+  } catch (error) {
+    console.error('Error fetching post folder:', error);
+  }
+}
+
+export async function deleteFolder(folderId: string) {
+  try {
+    const token = localStorage.getItem('token');
+    const { data } = await axios.delete(`/folders/${folderId}`);
     return data;
   } catch (error) {
     console.error('Error fetching post folder:', error);
   }
 }
 
-export async function postLink(folderId: number, url: string) {
+export async function postLink(folderId: string, url: string) {
   try {
-    const token = localStorage.getItem('token');
-    const { data } = await axios.post(
-      '/links',
-      {
-        url: url,
-        folderId: folderId,
-      },
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    );
+    const { data } = await axios.post('/links', {
+      url: url,
+      folderId: folderId,
+    });
     return data;
   } catch (error) {
     alert('url과 폴더를 지정해주세요!');
@@ -186,14 +195,21 @@ export async function postLink(folderId: number, url: string) {
 
 export async function deleteLink(linkId: number) {
   try {
-    const token = localStorage.getItem('token');
-    const { data } = await axios.delete(`/links/${linkId}`, {
-      headers: {
-        Authorization: token,
-      },
-    });
+    const { data } = await axios.delete(`/links/${linkId}`);
     return data;
   } catch (error) {
     console.error('Error fetching post folder:', error);
+  }
+}
+
+export async function putFolder(folderId: string, name: string) {
+  try {
+    const { data } = await axios.put(`/folders/${folderId}`, {
+      name: name,
+    });
+    return data;
+  } catch (error) {
+    alert('이름 수정에 실패했습니다!');
+    console.error('Error fetching put folder:', error);
   }
 }

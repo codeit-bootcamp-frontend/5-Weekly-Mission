@@ -4,7 +4,7 @@ import Input from '@/components/Input/Input';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/Button/Button';
-import { postCheckEmail, postSignUp } from './api/api';
+import { postCheckEmail, postSignUp } from '../api/api';
 import { Controller, useForm } from 'react-hook-form';
 import { emailPattern } from '@/util/util';
 
@@ -15,7 +15,10 @@ function SignUp() {
   const formAction = async (data: any) => {
     const result = await postCheckEmail(data.id);
     if (result) {
-      await postSignUp(data.id, data.password);
+      const signUp = await postSignUp(data.id, data.password);
+      if (signUp) {
+        window.location.href = '/';
+      }
     }
   };
 
@@ -53,7 +56,6 @@ function SignUp() {
                 }}
                 render={({ field, fieldState: { error } }) => (
                   <Input
-                    id="id"
                     field={field}
                     type="text"
                     placeholder="이메일"
@@ -71,11 +73,10 @@ function SignUp() {
                 rules={{
                   required: '비밀번호를 입력해주세요!',
                   minLength: { value: 8, message: '최소 8자를 입력해주세요!' },
-                  deps: ['passwordConfirm'],
+                  deps: ['confirmPassword'],
                 }}
                 render={({ field, fieldState: { error } }) => (
                   <Input
-                    id="password"
                     field={field}
                     type={textHidden ? 'password' : 'text'}
                     placeholder="비밀번호"
@@ -101,7 +102,6 @@ function SignUp() {
                 }}
                 render={({ field, fieldState: { error } }) => (
                   <Input
-                    id="password"
                     field={field}
                     type={textHidden ? 'password' : 'text'}
                     placeholder="비밀번호"

@@ -4,7 +4,7 @@ import Input from '@/components/Input/Input';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/Button/Button';
-import { postSignIn } from './api/api';
+import { postSignIn } from '../api/api';
 import { Controller, useForm } from 'react-hook-form';
 import { emailPattern } from '@/util/util';
 
@@ -13,7 +13,10 @@ function SignIn() {
   const { handleSubmit, control } = useForm();
 
   const formAction = async (data: any) => {
-    await postSignIn(data.id, data.password);
+    const result = await postSignIn(data.id, data.password);
+    if (result) {
+      window.location.href = '/';
+    }
   };
 
   const hiddenText = () => {
@@ -51,7 +54,6 @@ function SignIn() {
                   }}
                   render={({ field, fieldState: { error } }) => (
                     <Input
-                      id="id"
                       field={field}
                       type="text"
                       placeholder="이메일"
@@ -71,7 +73,6 @@ function SignIn() {
                   }}
                   render={({ field, fieldState: { error } }) => (
                     <Input
-                      id="password"
                       field={field}
                       type={textHidden ? 'password' : 'text'}
                       placeholder="비밀번호"

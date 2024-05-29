@@ -25,6 +25,7 @@ export const Cta = styled.button<ButtonProps>`
   line-height: normal;
   width: ${({ size }) => buttonSize[size]}rem;
   position: relative;
+  white-space: nowrap;
 
   &:hover {
     opacity: 0.8;
@@ -32,5 +33,7 @@ export const Cta = styled.button<ButtonProps>`
 
   @media (max-width: 768px) {
     font-size: 1.4rem;
+    padding: 1rem 1.6rem;
+    width: ${({ size }) => (size === 'lg' ? '100%' : `${buttonSize[size]}rem`)};
   }
 `;

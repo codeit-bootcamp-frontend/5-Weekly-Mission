@@ -1,39 +1,53 @@
 import * as S from '../EditModal/EditModal.styled';
 import BaseModal from '../BaseModal/BaseModal';
-import useValidate from '@/hooks/useValidate';
 import Input from '@/components/Input/Input';
-import { ChangeEvent, useState } from 'react';
-import { postFolder } from '@/pages/api/api';
+import { postFolder } from '@/api/api';
+import { Controller, useForm } from 'react-hook-form';
+import { Dispatch, SetStateAction } from 'react';
+import { useModal } from '@/contexts/ModalContext';
 import { useRouter } from 'next/router';
 
-function AddFolderModal() {
-  const { checkText, textError } = useValidate();
-  const [title, setTitle] = useState('');
+function AddFolderModal({
+  setOnSelect,
+}: {
+  setOnSelect: Dispatch<
+    SetStateAction<{
+      id: string;
+      name: string;
+    }>
+  >;
+}) {
+  const { handleSubmit, control } = useForm();
+  const { closeModal } = useModal();
   const router = useRouter();
 
-  const addFolder = async (e: ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    await postFolder(title);
-    router.reload();
+  const addFolder = async (data: any) => {
+    const result = await postFolder(data.folder);
+    router.push(`/folder/${result[0].id}`);
+    closeModal('addFolder');
   };
 
   return (
     <BaseModal state={'addFolder'}>
-      <S.ModalForm onSubmit={addFolder}>
+      <S.ModalForm onSubmit={handleSubmit(addFolder)}>
         <S.Title>폴더 추가</S.Title>
-        <Input
-          placeholder="내용 입력"
-          type="text"
-          $error={textError}
-          onChange={(e) => {
-            checkText(e.target.value);
-            setTitle(e.target.value);
+        <Controller
+          name="folder"
+          control={control}
+          rules={{
+            required: '내용을 입력해주세요!',
+            maxLength: { value: 10, message: '10자 이하로 입력해주세요!' },
           }}
-          size="sm"
+          render={({ field, fieldState: { error } }) => (
+            <Input
+              field={field}
+              type="text"
+              placeholder="폴더 이름을 입력해주세요!"
+              size="sm"
+              error={error}
+            />
+          )}
         />
-        <S.TextArea>
-          {textError && <S.WarningMessage>{textError}</S.WarningMessage>}
-        </S.TextArea>
         <S.ModalButton>추가하기</S.ModalButton>
       </S.ModalForm>
     </BaseModal>

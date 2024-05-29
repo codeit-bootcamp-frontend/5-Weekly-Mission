@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getFolderList } from '../pages/api/api';
+import { getFolderList } from '../api/api';
 
 export type LinkData = {
   id: number;
@@ -14,53 +14,41 @@ export type LinkData = {
 
 export interface Links extends Array<LinkData> {}
 
-function useGetFolder(id: string, searchKeyword: string, folderId: number) {
+function useGetFolder(id: string, searchKeyword: string, folderId: string) {
   const [linkList, setLinkList] = useState<Links>([]);
   const [loading, setLoading] = useState(false);
 
   const search = (list: Links) => {
-    let arr: Links = [];
-    for (let i = 0; i < list.length; i++) {
-      if (list[i].title) {
-        if (list[i].title.includes(searchKeyword)) {
-          arr = [...arr, list[i]];
-          continue;
-        }
-      }
-      if (list[i].description) {
-        if (list[i].description.includes(searchKeyword)) {
-          arr = [...arr, list[i]];
-          continue;
-        }
-      }
-      if (list[i].url) {
-        if (list[i].url.includes(searchKeyword)) {
-          arr = [...arr, list[i]];
-        }
-      }
+    if (list) {
+      const searchLinks = list.filter(
+        (link) =>
+          link.url?.includes(searchKeyword) ||
+          link.title?.includes(searchKeyword) ||
+          link.description?.includes(searchKeyword)
+      );
+      setLinkList(searchLinks);
     }
-    return arr;
   };
 
   useEffect(() => {
-    if (id) {
-      try {
-        setLoading(true);
-        const loadFolder = async () => {
-          const list = await getFolderList(id, folderId);
-          if (searchKeyword) {
-            const searchList = search(list);
-            setLinkList(searchList);
-          } else {
-            setLinkList(list);
-          }
-        };
-        loadFolder();
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-        setLoading(false);
-      }
+    if (!id) {
+      return;
+    }
+    try {
+      setLoading(true);
+      const loadFolder = async () => {
+        const list = await getFolderList(id, folderId);
+        if (searchKeyword) {
+          search(list);
+          setLoading(false);
+        } else {
+          setLinkList(list);
+          setLoading(false);
+        }
+      };
+      loadFolder();
+    } catch (error) {
+      console.error(error);
     }
   }, [folderId, id, searchKeyword]);
 

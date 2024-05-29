@@ -1,26 +1,40 @@
 import * as S from './EditModal.styled';
 import BaseModal from '../BaseModal/BaseModal';
-import useValidate from '@/hooks/useValidate';
 import { Button } from '@/components/Button/Button';
 import Input from '@/components/Input/Input';
+import { Controller, useForm } from 'react-hook-form';
+import { putFolder } from '@/api/api';
+import { useRouter } from 'next/router';
 
-function EditModal() {
-  const { checkText, textError } = useValidate();
+function EditModal({ folderId }: { folderId: string }) {
+  const { handleSubmit, control } = useForm();
+  const router = useRouter();
+
+  const editFolder = async (data: any) => {
+    await putFolder(folderId, data.edit);
+    router.reload();
+  };
 
   return (
     <BaseModal state={'edit'}>
-      <S.ModalForm>
+      <S.ModalForm onSubmit={handleSubmit(editFolder)}>
         <S.Title>폴더이름 변경</S.Title>
-        <Input
-          placeholder="내용 입력"
-          type="text"
-          $error={textError}
-          onChange={(e) => checkText(e.target.value)}
-          size="sm"
+        <Controller
+          name="edit"
+          control={control}
+          rules={{
+            required: '내용을 입력해주세요!',
+          }}
+          render={({ field, fieldState: { error } }) => (
+            <Input
+              field={field}
+              type="text"
+              placeholder="폴더 이름을 입력해주세요!"
+              size="sm"
+              error={error}
+            />
+          )}
         />
-        <S.TextArea>
-          {textError && <S.WarningMessage>{textError}</S.WarningMessage>}
-        </S.TextArea>
         <Button size="md" onClick={(e) => e.preventDefault()}>
           변경하기
         </Button>
