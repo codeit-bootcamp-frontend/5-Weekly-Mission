@@ -1,0 +1,251 @@
+.signup_main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  margin-bottom: 253px;
+}
+
+.signup_body {
+  background: var(--Linkbrary-bg, #F0F6FF);
+  width: 100%;
+  height: 100vh; /* Viewport height를 사용하여 화면 전체 높이를 채웁니다 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.signup_form {
+
+  width: 400px;
+  height: auto;
+
+  margin: 238px auto 0px auto;
+}
+
+.signup_form__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.signup_form .to_home {
+  display: block;
+  width: 210.583px;
+  height: 38px;
+  margin: 0 auto;
+}
+
+.signup_form img {
+  display: block;
+  width: 210.583px;
+  height: 38px;
+  margin: 0 auto;
+}
+
+.signup_form .ask_signin {
+  display: flex;
+  gap: 8px;
+  width: 218px;
+  margin: 16px auto 30px auto;
+}
+
+.ask_signin .to_signin {
+  color: var(--black, #000);
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  /* 150% */
+  width: 123px;
+  height: 24px;
+}
+
+.ask_signin a {
+  color: var(--Linkbrary-primary-color, #6D6AFE);
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.inputforms {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.loginform,
+.passwordform,
+.check-passwordform {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.Emailerrormessage {
+  color: #FF5B56;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: 'Pretendard';
+  height: 17px;
+}
+.PWerrormesage {
+  color: #FF5B56;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: 'Pretendard';
+  height: 17px;
+}
+
+.loginform,
+.passwordform {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.label {
+  width: 400px;
+  height: 17px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: var(--black, #000);
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.email, .password, .checkPassword {
+  display: flex;
+  width: 400px;
+  padding: 18px 15px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  border: 1px solid var(--Linkbrary-gray20, #CCD5E3);
+  background: var(--Linkbrary-white, #FFF);
+}
+
+.input_error {
+  border: 1px solid red;
+}
+
+.signup_body input:focus {
+  outline: 1px solid #6D6AFE;
+}
+
+div.main{
+  position: relative;
+}
+div.main i{
+  position: absolute;
+  right: 15px;
+  top: 18px;
+}
+
+.signup-button {
+  color: var(--Grey-Light, #F5F5F5);
+  font-family: Pretendard;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  width: 100%;
+  height: 53px;
+  padding: 16px 20px;
+  border-radius: 8px;
+  background: var(--gra-purpleblue-to-skyblue, linear-gradient(91deg, #6D6AFE 0.12%, #6AE3FE 101.84%));
+  border: 0px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+
+.sns_login {
+  height: 66px;
+  width: 100%;
+  display: flex;
+  width: 400px;
+  padding: 12px 24px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px;
+  border: 1px solid var(--Linkbrary-gray20, #CCD5E3);
+  background: var(--Linkbrary-gray10, #E7EFFB);
+}
+.sns_login p {
+  color: var(--Linkbrary-gray100, #373740);
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.SNS {
+  display: flex;
+  gap: 16px;
+}
+
+.SNS img {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+}
+
+.SNS .google {
+  border-radius: 50%;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border: 1px solid #D3D4DD;
+}
+
+.signup_button {
+  color: var(--Grey-Light, #F5F5F5);
+  font-family: Pretendard;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  width: 100%;
+  height: 53px;
+  padding: 16px 20px;
+  border-radius: 8px;
+  background: var(--gra-purpleblue-to-skyblue, linear-gradient(91deg, #6D6AFE 0.12%, #6AE3FE 101.84%));
+  border: 0px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+
+@media (max-width: 767px) {
+  .signup_form {
+      width: 325px;
+      height: 506;
+      margin: 120px auto 0px auto;
+  }
+  .signup_body input {
+      width: 325px;
+      height: 60px;
+  }
+  .sns_login {
+      height: 66px;
+      width: 325px;
+      display: flex; 
+      padding: 12px 24px;
+  }
+  div.main{
+      width: 325px;
+  }
+  
+
+}

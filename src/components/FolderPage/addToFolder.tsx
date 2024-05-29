@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import styles from "./addToFolder.module.css";
-import Portal from "../../Portal";
+import Portal from "./Portal";
 import { useFetch } from "../../usefetch";
-import CheckImg from "../../assets/check.svg";
-import CloseImg from "../../assets/_close.svg";
+import CheckImg from "@/public/assets/check.svg";
+import CloseImg from "@/public/assets/_close.svg";
 
 interface LinkProps {
   name : string;

@@ -1,6 +1,4 @@
-* {
-    margin: 0;
-}
+
 .header {
   z-index: 1;
   display: flex;
@@ -23,7 +21,7 @@
   margin-right: 200px;
 }
 
-.header__container--logo {
+.header__container__logo {
   width: 133px;
   height: 24px;
 }

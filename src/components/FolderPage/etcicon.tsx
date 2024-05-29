@@ -1,9 +1,10 @@
-import ShareImg from "../../assets/share.svg";
-import PenImg from "../../assets/pen.svg";
-import DeleteImg from "../../assets/delete.svg";
+import ShareImg from "@/public/assets/share.svg";
+import PenImg from "@/public/assets//pen.svg";
+import DeleteImg from "@/public/assets//delete.svg";
 import styles from "./etcicon.module.css";
 import { useState } from "react";
 import ShareModal from "./shareModal";
+import Image from "next/image";
 
 interface Props {
   openModal : (
@@ -30,21 +31,21 @@ function EtcIcon({ openModal, folderName, currentFolderId } : Props) {
     <>
       <div className={styles.container}>
         <button className={styles.set} onClick={openShareModal}>
-          <img src={ShareImg} alt="공유를 나타내는 이미지" />
+          <Image src={ShareImg} alt="공유를 나타내는 이미지" />
           <span>공유</span>
         </button>
         <button
           className={styles.set}
           onClick={() => openModal("폴더 이름 변경", "변경하기", false)}
         >
-          <img src={PenImg} alt="수정을 나타내는 이미지" />
+          <Image src={PenImg} alt="수정을 나타내는 이미지" />
           <span>이름 변경</span>
         </button>
         <button
           className={styles.set}
           onClick={() => openModal("폴더 삭제", "", true, folderName)}
         >
-          <img src={DeleteImg} alt="삭제를 나타내는 이미지" />
+          <Image src={DeleteImg} alt="삭제를 나타내는 이미지" />
           <span>삭제</span>
         </button>
       </div>

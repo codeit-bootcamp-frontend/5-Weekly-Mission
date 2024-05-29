@@ -75,6 +75,7 @@
 .folderList__plus__text {
   width: 60px;
   height: 20px;
+  font-family:'__pretendard_fde3a9';
 }
 
 .title__container {
@@ -89,7 +90,7 @@
   color: #000;
 
   /* Linkbrary/h3-semibold */
-  font-family: Pretendard;
+  font-family: '__pretendard_fde3a9';
   font-size: 24px;
   font-style: normal;
   font-weight: 600;

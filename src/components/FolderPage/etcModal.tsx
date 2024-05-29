@@ -1,7 +1,7 @@
-import Portal from "../../Portal";
+import Portal from "./Portal";
 import styles from "./etcModal.module.css";
 import { useEffect } from "react";
-import CloseImg from "../../assets/_close.svg";
+import CloseImg from "@/public/assets//_close.svg";
 
 interface ModalAbout {
   about: string;

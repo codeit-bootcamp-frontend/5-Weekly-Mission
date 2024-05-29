@@ -1,9 +1,9 @@
-import ShareKakaotalk from "../../assets/ShareKakaotalk.svg";
-import ShareFacebook from "../../assets/ShareFacebook.svg";
-import linkImg from "../../assets/link.svg";
-import CloseImg from "../../assets/_close.svg";
+import ShareKakaotalk from "@/public/assets/ShareKakaotalk.svg";
+import ShareFacebook from "@/public/assets/ShareFacebook.svg";
+import linkImg from "@/public/assets/link.svg";
+import CloseImg from "@/public/assets/_close.svg";
 import styles from "./shareModal.module.css";
-import Portal from "../../Portal";
+import Portal from "./Portal";
 
 interface Props {
   onClick : () => void;

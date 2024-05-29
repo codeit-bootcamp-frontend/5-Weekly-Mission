@@ -1,7 +1,8 @@
 import styles from "./folderpluslink.module.css";
-import linkImg from "../../assets/link.svg";
+import linkImg from "@/public/assets/link.svg";
 import { useState } from "react";
 import FolderPlusModal from "./addToFolder";
+import Image from "next/image";
 
 function FolderPlusLink() {
   const [showModal, setShowModal] = useState(false);
@@ -32,7 +33,7 @@ function FolderPlusLink() {
             value={inputLink}
             onChange={handleInputChange}
           />
-          <img src={linkImg} alt="Link 이미지" className={styles.linkImg} />
+          <Image src={linkImg} alt="Link 이미지" className={styles.linkImg} />
           <button
             className={styles.addLinkButton}
             onClick={openModal}

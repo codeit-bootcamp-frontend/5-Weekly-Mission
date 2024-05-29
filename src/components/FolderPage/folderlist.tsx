@@ -1,10 +1,11 @@
 import { useFetch } from "../../usefetch";
 import styles from "./folderlist.module.css";
-import addImg from "../../assets/add.svg";
+import addImg from "@/public/assets//add.svg";
 import { ReactNode, useState } from "react";
 import EtcIcon from "./etcicon";
-import CardList from "../cardlist";
+import CardList from "../cardlist/cardlist";
 import EtcModal from "./etcModal";
+import Image from "next/image";
 
 interface ItemProps {
   children?: ReactNode;
@@ -35,7 +36,12 @@ function FolderListItem({ children, value, onClick, isActive }: ItemProps) {
   );
 }
 
-function FolderList() {
+
+interface FolderListProps {
+  searchValue: string;
+}
+
+function FolderList({searchValue} : FolderListProps) {
   const [title, setTitle] = useState("전체");
   const [selectedId, setSelectedId] = useState<number | null>(null); // 새로운 상태 변수 추가
   const [showModal, setShowModal] = useState(false); //모달 on/off
@@ -110,7 +116,7 @@ function FolderList() {
             onClick={() => openModal("폴더 추가", "추가하기", false)}
           >
             <div className={styles.folderList__plus__text}>폴더추가</div>
-            <img src={addImg} alt="십자가 모양 이미지" />
+            <Image src={addImg} alt="십자가 모양 이미지" />
           </button>
         </div>
 
@@ -127,9 +133,9 @@ function FolderList() {
           )}
         </div>
         {title === "전체" ? (
-          <CardList url={total_folders_url} folder={true} />
+          <CardList url={total_folders_url} searchValue={searchValue} folder={true} />
         ) : (
-          <CardList url={other_folders_links} folder={true} />
+          <CardList url={other_folders_links} searchValue={searchValue} folder={true} />
         )}
       </div>
       {showModal && (
