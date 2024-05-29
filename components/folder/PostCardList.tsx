@@ -1,6 +1,6 @@
+import { EmptyBox, PostCardWrap } from '@/styles/folderStyle';
 import { memo } from 'react';
 import PostCard from './PostCard';
-import { EmptyBox, PostCardWrap } from '@/styles/folderStyle';
 import { IFolderContent } from './interface';
 
 interface IFolderList {

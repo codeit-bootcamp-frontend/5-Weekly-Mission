@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
-import { FootInner, FootNav, FootSign, FootSocial, FootWrap } from './footerStyle';
-import LinkButton from './atoms/LinkButton';
-import Link from 'next/link';
+'use client';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import LinkButton from './atoms/LinkButton';
+import { FootInner, FootNav, FootSign, FootSocial, FootWrap } from './footerStyle';
 
 export const snsIconSrc = [
   {
@@ -31,12 +32,12 @@ export const snsIconSrc = [
 const hidePages = ['/signin', '/signup'];
 
 function Footer() {
-  const { pathname } = useRouter();
+  const pathName = usePathname();
   const [isHideFooter, setIsHideFooter] = useState(true);
 
   useEffect(() => {
-    setIsHideFooter(hidePages.includes(pathname));
-  }, [pathname]);
+    setIsHideFooter(hidePages.includes(pathName));
+  }, [pathName]);
 
   if (isHideFooter) return null;
 
@@ -60,8 +61,8 @@ function Footer() {
           {snsIconSrc.map((sns) => (
             <LinkButton
               key={sns.id}
-              $link={sns.link}
-              $linkClass={`link--social-emoji`}>
+              href={sns.link}
+              linkClass={`link--social-emoji`}>
               <Image
                 src={sns.src}
                 alt={sns.id}

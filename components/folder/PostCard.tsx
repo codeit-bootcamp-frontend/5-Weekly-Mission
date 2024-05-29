@@ -1,17 +1,16 @@
-import { useEffect, useMemo, useState } from 'react';
-import Link from 'next/link';
+import { instance } from '@/lib/axios';
+import { IModal } from '@/src/constant/modal.constant';
+import { calculateTimeAgo } from '@/src/utils/calcTilmAgo';
+import { DFlaxAlignCenterBtw, EllipsisLine } from '@/styles/commonStyle';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import Modal, { IModalInfo } from '../modal/Modal';
 import { BookMarkBtn, CardMenu, CardWrap } from './PostCardStyle';
-import { DFlaxAlignCenterBtw, EllipsisLine } from '@/styles/commonStyle';
-import { calculateTimeAgo } from '@/src/utils/calcTilmAgo';
-import { IModal } from '@/src/constant/modal';
-import { instance } from '@/lib/axios';
 import { IFolderContent } from './interface';
+import { LINKBRARY_LOGO } from '@/src/constant/image.constant';
 
-const EMPTY_IMAGE = '/assets/logo/logo.svg';
-
-type SelectedModalInfo = { $type: string } & Partial<Pick<IModalInfo, '$card_Id' | '$folder_Id' | '$descText'>>;
+type SelectedModalInfo = { type: string } & Partial<Pick<IModalInfo, '$card_Id' | '$folder_Id' | '$descText'>>;
 
 export default function PostCard({ id, folder_id, image_source, description, created_at, url }: IFolderContent) {
   const [isBookMark, setIsBookMark] = useState(false);
@@ -19,17 +18,17 @@ export default function PostCard({ id, folder_id, image_source, description, cre
   const [isModalShow, setIsModalShow] = useState(false);
   const [modalType, setModalType] = useState<SelectedModalInfo>({
     $card_Id: '',
-    $type: '',
+    type: '',
   });
   const [modalData, setModalData] = useState<IModal<any>>();
-  const handelerBookMarkActive = () => setIsBookMark((prev) => !prev);
-  const handelerCardDropdown = () => setIsCardMenu((prev) => !prev);
+  const handlerBookMarkActive = () => setIsBookMark((prev) => !prev);
+  const handlerCardDropdown = () => setIsCardMenu((prev) => !prev);
 
   const handleModalOpen = (type: string) => {
     // 미트볼메뉴-삭제하기
     if (type === 'linkDelete') {
       setModalType({
-        $type: type,
+        type: type,
         $card_Id: `${id}`,
         $descText: url,
       });
@@ -37,7 +36,7 @@ export default function PostCard({ id, folder_id, image_source, description, cre
     // 미트볼메뉴-폴더에추가
     if (type === 'folderInAdd') {
       setModalType({
-        $type: type,
+        type: type,
       });
     }
     setIsModalShow(true);
@@ -47,13 +46,9 @@ export default function PostCard({ id, folder_id, image_source, description, cre
     setIsModalShow(false);
   };
 
-  const date = useMemo(() => {
-    return new Date(`${created_at}`);
-  }, []);
-
   const handleModalProps = async () => {
     // 클릭한 link의 폴더명
-    const resMenu = await instance.get(`/folders`);
+    const resMenu = await instance.get(`/users/1/folders`);
     const folderName = resMenu.data.data;
     if (folderName) setModalData(folderName);
   };
@@ -67,7 +62,7 @@ export default function PostCard({ id, folder_id, image_source, description, cre
       <CardWrap>
         <BookMarkBtn
           className={isBookMark ? 'active' : ''}
-          onClick={handelerBookMarkActive}>
+          onClick={handlerBookMarkActive}>
           북마크버튼
         </BookMarkBtn>
         <Link
@@ -87,7 +82,7 @@ export default function PostCard({ id, folder_id, image_source, description, cre
               ) : (
                 <Image
                   className='empty'
-                  src={EMPTY_IMAGE}
+                  src={LINKBRARY_LOGO}
                   alt='로고'
                   width={133}
                   height={25}
@@ -101,16 +96,16 @@ export default function PostCard({ id, folder_id, image_source, description, cre
                 className='card__content'>
                 {description}
               </EllipsisLine>
-              <p className='card__date'>{date.toLocaleString()}</p>
+              <p className='card__date'>{new Date(`${created_at}`).toLocaleString()}</p>
             </figcaption>
           </figure>
         </Link>
         <CardMenu>
           <button
-            className='card__dropdown-contant'
-            onClick={handelerCardDropdown}>
+            className='card__dropdown-content'
+            onClick={handlerCardDropdown}>
             <Image
-              src='/assets/icon/icon_dotte.svg'
+              src='/assets/icon/icon_dotted.svg'
               alt='메뉴'
               width={21}
               height={17}
@@ -135,7 +130,7 @@ export default function PostCard({ id, folder_id, image_source, description, cre
       <Modal
         onOpen={isModalShow}
         onClose={handleModalClose}
-        $type={modalType.$type}
+        type={modalType.type}
         $card_Id={`${id}`}
         $modalData={modalData}
       />

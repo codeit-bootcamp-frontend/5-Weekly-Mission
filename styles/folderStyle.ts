@@ -43,7 +43,7 @@ export const LinkAddHeadInner = styled.div`
     z-index: 100;
   }
 
-  .button--gradient.mideum {
+  .button--gradient.medium {
     position: absolute;
     right: 20px;
     top: 50%;
@@ -54,7 +54,7 @@ export const LinkAddHeadInner = styled.div`
   @media screen and (max-width: ${theme.screenSize.moLarge}) {
     padding: 16px 32px;
 
-    .button--gradient.mideum {
+    .button--gradient.medium {
       right: 12px;
     }
   }
@@ -66,7 +66,7 @@ export const BodyInner = styled(ContainBodyInner)`
 
 export const PostCardWrap = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, minmax(33.3333%, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5625rem 1.25rem;
 
   @media screen and (max-width: 1124px) {

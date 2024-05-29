@@ -1,9 +1,9 @@
-import { memo } from 'react';
 import { FontLS } from '@/styles/commonStyle';
-import { ShareBox } from '../share/shareStyle';
 import { ShareListBtn } from '@/styles/folderStyle';
+import { memo } from 'react';
 import Button from '../common/atoms/Button';
 import LinkButton from '../common/atoms/LinkButton';
+import { ShareBox } from '../share/shareStyle';
 
 const folderControlBtn = [
   {
@@ -26,20 +26,20 @@ const folderControlBtn = [
   },
 ];
 
-interface iControll {
-  $title: string;
+interface iControl {
+  $title?: string;
   onclick: (type: string) => void;
-  $id?: number;
+  id?: string;
 }
 
-function FolderContentControll({ $title, onclick, $id }: iControll) {
+function FolderContentControl({ $title, onclick, id }: iControl) {
   const handleModalOpen = (type: string) => {
     onclick(type);
   };
 
   return (
     <ShareBox>
-      {$id && $id === -1 ? (
+      {id && id === `전체` ? (
         <FontLS
           as='strong'
           className='font--size-ls tab-title'>
@@ -47,9 +47,9 @@ function FolderContentControll({ $title, onclick, $id }: iControll) {
         </FontLS>
       ) : (
         <LinkButton
-          $link={`/shared/${$id}`}
-          $linkClass='link--title-text tab-title'
-          $target='_blank'>
+          href={`/shared/${id}`}
+          linkClass='link--title-text tab-title'
+          target='_blank'>
           {$title}
         </LinkButton>
       )}
@@ -58,9 +58,9 @@ function FolderContentControll({ $title, onclick, $id }: iControll) {
           {folderControlBtn.map((btn) => (
             <Button
               key={btn.id}
-              $id={btn.id}
-              $btnClass={'button--icon-before'}
-              $BeforButtonIcon={btn.imgSrc}
+              id={btn.id}
+              btnClass={'button--icon-before'}
+              $beforeIcon={btn.imgSrc}
               onclick={() => handleModalOpen(`${btn.bodyType}`)}>
               {btn.name}
             </Button>
@@ -71,4 +71,4 @@ function FolderContentControll({ $title, onclick, $id }: iControll) {
   );
 }
 
-export default memo(FolderContentControll);
+export default memo(FolderContentControl);

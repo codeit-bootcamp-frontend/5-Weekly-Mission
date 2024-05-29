@@ -1,11 +1,11 @@
-import { IModal } from '@/src/constant/modal';
+import { IModal } from '@/src/constant/modal.constant';
 import { CheckBoxWrap } from './checkBoxStyle';
 
-function CheckBox({ $data }: IModal<any>['modalData']) {
+function CheckBox({ data }: IModal<any>['modalData']) {
   return (
     <CheckBoxWrap className='chk--list-type1'>
-      {$data &&
-        $data?.map((list: any) => (
+      {data &&
+        data?.map((list: any) => (
           <div
             className='inner'
             key={list.id}>

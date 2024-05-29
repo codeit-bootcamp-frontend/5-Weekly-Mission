@@ -14,7 +14,7 @@ export interface IFolderMenuButtonApi {
   data: IFolderMenuButton[];
 }
 
-// folder contant api
+// folder content api
 export interface IFolderContent {
   id: number;
   created_at: Date;

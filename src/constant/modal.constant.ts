@@ -16,7 +16,7 @@ interface IModalItem<T> {
 // 폴더에 추가의 폴더메뉴 리스트
 export async function fetchFolderInAddData() {
   try {
-    const resMenu = await instance.get(`/folders`);
+    const resMenu = await instance.get(`/users/1/folders`);
     return resMenu.data;
   } catch (error) {
     console.error('Error fetching folder data:', error);

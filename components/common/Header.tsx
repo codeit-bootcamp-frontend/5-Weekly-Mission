@@ -1,15 +1,16 @@
+'use client';
+import { Profile } from '@/styles/commonStyle';
 import { useContext, useEffect, useState } from 'react';
 import { Email, HeaderControl, HeaderInner, HeaderLogo, HeaderWrap } from './headerStyle';
-import { Profile } from '@/styles/commonStyle';
-import { AuthContext } from '@/lib/auto.context';
-import { joinInstance } from '@/lib/axios';
-import LinkButton from './atoms/LinkButton';
-import Button from './atoms/Button';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
 
-const LOGO_IMAGE = '/assets/logo/logo.svg';
+import { AuthContext } from '@/lib/auto.provider';
+import { instance } from '@/lib/axios';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import Button from './atoms/Button';
+import LinkButton from './atoms/LinkButton';
+import { LINKBRARY_LOGO } from '@/src/constant/image.constant';
 
 export interface IHeaderUser {
   id: number;
@@ -24,23 +25,22 @@ const hidePages = ['/signin', '/signup'];
 const noHeaderFixed = ['/folder'];
 
 function Header() {
-  const router = useRouter();
-  const { pathname } = router;
+  const pathName = usePathname();
   const { isLoggedIn, handleLogout } = useContext(AuthContext);
   const [isfixed, setIsFixed] = useState(true);
   const [isHideHeader, setIsHideHeader] = useState(true);
-  const [userInfo, setUserInfo] = useState<IHeaderUser | null>();
+  // const [userInfo, setUserInfo] = useState<IHeaderUser | null>();
 
-  const handleUserInfo = async () => {
-    const res = await joinInstance.get(`/sample/user`);
-    setUserInfo(JSON.parse(JSON.stringify(res.data)));
-  };
+  // const handleUserInfo = async () => {
+  //   const res = await instance.get(`/users/1/sample/user`);
+  //   setUserInfo(JSON.parse(JSON.stringify(res.data)));
+  // };
 
   useEffect(() => {
-    handleUserInfo();
-    setIsHideHeader(hidePages.includes(pathname));
-    setIsFixed(noHeaderFixed.includes(pathname));
-  }, [pathname]);
+    // handleUserInfo();
+    setIsHideHeader(hidePages.includes(pathName));
+    setIsFixed(noHeaderFixed.includes(pathName));
+  }, [pathName]);
 
   if (isHideHeader) return null;
 
@@ -50,9 +50,11 @@ function Header() {
       $position={isfixed}>
       <HeaderInner>
         <HeaderLogo className='head__logo'>
-          <Link href='/'>
+          <Link
+            href='/'
+            scroll={false}>
             <Image
-              src={LOGO_IMAGE}
+              src={LINKBRARY_LOGO}
               alt='linkbrary'
               width={133}
               height={25}
@@ -63,12 +65,12 @@ function Header() {
           {isLoggedIn ? (
             <Button onclick={handleLogout}>
               <Profile></Profile>
-              <Email>{userInfo?.email}</Email>
+              {/* <Email>{userInfo?.email}</Email> */}
             </Button>
           ) : (
             <LinkButton
-              $link={'/login'}
-              $linkClass={'link--gradient link--login large'}>
+              href={'/login'}
+              linkClass={'link--gradient link--login large'}>
               로그인
             </LinkButton>
           )}
