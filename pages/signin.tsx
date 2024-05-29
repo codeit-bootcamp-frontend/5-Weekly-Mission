@@ -1,16 +1,17 @@
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Image from 'next/image';
-import * as S from '../../styles/Auth.styled';
-import LogoIcon from '../../src/images/logo.svg';
-import GoggleIcon from '../../src/images/login_google.svg';
-import KakaotalkIcon from '../../src/images/login_kakaotalk.svg';
-import EyeOnIcon from '../../src/images/eye_on.svg';
-import EyeOffIcon from '../../src/images/eye_off.svg';
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { postSignIn } from '@/apis/api';
-import { useRouter } from 'next/router';
 import { validateEmail, validateSignInPassword } from '@/utils/validate';
 import useAsync from '@/hooks/useAsync';
+import { UserContext } from '@/contexts/UserContext';
+import { getUser, postSignIn } from '@/apis/api';
+import * as S from '@/styles/Auth.styled';
+import LogoIcon from '@/public/images/logo.svg';
+import GoggleIcon from '@/public/images/login_google.svg';
+import KakaotalkIcon from '@/public/images/login_kakaotalk.svg';
+import EyeOnIcon from '@/public/images/eye_on.svg';
+import EyeOffIcon from '@/public/images/eye_off.svg';
 
 export default function SignInPage() {
   const [email, setEmail] = useState('');
@@ -21,7 +22,9 @@ export default function SignInPage() {
     passwordConform: { error: false, message: '' },
   });
   const [isVisiblePassword, setIsVisiblePassword] = useState(false);
+
   const router = useRouter();
+  const { user, setUser } = useContext(UserContext);
   const {
     pending: signInPending,
     error: signInError,
@@ -45,8 +48,9 @@ export default function SignInPage() {
         showError.email.message !== '이메일을 확인해 주세요.') ||
       (showError.password.error &&
         showError.password.message !== '비밀번호를 확인해 주세요.')
-    )
+    ) {
       return;
+    }
     const result = await signInRequest(email, password);
     if (signInError) {
       setShowError((prev) => ({
@@ -63,7 +67,11 @@ export default function SignInPage() {
       return;
     }
     if (!result) return;
-    localStorage.setItem('accessToken', result?.accessToken);
+
+    localStorage.setItem('accessToken', result.accessToken);
+    const nextUser = await getUser();
+    setUser(nextUser);
+
     router.push('/folder');
   };
 
@@ -78,6 +86,14 @@ export default function SignInPage() {
   const handlePasswordEyeButtonClick = () => {
     setIsVisiblePassword((prev) => !prev);
   };
+
+  useEffect(() => {
+    if (user) {
+      router.push('/folder');
+    } else {
+      return;
+    }
+  }, [user]);
 
   return (
     <S.Layout>
@@ -136,7 +152,7 @@ export default function SignInPage() {
           <S.SnsTitle>소셜 로그인</S.SnsTitle>
           <S.SnsList>
             <li>
-              <Link href='https://www.google.com/'>
+              <Link href='https://www.google.com/' target='_blank'>
                 <Image
                   src={GoggleIcon}
                   alt='구글 로그인'
@@ -146,7 +162,7 @@ export default function SignInPage() {
               </Link>
             </li>
             <li>
-              <Link href='https://www.kakaocorp.com/page/'>
+              <Link href='https://www.kakaocorp.com/page/' target='_blank'>
                 <Image
                   src={KakaotalkIcon}
                   alt='카카오톡 로그인'

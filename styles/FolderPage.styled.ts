@@ -83,6 +83,7 @@ export const TitleWrap = styled.div`
 export const Title = styled.h2`
   font-size: 24px;
   font-weight: 600;
+  line-height: 130%;
 
   @media (max-width: 767px) {
     font-size: 20px;
@@ -112,6 +113,6 @@ export const NoData = styled.p`
   text-align: center;
 
   @media (max-width: 767px) {
-    padding: 42px 0 290px;
+    padding: 42px 0 80px;
   }
 `;

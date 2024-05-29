@@ -1,20 +1,21 @@
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Image from 'next/image';
-import * as S from '../../styles/Auth.styled';
-import LogoIcon from '../../src/images/logo.svg';
-import GoggleIcon from '../../src/images/login_google.svg';
-import KakaotalkIcon from '../../src/images/login_kakaotalk.svg';
-import EyeOnIcon from '../../src/images/eye_on.svg';
-import EyeOffIcon from '../../src/images/eye_off.svg';
-import { ChangeEvent, FormEvent, useState } from 'react';
-import { postSignUp, postValidateSignUp } from '@/apis/api';
-import { useRouter } from 'next/router';
+import { UserContext } from '@/contexts/UserContext';
 import {
   validateEmail,
   validateSignUpPassword,
   validatePasswordConform,
 } from '@/utils/validate';
 import useAsync from '@/hooks/useAsync';
+import { postSignUp, postCheckDuplicateEmail } from '@/apis/api';
+import * as S from '@/styles/Auth.styled';
+import LogoIcon from '@/public/images/logo.svg';
+import GoggleIcon from '@/public/images/login_google.svg';
+import KakaotalkIcon from '@/public/images/login_kakaotalk.svg';
+import EyeOnIcon from '@/public/images/eye_on.svg';
+import EyeOffIcon from '@/public/images/eye_off.svg';
 
 export default function SignUpPage() {
   const [email, setEmail] = useState('');
@@ -28,17 +29,12 @@ export default function SignUpPage() {
   const [isVisiblePassword, setIsVisiblePassword] = useState(false);
   const [isVisiblePasswordConform, setIsVisiblePasswordConform] =
     useState(false);
+  const { user } = useContext(UserContext);
   const router = useRouter();
-  const {
-    pending: validateSignUpPending,
-    error: validateSignUpError,
-    requestFunction: validateSignUpRequest,
-  } = useAsync(postValidateSignUp);
-  const {
-    pending: signUpPending,
-    error: signUpError,
-    requestFunction: signUpRequest,
-  } = useAsync(postSignUp);
+  const { error: validateSignUpError, requestFunction: validateSignUpRequest } =
+    useAsync(postCheckDuplicateEmail);
+  const { error: signUpError, requestFunction: signUpRequest } =
+    useAsync(postSignUp);
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -118,6 +114,14 @@ export default function SignUpPage() {
     setIsVisiblePasswordConform((prev) => !prev);
   };
 
+  useEffect(() => {
+    if (user) {
+      router.push('/folder');
+    } else {
+      return;
+    }
+  }, [user]);
+
   return (
     <S.Layout>
       <S.Inner>
@@ -174,7 +178,7 @@ export default function SignUpPage() {
             <S.PasswordWrap>
               <S.Input
                 id='passwordConfirm'
-                type='password'
+                type={isVisiblePasswordConform ? 'text' : 'password'}
                 placeholder='비밀번호와 일치하는 값을 입력해 주세요.'
                 value={passwordConform}
                 onChange={handlePasswordConformChange}
@@ -205,7 +209,7 @@ export default function SignUpPage() {
           <S.SnsTitle>다른 방식으로 가입하기</S.SnsTitle>
           <S.SnsList>
             <li>
-              <Link href='https://www.google.com/'>
+              <Link href='https://www.google.com/' target='_blank'>
                 <Image
                   src={GoggleIcon}
                   alt='구글 로그인'
@@ -215,7 +219,7 @@ export default function SignUpPage() {
               </Link>
             </li>
             <li>
-              <Link href='https://www.kakaocorp.com/page/'>
+              <Link href='https://www.kakaocorp.com/page/' target='_blank'>
                 <Image
                   src={KakaotalkIcon}
                   alt='카카오톡 로그인'

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Button from '../Button/Button';
-import checkIcon from '../../src/images/check_icon.svg';
+import checkIcon from '@/public/images/check_icon.svg';
 
 export const Layout = styled.div`
   position: fixed;
@@ -18,10 +18,15 @@ export const Layout = styled.div`
 export const Modal = styled.div`
   position: relative;
   width: 360px;
+  max-width: calc(100vw - 64px);
   padding: 32px 40px;
   border-radius: 15px;
   border: 1px solid var(--Linkbrary-gray20);
   background: var(--Linkbrary-white);
+
+  @media (max-width: 767px) {
+    padding: 30px;
+  }
 `;
 
 export const CloseButton = styled.button`
@@ -138,7 +143,7 @@ export const FoldersList = styled.ul`
       right: 8px;
       width: 14px;
       height: 14px;
-      background: url(${checkIcon}) no-repeat center / contain;
+      background: url(${checkIcon.src}) no-repeat center / contain;
     }
     & label {
       position: relative;
@@ -151,6 +156,7 @@ export const FoldersList = styled.ul`
 
       & h3 {
         font-weight: 400;
+        font-size: 16px;
         line-height: 150%;
         color: var(--Linkbrary-gray100);
       }

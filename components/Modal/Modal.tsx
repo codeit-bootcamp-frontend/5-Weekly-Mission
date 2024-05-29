@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import * as S from './Modal.styled';
-import CloseImage from '../../src/images/close_button.svg';
-import KakaotalkIcon from '../../src/images/share_kakaotalk.svg';
-import facebookIcon from '../../src/images/share_facebook.svg';
-import linkIcon from '../../src/images/share_link.svg';
-import shareKakao from '../../apis/shareKakao';
+import { useState } from 'react';
 import Image from 'next/image';
+import * as S from './Modal.styled';
+import CloseImage from '@/public/images/close_button.svg';
+import KakaotalkIcon from '@/public/images/share_kakaotalk.svg';
+import facebookIcon from '@/public/images/share_facebook.svg';
+import linkIcon from '@/public/images/share_link.svg';
+import shareKakao from '../../apis/shareKakao';
 
 /**
  * 1. 폴더 이름 변경, 폴더 추가
@@ -84,7 +84,16 @@ export default function Modal({
     {
       name: '링크 복사',
       imageSrc: linkIcon,
-      onClick: () => {},
+      onClick: () => {
+        navigator.clipboard
+          .writeText(`${window.location.hostname}/shared/${folderId}`)
+          .then(() => {
+            alert('링크가 복사되었습니다.');
+          })
+          .catch((error) => {
+            console.error('복사 실패:', error);
+          });
+      },
     },
   ];
 
