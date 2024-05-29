@@ -47,12 +47,6 @@ const formSchema = z
 const SignUpPage = () => {
   const router = useRouter()
 
-  const token = localStorage.getItem('accessToken')
-  if (token) {
-    router.push('/folder')
-    return null
-  }
-
   const [emailError, setEmailError] = useState<boolean>(false)
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false)

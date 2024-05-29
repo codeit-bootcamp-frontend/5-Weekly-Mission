@@ -28,7 +28,7 @@ export const FolderCard = ({
   }
 
   return (
-    <Link href={`/folder/${id}`}>
+    <ul>
       <article className='relative group transition flex flex-col rounded-xl shadow-lg cursor-pointer'>
         <div className='md:hidden absolute left-1/2 transform -translate-x-1/2 flex items-center gap-x-1 z-20 bg-violet-500 text-white px-4 py-2 rounded-full bottom-10'>
           폴더 추가 <PlusIcon className='h-6 w-6' />
@@ -60,6 +60,6 @@ export const FolderCard = ({
           <div className='text-sm'>{date}</div>
         </div>
       </article>
-    </Link>
+    </ul>
   )
 }

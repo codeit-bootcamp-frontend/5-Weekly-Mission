@@ -1,6 +1,6 @@
 import { instance } from '@/lib/utils'
 
-interface Link {
+export interface Link {
   created_at: string
   description: string | null
   folder_id: number | null
@@ -11,9 +11,17 @@ interface Link {
   url: string
 }
 
-export const getLinksData = async () => {
-  const data = await instance.get<{ data: Link[] }>('/users/1/links')
-  return data.data.data
+export const getLinksData = async (id?: string) => {
+  let data
+  if (id) {
+    data = await instance.get<{ data: { folder: Link[] } }>(
+      `/links?folderId=${id}`,
+    )
+  } else {
+    data = await instance.get<{ data: { folder: Link[] } }>('/links')
+  }
+
+  return data.data.data.folder
 }
 
 interface LinkCategory {
@@ -28,7 +36,9 @@ interface LinkCategory {
 }
 
 export const getLinkCategories = async () => {
-  const data = await instance.get<{ data: LinkCategory[] }>('/users/1/folders')
+  const data = await instance.get<{ data: { folder: LinkCategory[] } }>(
+    '/folders',
+  )
 
-  return data.data.data
+  return data.data.data.folder
 }

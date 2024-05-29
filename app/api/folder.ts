@@ -24,7 +24,7 @@ interface Folder {
 }
 
 export const getFolderData = async () => {
-  const data = await instance.get<{ folder: Folder }>('/sample/folder')
+  const data = await instance.get<{ folder: Folder }>('/folders')
 
   return data.data.folder
 }

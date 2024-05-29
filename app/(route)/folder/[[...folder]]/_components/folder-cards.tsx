@@ -1,15 +1,16 @@
 import { getLinksData } from '@/app/api/links'
 import { FolderCard } from './folder-card'
 
-export const FolderCards = async () => {
-  const folders = await getLinksData()
+export const FolderCards = async ({ folderId }: { folderId: string }) => {
+  const folders = await getLinksData(folderId)
 
-  if (!folders)
+  if (!folders || folders.length === 0) {
     return (
       <div className='flex justify-center font-bold my-20'>
         <h2 className='text-2xl'>아직 글이 업로드 되지않았습니다.</h2>
       </div>
     )
+  }
 
   return (
     <ul className='mt-3 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-x-5 gap-y-8'>

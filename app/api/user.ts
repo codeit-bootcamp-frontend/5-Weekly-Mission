@@ -10,6 +10,6 @@ interface UserData {
 }
 
 export const getUserData = async () => {
-  const data = await instance.get<{ data: UserData[] }>('/users/1')
+  const data = await instance.get<{ data: UserData[] }>('/users')
   return data.data.data[0]
 }

@@ -7,6 +7,11 @@ const nextConfig = {
         hostname: 'codeit-images.codeit.com',
         port: '',
       },
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+        port: '',
+      },
     ],
   },
 }

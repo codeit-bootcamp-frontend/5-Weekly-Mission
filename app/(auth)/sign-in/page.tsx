@@ -20,6 +20,8 @@ import { instance } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
+import { createAccessToken } from '@/app/api/cookies'
+import { toast } from 'sonner'
 
 const formSchema = z.object({
   email: z.string().email({
@@ -38,18 +40,13 @@ const formSchema = z.object({
 
 const SignUpPage = () => {
   const router = useRouter()
-  const token = localStorage.getItem('accessToken')
-  if (token) {
-    router.push('/folder')
-    return null
-  }
   const [showPassword, setShowPassword] = useState<boolean>(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: 'test@codeit.com',
+      password: 'sprint101',
     },
   })
 
@@ -58,10 +55,11 @@ const SignUpPage = () => {
     try {
       const data = await instance.post('/sign-in', { email, password })
       const token = data.data.data.accessToken
-      localStorage.setItem('accessToken', token)
+      await createAccessToken(token)
       router.push('/folder')
     } catch (error) {
       console.log(error)
+      toast.error('로그인에 실패하였습니다.')
     }
   }
 
@@ -118,7 +116,7 @@ const SignUpPage = () => {
           />
           <div className='mt-10' />
           <Button type='submit' variant={'primary'} className='w-full py-6'>
-            회원가입
+            로그인
           </Button>
         </form>
       </Form>

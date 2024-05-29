@@ -5,7 +5,6 @@ import { getFolderData } from '@/app/api/folder'
 
 const SharedPage = async () => {
   const folder = await getFolderData()
-  console.log(folder)
 
   return (
     <main className='pt-20'>

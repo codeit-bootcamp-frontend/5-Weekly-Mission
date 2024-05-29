@@ -19,12 +19,12 @@ export const ControlButtons = () => {
   return (
     <div className='flex'>
       <AlertDialog>
-        <AlertDialogTrigger>
-          <Button className='text-indigo-400' variant='ghost' size='sm'>
+        <Button asChild className='text-indigo-400' variant='ghost' size='sm'>
+          <AlertDialogTrigger>
             <Share className='h-4 w-4' />
             <span className='ml-1'>공유</span>
-          </Button>
-        </AlertDialogTrigger>
+          </AlertDialogTrigger>
+        </Button>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>폴더 공유</AlertDialogTitle>
@@ -65,12 +65,12 @@ export const ControlButtons = () => {
       </AlertDialog>
 
       <AlertDialog>
-        <AlertDialogTrigger>
-          <Button className='text-indigo-400' variant='ghost' size='sm'>
+        <Button asChild className='text-indigo-400' variant='ghost' size='sm'>
+          <AlertDialogTrigger>
             <Pencil className='h-4 w-4' />
             <span className='ml-1'>이름 변경</span>
-          </Button>
-        </AlertDialogTrigger>
+          </AlertDialogTrigger>
+        </Button>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>폴더 이름 변경</AlertDialogTitle>
