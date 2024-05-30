@@ -1,0 +1,73 @@
+.addLinkBarContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--background-color);
+  width: 100%;
+  padding: 60px 0 90px;
+  @media (max-width: 1124px) {
+  }
+
+  @media (max-width: 767px) {
+    padding: 24px 32px 40px;
+  }
+}
+
+.addLinkBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  padding: 16px 20px;
+  border-radius: 15px;
+  border: 1px solid #6d6afe;
+  background: #fff;
+  width: 800px;
+
+  .inputBox {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-grow: 1;
+    height: inherit;
+
+    .linkIcon {
+      width: 20px;
+      height: 20px;
+    }
+
+    .linkInput {
+      border: none;
+      font-size: 20px;
+      flex-grow: 1;
+    }
+  }
+
+  @media (max-width: 1124px) {
+    width: 664px;
+  }
+  @media (max-width: 767px) {
+    padding: 8px 10px;
+    width: 305px;
+
+    .inputBox {
+      gap: 8px;
+
+      .linkInput {
+        font-size: 14px;
+      }
+    }
+
+    .linkIcon {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
+
+.fixed {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  padding: 24px 0 24px;
+  z-index: 5;
+}

@@ -1,28 +1,15 @@
-import Button from '../Button/Button';
+'use client';
+
+import Button from '@/components/Button/Button';
 import styles from '@/styles/AuthForm.module.scss';
-import { z } from 'zod';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-
 import { useState } from 'react';
-import ShowTextToggle from '../ShowTextToggle/ShowTextToggle';
-import { axiosInstance } from '@/utils/axiosInstance';
-import { useRouter } from 'next/router';
+import ShowTextToggle from '@/components/ShowTextToggle/ShowTextToggle';
+import { SignInFormSchema, SignInFormFields } from '@/app/lib/definitions';
+import { useAuth } from '@/contexts/AuthContext';
 
-
-const schema = z.object({
-  email: z
-    .string()
-    .min(1, { message: '이메일을 입력해주세요' })
-    .email({ message: '올바른 이메일 형식이 아닙니다' }),
-
-  password: z
-    .string()
-    .min(1, { message: '비밀번호를 입력해주세요' })
-    .min(8, { message: '비밀번호는 최소 8자 이상이어야 합니다.' }),
-});
-
-type SignInFormFields = z.infer<typeof schema>;
+const schema = SignInFormSchema;
 
 export default function SignInForm() {
   const {
@@ -35,28 +22,20 @@ export default function SignInForm() {
     resolver: zodResolver(schema),
   });
 
-
   const [showPassword, setShowPassword] = useState(false);
-  const router = useRouter();
+  const { submitSignIn } = useAuth();
 
   const handleToggleClick = () => {
-    setShowPassword(!showPassword);
+    setShowPassword((prev) => !prev);
   };
 
-  const onSubmit: SubmitHandler<SignInFormFields> = async (data) => {
+  const onSubmit = async (data: any) => {
     try {
-      const response = await axiosInstance.post('/sign-in', data);
-      if (response.status >= 200 && response.status < 300) {
-        const accessToken = response.data.data.accessToken;
-        localStorage.setItem('accessToken', accessToken);
-        router.push('/folder');
-      } else {
-      }
+      await submitSignIn(data);
     } catch (error) {
       setError('email', { message: '이메일을 확인해주세요' });
       setError('password', { message: '비밀번호를 확인해주세요' });
     }
-
   };
 
   return (
@@ -95,7 +74,6 @@ export default function SignInForm() {
             onBlur={() => trigger('password')}
           />
           <ShowTextToggle showText={showPassword} onClick={handleToggleClick} />
-
         </div>
         {errors.password && (
           <div className={styles.errorMessage}>{errors.password.message}</div>

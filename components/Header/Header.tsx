@@ -1,51 +1,44 @@
-import Button from '../Button/Button';
+'use client';
+
+import Button from '@/components/Button/Button';
 import Image from 'next/image';
 import styles from './Header.module.css';
 import Link from 'next/link';
-
 import Account from '@/components/Account/Account';
-import { useUserInfo } from '@/contexts/UserInfoContext';
-import { axiosInstance } from '@/utils/axiosInstance';
+import { useAuth } from '@/contexts/AuthContext';
 import { useEffect } from 'react';
+import { useUserInfo } from '@/hooks/useUserInfo';
 export default function Header() {
-  const { userInfo, setUserInfo } = useUserInfo();
+  const { getUserInfo, signOut } = useAuth();
+  const { user } = useUserInfo();
   const loadUser = async () => {
-    const accessToken = localStorage.getItem('accessToken');
-    if (accessToken) {
-      const response = await axiosInstance.get('/users', {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      setUserInfo(response.data.data[0]);
-    }
+    await getUserInfo();
   };
 
   useEffect(() => {
     loadUser();
   }, []);
-
   return (
-    <>
-      <header className={styles.headerContainer}>
-        <div className={styles.headerBar}>
-          <Link className={styles.logoImageContainer} href={`/`}>
-            <Image src='/assets/images/logo.svg' alt='Logo' fill />
-          </Link>
+    <header className={styles.headerContainer}>
+      <div className={styles.headerBar}>
+        <Link className={styles.logoImageContainer} href={`/`}>
+          <Image src='/assets/images/logo.svg' alt='Logo' fill />
+        </Link>
 
-          {userInfo ? (
+        {user ? (
+          <>
             <Account
-              profileImgSource={userInfo.image_source}
-              userEmail={userInfo.email}
+              profileImgSource={user.image_source}
+              userEmail={user.email}
             />
-          ) : (
-            <Link href={'/signin'}>
-              <Button className={styles.signInButton}>로그인</Button>
-            </Link>
-          )}
-
-        </div>
-      </header>
-    </>
+            <Button onClick={signOut}>로그아웃</Button>
+          </>
+        ) : (
+          <Link href={'/signin'}>
+            <Button className={styles.signInButton}>로그인</Button>
+          </Link>
+        )}
+      </div>
+    </header>
   );
 }

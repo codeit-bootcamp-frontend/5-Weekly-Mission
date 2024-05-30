@@ -5,7 +5,7 @@ interface AccountProps {
   userEmail: string;
 }
 
-const Account = ({ profileImgSource, userEmail }: AccountProps) => {
+export default function Account({ profileImgSource, userEmail }: AccountProps) {
   return (
     <div className={styles.account}>
       <img
@@ -16,5 +16,4 @@ const Account = ({ profileImgSource, userEmail }: AccountProps) => {
       <span className={styles.userEmail}>{userEmail}</span>
     </div>
   );
-};
-export default Account;
+}

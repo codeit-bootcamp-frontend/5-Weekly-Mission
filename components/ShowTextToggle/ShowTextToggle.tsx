@@ -10,7 +10,12 @@ export default function ShowTextToggle({
   onClick,
 }: ShowTextToggleProps) {
   return (
-    <button type='button' onClick={onClick} className={styles.toggleButton}>
+    <button
+      type='button'
+      onClick={onClick}
+      className={styles.toggleButton}
+      tabIndex={-1}
+    >
       {showText ? (
         <Image src={'/assets/images/eye-on.svg'} alt='Hide password' fill />
       ) : (

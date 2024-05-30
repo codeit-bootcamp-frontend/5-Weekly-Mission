@@ -1,40 +1,15 @@
-import Button from '../Button/Button';
+'use client';
+
+import Button from '@/components/Button/Button';
 import styles from '@/styles/AuthForm.module.scss';
-import { z } from 'zod';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
-import ShowTextToggle from '../ShowTextToggle/ShowTextToggle';
-import { axiosInstance } from '@/utils/axiosInstance';
-import { useRouter } from 'next/router';
+import ShowTextToggle from '@/components/ShowTextToggle/ShowTextToggle';
+import { SignUpFormSchema, SignUpFormFields } from '@/app/lib/definitions';
+import { useAuth } from '@/contexts/AuthContext';
 
-const schema = z
-  .object({
-    email: z
-      .string()
-      .min(1, { message: '이메일을 입력해주세요' })
-      .email({ message: '올바른 이메일 형식이 아닙니다' }),
-
-    password: z
-      .string()
-      .min(1, { message: '비밀번호를 입력해주세요' })
-
-      .min(8, {
-        message: '비밀번호는 최소 8자 이상 영문, 숫자 조합이어야 합니다.',
-      })
-      .regex(/^(?=.*[A-Za-z])(?=.*\d).{8,}$/, {
-        message: '비밀번호는 영문과 조합이어야 합니다',
-      }),
-
-    confirmPassword: z.string().min(1, { message: '비밀번호를 입력해주세요' }),
-
-  })
-  .refine((data) => data.confirmPassword === data.password, {
-    message: '비밀번호가 일치하지 않습니다.',
-    path: ['confirmPassword'],
-  });
-
-type SignUpFormFields = z.infer<typeof schema>;
+const schema = SignUpFormSchema;
 
 export default function SignUpForm() {
   const {
@@ -47,42 +22,30 @@ export default function SignUpForm() {
     resolver: zodResolver(schema),
   });
 
-  const router = useRouter();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showCPW, setShowCPW] = useState<boolean>(false);
+  const { checkEmailDuplication, submitSignUp } = useAuth();
 
   const onSubmit: SubmitHandler<SignUpFormFields> = async (data) => {
     const { email, password } = data;
     try {
-      const response = await axiosInstance.post('/check-email', {
-        email: email,
-      });
+      await checkEmailDuplication(email);
     } catch (error) {
       setError('email', { message: '이미 사용중인 이메일입니다' });
       return;
     }
-
     try {
-      const response = await axiosInstance.post('/sign-up', {
-        email,
-        password,
-      });
-      if (response.status >= 200 && response.status < 300) {
-        const accessToken = response.data.data.accessToken;
-        localStorage.setItem('accessToken', accessToken);
-        router.push('/folder');
-      }
+      submitSignUp(email, password);
     } catch (error) {
       setError('email', { message: '사용할 수 없는 이메일 입니다' });
     }
   };
   const handlePWToggleClick = () => {
-    setShowPassword(!showPassword);
+    setShowPassword((prev) => !prev);
   };
 
   const handleCPWToggleClick = () => {
-    setShowCPW(!showCPW);
-
+    setShowCPW((prev) => !prev);
   };
 
   return (
@@ -115,7 +78,6 @@ export default function SignUpForm() {
         >
           <input
             {...register('password')}
-
             type={showPassword ? 'text' : 'password'}
             placeholder='Password'
             className={styles.authInput}
@@ -158,7 +120,7 @@ export default function SignUpForm() {
         type='submit'
         disabled={isSubmitting}
       >
-        로그인
+        회원가입
       </Button>
     </form>
   );

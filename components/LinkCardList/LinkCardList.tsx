@@ -1,45 +1,24 @@
 import FolderToolBar from '@/components/FolderToolBar/FolderToolBar';
 import LinkCard from '@/components/LinkCard/LinkCard';
-import SearchBar from '@/components/SearchBar/SearchBar';
 import styles from './LinkCardList.module.scss';
-import { FolderObj, LinkObj } from '@/utils/interfaces';
-import { useState } from 'react';
+import { useKeywordState } from '@/hooks/useSearchValue';
+import useLinks from '../../hooks/useLinks';
+import useModal from '../../hooks/useModal';
+import Modal from '../Modal/Modal';
+import useFolders from '../../hooks/useFolders';
 
-interface LinkCardListProp {
-  items: LinkObj[] | undefined;
-  folders?: FolderObj[];
-  folderNameOnClick: (id: number) => void;
-  currentFolderId: number;
-  onFolderAddClick: () => void;
-  onFolderNameChangeClick: () => void;
-  onFolderDeleteClick: () => void;
-  onLinkDelete: (link: string) => void;
-  onAddtoFolder: (link: string) => void;
-  onShare: () => void;
-}
+interface LinkCardListProp {}
 
-const LinkCardList = ({
-  items,
-  folders,
-  folderNameOnClick,
-  currentFolderId,
-  onFolderAddClick,
-  onFolderNameChangeClick,
-  onFolderDeleteClick,
-  onLinkDelete,
-  onAddtoFolder,
-  onShare,
-}: LinkCardListProp) => {
-  const [searchText, setSearchText] = useState<string>('');
-
-  const handleSearchInput = (text: string) => {
-    setSearchText(text);
-  };
+export default function LinkCardList({}: LinkCardListProp) {
+  const { keyword } = useKeywordState();
+  const { links } = useLinks();
+  const { showModal, setShowModal, modalContent, setModal } = useModal();
+  const { folders } = useFolders();
 
   function filterLinksByKeyword(keyword: string) {
-    if (!items) return;
-    if (searchText === '') return items;
-    return items.filter(
+    if (!links) return;
+    if (keyword === '') return links;
+    return links.filter(
       (item) =>
         item.url?.includes(keyword) ||
         item.description?.includes(keyword) ||
@@ -47,32 +26,41 @@ const LinkCardList = ({
     );
   }
 
-  const curItems = filterLinksByKeyword(searchText);
+  const curItems = filterLinksByKeyword(keyword);
+
+  const handleAddToFolder = (url: string) => {
+    setModal('add', {
+      headerText: '폴더에 추가',
+      subHeaderText: url,
+      folders: folders,
+      buttonText: '추가하기',
+    });
+  };
+
+  const handleLinkDelete = (url: string) => {
+    setModal('delete', { headerText: '링크 삭제', subHeaderText: url });
+  };
 
   return (
     <div className={styles.linkCardListContainer}>
+      {showModal && (
+        <>
+          <Modal onClose={() => setShowModal(false)}>{modalContent}</Modal>
+          <div
+            className={styles.overlay}
+            onClick={() => setShowModal(false)}
+          ></div>
+        </>
+      )}
       <div className={styles.contentWrapper}>
-        <SearchBar onChange={handleSearchInput} searchText={searchText} />
-        {folders && (
-          <FolderToolBar
-            folders={folders}
-            folderNameOnClick={folderNameOnClick}
-            currentFolderId={currentFolderId}
-            onFolderAddClick={onFolderAddClick}
-            onFolderNameChangeClick={onFolderNameChangeClick}
-            onFolderDeleteClick={onFolderDeleteClick}
-            onShare={onShare}
-          />
-        )}
-
         {curItems && curItems.length > 0 ? (
           <ul className={styles.linkCardList}>
             {curItems.map((item) => (
               <li key={item.id}>
                 <LinkCard
                   linkCardInfo={item}
-                  onAddToFolder={onAddtoFolder}
-                  onLinkDelete={onLinkDelete}
+                  onAddToFolder={handleAddToFolder}
+                  onLinkDelete={handleLinkDelete}
                 />
               </li>
             ))}
@@ -83,6 +71,4 @@ const LinkCardList = ({
       </div>
     </div>
   );
-};
-
-export default LinkCardList;
+}

@@ -49,7 +49,6 @@ export default function Footer() {
               rel='noreferrer noopener'
             >
               <div className={styles.infoLinkLogo}>
-                {' '}
                 <Image src={youtubeLogo} alt='Youtube link logo' fill />
               </div>
             </Link>
@@ -61,7 +60,6 @@ export default function Footer() {
               rel='noreferrer noopener'
             >
               <div className={styles.infoLinkLogo}>
-                {' '}
                 <Image src={instagramLogo} alt='Instagram link logo' fill />
               </div>
             </Link>

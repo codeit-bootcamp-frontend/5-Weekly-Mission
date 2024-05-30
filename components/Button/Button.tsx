@@ -1,20 +1,18 @@
+import { ButtonHTMLAttributes } from 'react';
 import styles from './Button.module.css';
 
-interface ButtonProps {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
-  onClick?: () => void;
   className?: string;
-  type?: 'button' | 'submit' | 'reset' | undefined;
-  disabled?: boolean;
 }
 
-const Button = ({
+export default function Button({
   children,
   onClick,
   className,
   type = 'button',
   disabled = false,
-}: ButtonProps) => {
+}: ButtonProps) {
   return (
     <button
       onClick={onClick}
@@ -25,6 +23,4 @@ const Button = ({
       {disabled ? '처리중' : children}
     </button>
   );
-};
-
-export default Button;
+}

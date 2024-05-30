@@ -1,0 +1,20 @@
+@use '@/styles/mixins' as m;
+
+.profileWrapper {
+  @include m.flex(column, flex-start, center);
+  gap: 12px;
+}
+
+.profileImage {
+  border-radius: 50%;
+}
+.folderInfo {
+  @include m.flex(column, flex-start, center);
+  gap: 20px;
+  padding: 20px 0 60px;
+}
+
+.folderName {
+  font-size: 40px;
+  font-weight: 600;
+}

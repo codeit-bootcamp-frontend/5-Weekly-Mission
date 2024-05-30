@@ -35,7 +35,7 @@ export default function ShareModal({
 }: ModalContentProps) {
   const [showToast, setShowToast] = useState(false);
 
-  const SHARE_URL = `http://localhost:3000/shared/${folderNum}`;
+  const SHARE_URL = `https://5-weekly-mission-eta-two.vercel.app/shared/${folderNum}`;
 
   const handleCopyLinkClipBoard = async () => {
     try {

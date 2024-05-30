@@ -24,3 +24,18 @@ export interface ModalContentProps {
   buttonText?: string;
   initialValue?: string;
 }
+export interface FolderInfoObj {
+  created_at: string;
+  favorite: boolean;
+  id: number;
+  name: string;
+  user_id: number;
+}
+
+export interface UserInfoObj {
+  id: number;
+  created_at: string;
+  name: string;
+  image_source: string;
+  email: string;
+}

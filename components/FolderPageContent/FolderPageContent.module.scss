@@ -1,0 +1,9 @@
+@use '@/styles/mixins' as m;
+
+.wrapper {
+  @include m.flex(column, flex-start, center);
+  flex-grow: 1;
+  background-color: #fff;
+  padding: 40px 0;
+  gap: 40px;
+}
