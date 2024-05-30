@@ -24,7 +24,7 @@ function CardList({
   searchInputValue: string;
 }) {
   const router = useRouter();
-  const isFolder = router.pathname === "/folder";
+  const isFolder = router.pathname.includes("/folder");
   const searchValue = searchInputValue.toLowerCase();
 
   const filteredCardData = () => {
@@ -47,7 +47,7 @@ function CardList({
       return cardListData.filter((card) => {
         return (
           card.title?.includes(searchValue) ||
-          card.url.includes(searchValue) ||
+          card.url?.includes(searchValue) ||
           card.description?.includes(searchValue)
         );
       });

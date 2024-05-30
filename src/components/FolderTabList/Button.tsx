@@ -6,17 +6,15 @@ interface buttonData {
     name: string;
   };
   onClickButton: (id: number, name: string) => void;
-  forderDataId: number;
+  checkId: number | null;
 }
 
-function Button({ data, onClickButton, forderDataId }: buttonData) {
+function Button({ data, onClickButton, checkId }: buttonData) {
   const { id, name } = data;
 
   return (
     <button
-      className={
-        forderDataId === id ? `${styles.select} ${styles.tabListBtn}` : `${styles.tabListBtn}`
-      }
+      className={checkId === id ? `${styles.select} ${styles.tabListBtn}` : `${styles.tabListBtn}`}
       onClick={() => onClickButton(id, name)}
     >
       {name}

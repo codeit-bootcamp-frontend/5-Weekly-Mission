@@ -1,29 +1,26 @@
-import { useCallback, useState } from "react";
-import { userFoldersTapData, userFoldersData } from "@/src/fetchUtils/index";
-
+import { useCallback, useEffect, useState } from "react";
+import { getFolderIdLinks } from "@/src/fetchUtils/index";
 import Button from "./Button";
 import CardTitleIcon from "../CardTitleIcon/CardTitleIcon";
 import FolderAddButton from "./FolderAddButton";
 import styles from "@/src/components/FolderTabList/FolderTabList.module.css";
+import { useRouter } from "next/router";
 
 function FolderTabList({
   folderTabDataList,
   setUserFolderDataList,
   setFolderTabName,
-  forderDataId,
-  setForderDataId,
-}: FolderTabListInterface) {
-  const [name, setName] = useState<string>();
+  name,
+  setName,
+}: IFolderTabList) {
+  const router = useRouter();
+  const [checkId, setCheckId] = useState<number | null>(null);
 
-  const onClickButton = useCallback(
-    async (id: number, name: string) => {
-      setForderDataId(id);
-      setName(name);
-      setFolderTabName(name);
+  const fetchData = useCallback(
+    async (id: number | null) => {
       try {
-        const response = await userFoldersTapData(id);
-
-        const data = response.data;
+        const response = id !== null ? await getFolderIdLinks(id) : await getFolderIdLinks();
+        const data = response.data.folder;
         setUserFolderDataList(data);
       } catch (e) {
         if (e instanceof Error) {
@@ -31,21 +28,52 @@ function FolderTabList({
         }
       }
     },
-    [setUserFolderDataList, setFolderTabName, setForderDataId]
+    [setUserFolderDataList]
+  );
+
+  const updateState = useCallback(
+    (id: number | null) => {
+      setCheckId(id);
+      if (id !== null) {
+        const folderDataList = folderTabDataList.find((item) => item.id === id);
+        if (folderDataList) {
+          setName(folderDataList.name);
+          setFolderTabName(folderDataList.name);
+        } else {
+          setName("전체");
+        }
+      }
+    },
+    [folderTabDataList, setFolderTabName, setName]
+  );
+
+  const onClickButton = useCallback(
+    async (id: number, name: string) => {
+      if (checkId !== id) {
+        updateState(id);
+        await fetchData(id);
+        router.push(`/folder/${id}`);
+      }
+    },
+    [checkId, router, updateState, fetchData]
   );
 
   const onClickTotalButton = useCallback(async () => {
-    setForderDataId(0);
-    try {
-      const response = await userFoldersData();
-      const data = response.data;
-      setUserFolderDataList(data);
-    } catch (e) {
-      if (e instanceof Error) {
-        alert(e.message);
-      }
+    if (checkId !== null) {
+      updateState(null);
+      await fetchData(null);
+      router.push(`/folder`);
     }
-  }, [setUserFolderDataList]);
+  }, [checkId, router, updateState, fetchData]);
+
+  useEffect(() => {
+    if (router.isReady) {
+      const id = router.query.id ? Number(router.query.id) : null;
+      updateState(id);
+      fetchData(id);
+    }
+  }, [router.isReady, router.query.id, folderTabDataList, updateState, fetchData]);
+
   return (
     <>
       <div className={styles.tabWrap}>
@@ -53,28 +81,24 @@ function FolderTabList({
           <li>
             <button
               className={
-                forderDataId === 0
-                  ? `${styles.select} ${styles.tabListBtn}`
-                  : `${styles.tabListBtn}`
+                checkId === null ? `${styles.select} ${styles.tabListBtn}` : `${styles.tabListBtn}`
               }
-              onClick={() => onClickTotalButton()}
+              onClick={onClickTotalButton}
             >
               전체
             </button>
           </li>
-          {folderTabDataList.map((data) => {
-            return (
-              <li key={data.id}>
-                <Button data={data} onClickButton={onClickButton} forderDataId={forderDataId} />
-              </li>
-            );
-          })}
+          {folderTabDataList.map((data) => (
+            <li key={data.id}>
+              <Button data={data} onClickButton={onClickButton} checkId={checkId} />
+            </li>
+          ))}
         </ul>
         <FolderAddButton />
       </div>
       <div className={styles.cardTitleWrap}>
-        <h3 className={styles.cardTitle}>{forderDataId === 0 ? "전체" : name}</h3>
-        {forderDataId !== null ? <CardTitleIcon /> : null}
+        <h3 className={styles.cardTitle}>{checkId ? name : "전체"}</h3>
+        {checkId !== null ? <CardTitleIcon /> : null}
       </div>
     </>
   );

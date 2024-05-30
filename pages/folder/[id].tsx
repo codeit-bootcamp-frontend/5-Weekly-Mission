@@ -1,7 +1,7 @@
 import Search from "@/src/components/Search/Search";
 import React, { useEffect, useState } from "react";
 import AddLinkForm from "@/src/components/AddLinkForm/AddLinkForm";
-import { tabDataList, userFoldersData } from "@/src/fetchUtils/index";
+import { getFolderIdLinks, getSharedFolderIdData } from "@/src/fetchUtils/index";
 import FolderTabList from "@/src/components/FolderTabList/FolderTabList";
 import CardList from "@/src/components/CardList/CardList";
 import useModal from "@/src/hooks/useModal";
@@ -9,6 +9,8 @@ import ModalContext from "@/src/components/Modal/ModalContext";
 import ModalContainer from "@/src/components/Modal/ModalContainer";
 import Header from "@/src/components/Header/Header";
 import Footer from "@/src/components/Footer/Footer";
+import { useRouter } from "next/router";
+import { getAccessToken } from "@/src/utils/constants";
 
 function Folder() {
   const [folderTabDataList, setFolderTabDataList] = useState<FolderTabDataList[]>([]);
@@ -19,23 +21,42 @@ function Folder() {
   const [cardUrl, setCardUrl] = useState("");
   const [folderTabName, setFolderTabName] = useState<string | null>("");
   const [searchInputValue, setSearchInputValue] = useState<string>("");
-  const [forderDataId, setForderDataId] = useState<number>(0);
+  const [folderDataId, setFolderDataId] = useState<number>(0);
+  const [name, setName] = useState<string>("");
+
+  const router = useRouter();
+  const { id } = router.query;
 
   useEffect(() => {
-    async function fetchDataAndSetState() {
-      const folderTabDataListPromise = tabDataList();
-      const userFolderDataListPromise = userFoldersData();
+    const token = getAccessToken();
+    if (!token) {
+      router.push("/signin");
+    }
+  }, [router]);
 
-      const [folderTabDataList, userFolderDataList] = await Promise.all([
+  useEffect(() => {
+    if (!router.isReady) return;
+
+    async function fetchDataAndSetState() {
+      const folderTabDataListPromise = getSharedFolderIdData();
+      const userFolderDataListPromise = getFolderIdLinks(Number(id));
+
+      const [fetchedFolderTabDataList, fetchedUserFolderDataList] = await Promise.all([
         folderTabDataListPromise,
         userFolderDataListPromise,
       ]);
 
-      setFolderTabDataList(folderTabDataList.data);
-      setUserFolderDataList(userFolderDataList.data);
+      fetchedFolderTabDataList.data.folder.filter((item: FolderTabDataList) => {
+        if (item.id === Number(id)) {
+          setName(item.name);
+        }
+      });
+      setFolderTabDataList(fetchedFolderTabDataList.data.folder);
+      setUserFolderDataList(fetchedUserFolderDataList?.data.folder);
+      setFolderDataId(Number(id));
     }
     fetchDataAndSetState();
-  }, []);
+  }, [id, router]);
 
   const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInputValue(e.target.value);
@@ -43,10 +64,10 @@ function Folder() {
 
   return (
     <>
-      <Header />
+      <Header setFolderDataId={setFolderDataId} />
       <div className="content-wrap">
         <ModalContext.Provider
-          value={{ isOpen, openModal, closeModal, setModalType, setCardUrl, forderDataId }}
+          value={{ isOpen, openModal, closeModal, setModalType, setCardUrl, folderDataId }}
         >
           <AddLinkForm />
           <ModalContainer
@@ -61,8 +82,8 @@ function Folder() {
               folderTabDataList={folderTabDataList}
               setUserFolderDataList={setUserFolderDataList}
               setFolderTabName={setFolderTabName}
-              forderDataId={forderDataId}
-              setForderDataId={setForderDataId}
+              name={name}
+              setName={setName}
             />
             <CardList userFolderDataList={userFolderDataList} searchInputValue={searchInputValue} />
           </div>

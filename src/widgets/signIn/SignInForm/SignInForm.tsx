@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import styles from "../Auth.module.css";
@@ -11,16 +11,13 @@ import { signInSchema } from "@/src/utils/validation";
 import { userSignInData } from "@/src/fetchUtils";
 import { useRouter } from "next/router";
 import AuthIconButton from "@/src/components/AuthIconButton/AuthIconButton";
+import { useAuthGuard } from "@/src/hooks/useAuthGuard";
 
 const SignInForm = () => {
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      router.push("/folder");
-    }
-  });
-
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+
+  useAuthGuard();
 
   const {
     register,
@@ -30,8 +27,6 @@ const SignInForm = () => {
   } = useForm<SignInFormInputs>({
     resolver: zodResolver(signInSchema),
   });
-
-  const router = useRouter();
 
   const onSubmit = async (signInData: SignInFormInputs) => {
     const { data } = await userSignInData(signInData);
@@ -81,7 +76,7 @@ const SignInForm = () => {
         </div>
         {errors.password && <div className={styles.loginCaution}>{errors.password.message}</div>}
       </div>
-      <button className="loginButton widthFull btnForm01" type="submit">
+      <button className="submitButton widthFull btnForm01" type="submit">
         로그인
       </button>
       <SocialLogin />
