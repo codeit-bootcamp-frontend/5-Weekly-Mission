@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 import linkIcon from '@/assets/images/icons/link.png';
 import { SyntheticEvent, useState } from 'react';
 import AddLinkModal from './AddLinkModal';
-import { FetchData, FolderData } from '@/common/api';
+import { FetchData, FoldersData } from '@/common/api';
 import Image from 'next/image';
 
 const StyledDiv = styled.div`
@@ -49,7 +49,7 @@ const AddButton = styled.button`
 const ModalDiv = styled.div``;
 
 interface LinkAppenderProps {
-  folderData: FetchData<FolderData[]>;
+  folderData: FetchData<FoldersData>;
 }
 
 function LinkAppender({ folderData }: LinkAppenderProps) {

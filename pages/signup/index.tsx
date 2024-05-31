@@ -39,9 +39,9 @@ export default function SignUp() {
   const { sendRequest, data, loading, error } = useFetch<any>({});
   const router = useRouter();
 
-  // useEffect(() => {
-  //   if (localStorage.accessToken) router.push('folder');
-  // }, [])
+  useEffect(() => {
+    if (localStorage.accessToken) router.push('folder');
+  }, []);
 
   useEffect(() => {
     if (loading !== true && error === null && data.data?.accessToken) {

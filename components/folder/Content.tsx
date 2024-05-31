@@ -1,4 +1,4 @@
-import { API_INFO, Data, FetchData, FolderData, LinkData, putParams } from '@/common/api';
+import { API_INFO, Data, DataArray, FetchData, FoldersData, LinksData } from '@/common/api';
 import useFetch from '@/hooks/useFetch';
 import { styled } from 'styled-components';
 import Search from '@/components/common/Search';
@@ -43,23 +43,33 @@ const GridDiv = styled.div`
 `;
 
 interface ContentProps {
-  folderData: FetchData<FolderData[]>;
+  folderData: FetchData<FoldersData>;
+  folderId: number;
 }
 
-function Content({ folderData }: ContentProps) {
-  const [selectedId, setSelectedId] = useState(0);
+const { url: getDataUrl, method: getDataMethod } = API_INFO.endpoints.getDataByToken;
+
+function Content({ folderData, folderId }: ContentProps) {
+  const [selectedId, setSelectedId] = useState(folderId);
   const [searchValue, setSearchValue] = useState('');
 
-  const { url: getDataUrl, method: getDataMethod } = API_INFO.endpoints.getData;
+  useEffect(() => {
+    setSelectedId(folderId);
+  }, [folderId]);
+
   const queryString = selectedId === 0 ? '' : '?folderId=' + selectedId;
 
-  const linkData = useFetch<Data<LinkData>>({
-    url: API_INFO.baseUrl + putParams(getDataUrl, '1') + queryString,
+  const headers =
+    typeof window === 'undefined' ? undefined : { Authorization: 'Bearer ' + localStorage.getItem('accessToken') };
+
+  const linkData = useFetch<Data<LinksData>>({
+    url: API_INFO.baseUrl + getDataUrl + queryString,
     method: getDataMethod,
+    headers: headers,
     immediate: true,
   });
 
-  const [itemData, setItemData] = useState<FetchData<LinkData[]>>({
+  const [itemData, setItemData] = useState<FetchData<LinksData>>({
     data: linkData.data ? linkData.data.data : null,
     loading: linkData.loading,
     error: linkData.error,
@@ -68,13 +78,15 @@ function Content({ folderData }: ContentProps) {
   useEffect(() => {
     setItemData({
       data: linkData.data
-        ? linkData.data.data.filter((item) => {
-            return (
-              item.url?.includes(searchValue) ||
-              item.title?.includes(searchValue) ||
-              item.description?.includes(searchValue)
-            );
-          })
+        ? {
+            folder: linkData.data.data.folder.filter((item) => {
+              return (
+                item.url?.includes(searchValue) ||
+                item.title?.includes(searchValue) ||
+                item.description?.includes(searchValue)
+              );
+            }),
+          }
         : null,
       loading: linkData.loading,
       error: linkData.error,

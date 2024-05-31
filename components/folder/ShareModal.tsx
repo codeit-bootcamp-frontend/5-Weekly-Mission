@@ -61,6 +61,7 @@ interface ShareModalProps {
   subtitle?: string;
   shareKakao?: () => void;
   shareFacebook?: () => void;
+  folderId?: number;
 }
 
 export default function ShareModal({
@@ -72,9 +73,10 @@ export default function ShareModal({
   subtitle,
   shareKakao,
   shareFacebook,
+  folderId,
 }: ShareModalProps) {
   const handleCopy = () => {
-    navigator.clipboard.writeText(window.location.href).then(() => {
+    navigator.clipboard.writeText(location.href.replace(location.pathname, '') + '/shared/' + folderId).then(() => {
       alert('주소가 복사되었습니다.');
     });
   };

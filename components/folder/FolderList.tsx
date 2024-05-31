@@ -9,7 +9,7 @@ import ChangeModal from './ChangeModal';
 import DeleteModal from './DeleteModal';
 import ShareModal from './ShareModal';
 import { useScript } from '@/hooks/useScript';
-import { FetchData, FolderData } from '@/common/api';
+import { FetchData, FoldersData } from '@/common/api';
 import { SIZE } from '@/constants/size';
 import Image from 'next/image';
 
@@ -89,7 +89,7 @@ declare global {
 }
 
 interface FolderListProps {
-  folderData: FetchData<FolderData[]>;
+  folderData: FetchData<FoldersData>;
   selectedId: number;
   setSelectedId: (id: number) => void;
 }
@@ -143,7 +143,7 @@ function FolderList({ folderData, selectedId, setSelectedId }: FolderListProps) 
           />
           {!loading &&
             error === null &&
-            data?.map((item) => (
+            data?.folder.map((item) => (
               <FolderBox
                 key={item.id}
                 id={item.id}
@@ -188,6 +188,7 @@ function FolderList({ folderData, selectedId, setSelectedId }: FolderListProps) 
             setter={setOpenShareModal}
             shareKakao={shareKakao}
             shareFacebook={shareFacebook}
+            folderId={selectedId}
           />
         )}
         {openChangeModal && (

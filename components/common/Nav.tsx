@@ -99,10 +99,9 @@ const LoginButton = styled.button`
 
 interface NavProps {
   userData?: { data?: UserData | null; loading?: boolean; error?: Error | null };
-  isSample?: boolean;
 }
 
-function Nav({ userData, isSample }: NavProps) {
+function Nav({ userData }: NavProps) {
   const { data, loading, error } = userData ?? {};
 
   return (
@@ -116,7 +115,7 @@ function Nav({ userData, isSample }: NavProps) {
           error === null && (
             <FlexDiv>
               <ProfileImg
-                src={(isSample ? data?.profileImageSource : data?.image_source) || noImage}
+                src={data?.image_source || noImage}
                 width={28}
                 height={28}
                 fetchPriority='high'

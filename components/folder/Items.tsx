@@ -1,4 +1,4 @@
-import { FetchData, FolderData, LinkData } from '@/common/api';
+import { FetchData, FoldersData, LinkData, LinksData } from '@/common/api';
 import Item from '@/components/common/Item';
 import { styled } from 'styled-components';
 import { SIZE } from '@/constants/size';
@@ -28,37 +28,68 @@ const EmptySpan = styled.span`
 `;
 
 interface ItemsProps {
-  folderData: FetchData<FolderData[]>;
-  linkData: FetchData<LinkData[]>;
+  folderData?: FetchData<FoldersData>;
+  linkData?: FetchData<LinksData>;
+  shareLinkData?: FetchData<LinkData[]>;
 }
 
-function Items({ folderData, linkData }: ItemsProps) {
-  const { data, loading, error } = linkData;
+function Items({ folderData, linkData, shareLinkData }: ItemsProps) {
+  if (linkData) {
+    const { data, loading, error } = linkData;
 
-  return (
-    <>
-      {!loading &&
-        error === null &&
-        (data?.length === 0 ? (
-          <EmptyDiv>
-            <EmptySpan>저장된 링크가 없습니다.</EmptySpan>
-          </EmptyDiv>
-        ) : (
-          data?.map((item) => (
-            <Item
-              key={item.id}
-              createdAt={item.created_at}
-              url={item.url}
-              title={item.title}
-              description={item.description}
-              imageSource={item.image_source}
-              folderData={folderData}
-              editable={true}
-            />
-          ))
-        ))}
-    </>
-  );
+    return (
+      <>
+        {!loading &&
+          error === null &&
+          (data?.folder.length === 0 ? (
+            <EmptyDiv>
+              <EmptySpan>저장된 링크가 없습니다.</EmptySpan>
+            </EmptyDiv>
+          ) : (
+            data?.folder.map((item) => (
+              <Item
+                key={item.id}
+                createdAt={item.created_at}
+                url={item.url}
+                title={item.title}
+                description={item.description}
+                imageSource={item.image_source}
+                folderData={folderData}
+                editable={true}
+              />
+            ))
+          ))}
+      </>
+    );
+  }
+
+  if (shareLinkData) {
+    const { data, loading, error } = shareLinkData;
+
+    return (
+      <>
+        {!loading &&
+          error === null &&
+          (data?.length === 0 ? (
+            <EmptyDiv>
+              <EmptySpan>저장된 링크가 없습니다.</EmptySpan>
+            </EmptyDiv>
+          ) : (
+            data?.map((item) => (
+              <Item
+                key={item.id}
+                createdAt={item.created_at}
+                url={item.url}
+                title={item.title}
+                description={item.description}
+                imageSource={item.image_source}
+                editable={false}
+              />
+            ))
+          ))}
+      </>
+    );
+  }
 }
 
 export default Items;

@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import Modal from '@/components/common/Modal';
 import { useState } from 'react';
 import check from '@/assets/images/icons/check.png';
-import { FetchData, FolderData } from '@/common/api';
+import { FetchData, FoldersData } from '@/common/api';
 import Image from 'next/image';
 
 const LinkName = styled.div`
@@ -96,7 +96,7 @@ interface AddLinkModalProps {
   padding?: string;
   setter?: (param: boolean) => void;
   url?: string;
-  folderData?: FetchData<FolderData[]>;
+  folderData?: FetchData<FoldersData>;
 }
 
 export default function AddLinkModal({ title, width, height, padding, setter, url, folderData }: AddLinkModalProps) {
@@ -106,7 +106,7 @@ export default function AddLinkModal({ title, width, height, padding, setter, ur
     <Modal title={title} width={width} height={height} padding={padding} setter={setter}>
       <LinkName>{url}</LinkName>
       <Folders>
-        {folderData?.data?.map((item, idx) => (
+        {folderData?.data?.folder.map((item, idx) => (
           <Folder
             key={item.id}
             onClick={() => {
@@ -116,7 +116,8 @@ export default function AddLinkModal({ title, width, height, padding, setter, ur
           >
             <FolderLeft>
               <FolderName>{item.name}</FolderName>
-              <LinkCount>{item.link.count}개 링크</LinkCount>
+              {/* 확인해야함 */}
+              {/* <LinkCount>{item.link.count}개 링크</LinkCount> */}
             </FolderLeft>
             <FolderRight>
               {(selectedId === null ? idx === 0 : selectedId === item.id) && <CheckImg src={check} alt='check' />}

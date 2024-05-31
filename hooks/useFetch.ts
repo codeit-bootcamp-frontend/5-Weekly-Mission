@@ -91,7 +91,8 @@ const useFetch = <T>({
     if (immediate) {
       sendRequest();
     }
-  }, [immediate, sendRequest]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [immediate, url]);
 
   return { sendRequest, data, loading, error };
 };

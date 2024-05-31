@@ -17,11 +17,13 @@ export interface ApiInfo {
 export const API_INFO: ApiInfo = {
   baseUrl: 'https://bootcamp-api.codeit.kr',
   endpoints: {
-    sampleUser: { url: '/api/sample/user', method: 'GET' },
-    sampleData: { url: '/api/sample/folder', method: 'GET' },
-    getUser: { url: '/api/users/{param1}', method: 'GET' },
-    getFolder: { url: '/api/users/{param1}/folders', method: 'GET' },
-    getData: { url: '/api/users/{param1}/links', method: 'GET' },
+    getUserByUserId: { url: '/api/users/{param1}', method: 'GET' },
+    getFolderByUserId: { url: '/api/users/{param1}/folders', method: 'GET' },
+    getDataByUserId: { url: '/api/users/{param1}/links', method: 'GET' },
+    getUserByToken: { url: '/api/users', method: 'GET' },
+    getFolderByToken: { url: '/api/folders', method: 'GET' },
+    getDataByToken: { url: '/api/links', method: 'GET' },
+    getFolderByFolderId: { url: '/api/folders/{param1}', method: 'GET' },
     checkEmail: { url: '/api/check-email', method: 'POST' },
     signin: { url: '/api/sign-in', method: 'POST' },
     signup: { url: '/api/sign-up', method: 'POST' },
@@ -52,7 +54,6 @@ export interface FolderData {
   name: string;
   user_id: number;
   favorite: boolean;
-  link: { count: number };
 }
 
 export interface LinkData {
@@ -66,17 +67,28 @@ export interface LinkData {
   url: string;
 }
 
-export interface LinkSample {
+export interface FoldersData {
+  folder: { id: number; created_at: string; name: string; user_id: number; favorite: boolean }[];
+}
+
+export interface LinksData {
   folder: {
-    count: number;
+    created_at: string;
+    description: string;
+    folder_id: number;
     id: number;
-    links: { createdAt: string; description: string; id: number; imageSource: string; title: string; url: string }[];
-    name: string;
-    owner: { id: number; name: string; profileImageSource: string };
-  };
+    image_source: string;
+    title: string;
+    updated_at: string | null;
+    url: string;
+  }[];
 }
 
 export interface Data<T> {
+  data: T;
+}
+
+export interface DataArray<T> {
   data: T[];
 }
 

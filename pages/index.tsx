@@ -1,5 +1,5 @@
-import Shared from './shared/index';
+import SignIn from './signin/index';
 
 export default function Home() {
-  return <Shared />;
+  return <SignIn />;
 }

@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from 'react';
 import KebbabPopover from '@/components/folder/KebbabPopover';
 import DeleteModal from '@/components/folder/DeleteModal';
 import AddLinkModal from '@/components/folder/AddLinkModal';
-import { FetchData, FolderData } from '@/common/api';
+import { FetchData, FoldersData } from '@/common/api';
 import { SIZE } from '@/constants/size';
 
 const StyledArticle = styled.article`
@@ -48,6 +48,8 @@ const ImgDiv = styled.div`
   width: 100%;
   height: 200px;
   overflow: hidden;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 `;
 
 const StyledImg = styled(Image)`
@@ -123,7 +125,7 @@ interface ItemProps {
   title: string;
   description?: string;
   imageSource?: string;
-  folderData?: FetchData<FolderData[]>;
+  folderData?: FetchData<FoldersData>;
   editable?: boolean;
 }
 

@@ -1,9 +1,9 @@
-import SampleItems from './SampleItems';
 import Search from '@/components/common/Search';
 import styled from 'styled-components';
-import { FetchData, LinkSample } from '@/common/api';
+import { FetchData, LinkData } from '@/common/api';
 import { useEffect, useState } from 'react';
 import { SIZE } from '@/constants/size';
+import Items from '../folder/Items';
 
 const StyledMain = styled.main`
   display: flex;
@@ -41,30 +41,26 @@ const GridDiv = styled.div`
 `;
 
 interface ContentProps {
-  linkData: { data: LinkSample | null; loading: boolean; error: Error | null };
+  linkData: { data: LinkData[] | null; loading: boolean; error: Error | null };
 }
 
 function Content({ linkData }: ContentProps) {
   const [searchValue, setSearchValue] = useState('');
 
-  const [itemData, setItemData] = useState<FetchData<LinkSample>>(linkData);
+  const [itemData, setItemData] = useState<FetchData<LinkData[]>>(linkData);
 
   useEffect(() => {
     setItemData({
       data: linkData.data
-        ? {
-            ...linkData.data,
-            folder: {
-              ...linkData.data.folder,
-              links: linkData.data.folder.links.filter((item) => {
-                return (
-                  item.url?.includes(searchValue) ||
-                  item.title?.includes(searchValue) ||
-                  item.description?.includes(searchValue)
-                );
-              }),
-            },
-          }
+        ? [
+            ...linkData.data.filter((item) => {
+              return (
+                item.url?.includes(searchValue) ||
+                item.title?.includes(searchValue) ||
+                item.description?.includes(searchValue)
+              );
+            }),
+          ]
         : null,
       loading: linkData.loading,
       error: linkData.error,
@@ -76,7 +72,7 @@ function Content({ linkData }: ContentProps) {
       <StyledDiv>
         <Search placeholder={'링크를 검색해 보세요.'} searchState={searchValue} onInputChange={setSearchValue}></Search>
         <GridDiv>
-          <SampleItems linkData={itemData} />
+          <Items shareLinkData={itemData} />
         </GridDiv>
       </StyledDiv>
     </StyledMain>

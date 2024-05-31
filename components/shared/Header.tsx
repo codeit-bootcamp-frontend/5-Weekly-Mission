@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { UserData } from '@/common/api';
 import { SIZE } from '@/constants/size';
 import Image from 'next/image';
+import noImage from '@/assets/images/noImage.jpg';
 
 const StyledHeader = styled.header`
   width: 100%;
@@ -69,7 +70,7 @@ function Header({ userData, folderName }: HeaderProps) {
       <StyledDiv>
         {!loading && error === null ? (
           <>
-            <ProfileImg src={data?.profileImageSource || ''} width={60} height={60} alt='프로필' />
+            <ProfileImg src={data?.image_source || noImage} width={60} height={60} alt='프로필' />
             <UserNameSpan>{data?.name}</UserNameSpan>
             <FolderNameSpan>{folderName}</FolderNameSpan>
           </>

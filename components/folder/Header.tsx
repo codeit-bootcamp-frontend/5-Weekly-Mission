@@ -1,6 +1,6 @@
 import LinkAppender from './LinkAdder';
 import { css, styled } from 'styled-components';
-import { FetchData, FolderData } from '@/common/api';
+import { FetchData, FoldersData } from '@/common/api';
 import { useEffect, useRef, useState } from 'react';
 import { SIZE } from '@/constants/size';
 
@@ -53,7 +53,7 @@ const StyledDiv = styled.div`
 `;
 
 interface HeaderProps {
-  folderData: FetchData<FolderData[]>;
+  folderData: FetchData<FoldersData>;
 }
 
 function Header({ folderData }: HeaderProps) {
