@@ -1,0 +1,19 @@
+@import "@/styles/global.scss";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 0;
+  padding-bottom: 4rem;
+
+  @include tablet {
+    row-gap: 3rem;
+    padding-bottom: 12rem;
+  }
+
+  @include desktop {
+    row-gap: 7rem;
+    padding-bottom: 12rem;
+  }
+}

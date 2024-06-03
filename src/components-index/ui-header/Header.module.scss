@@ -1,0 +1,96 @@
+@import "@/styles/global.scss";
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  background-color: $color-light-blue;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 2.4rem;
+  width: 100%;
+  padding: 2.8rem 3.2rem 0;
+
+  @include tablet {
+    row-gap: 4rem;
+    width: 69.8rem;
+    padding-top: 4rem;
+  }
+
+  @include desktop {
+    row-gap: 4rem;
+    width: 120rem;
+    padding-top: 7rem;
+  }
+}
+
+.text {
+  width: 80rem;
+  text-align: center;
+  font-size: 3.2rem;
+  line-height: 131.25%;
+  font-weight: 700;
+
+  @include tablet {
+    font-size: 6.4rem;
+    line-height: 125%;
+  }
+}
+
+.gradient {
+  background: linear-gradient(91deg, #6d6afe 17.28%, #ff9f9f 74.98%);
+  background-clip: text;
+  //TODO: background-clip: text 가 표준화되면 삭제
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.line-break {
+  display: inline;
+
+  @include desktop {
+    display: none;
+  }
+}
+
+.image {
+  width: 100%;
+  height: fit-content;
+  border-radius: 25px;
+  background: linear-gradient(
+    180deg,
+    rgba(196, 196, 196, 0) 67.68%,
+    #f0f6ff 94.76%
+  );
+
+  @include tablet {
+    width: 69.8rem;
+    height: 34.3rem;
+  }
+
+  @include desktop {
+    width: 120rem;
+    height: 59rem;
+  }
+}
+
+.add-link {
+  display: inline-block;
+  width: 20rem;
+  padding: 1rem 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-align: center;
+
+  @include tablet {
+    width: 35rem;
+    padding: 1.6rem 0;
+    font-size: 1.8rem;
+  }
+}

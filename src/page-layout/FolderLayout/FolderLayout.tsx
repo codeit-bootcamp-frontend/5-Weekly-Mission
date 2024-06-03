@@ -1,9 +1,14 @@
+import { ReactNode } from "react";
 import styles from "./FolderLayout.module.scss";
 import classNames from "classnames/bind";
 
 const cx = classNames.bind(styles);
 
-export const FolderLayout = ({
+interface FolderLayoutProps {
+  [props: string]: ReactNode;
+}
+
+export const FolderLayout: React.FC<FolderLayoutProps> = ({
   linkForm,
   searchBar,
   folderToolBar,

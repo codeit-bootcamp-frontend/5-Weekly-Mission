@@ -1,0 +1,46 @@
+@import "@/styles/global.scss";
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border-radius: 0.8rem;
+  border: 1px solid $color-gray20;
+  padding: 1.2rem 2.4rem;
+  width: 100%;
+  height: 5.4rem;
+  background: $color-gray10;
+}
+
+.text {
+  color: $color-gray100;
+  font-size: 1.4rem;
+  font-weight: 400;
+}
+
+.icon-box {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 1.6rem;
+}
+
+.google,
+.kakao {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 4.2rem;
+  height: 4.2rem;
+  border-radius: 50%;
+}
+
+.google {
+  background-color: white;
+  border: 0.1rem solid #d3d4dd;
+}
+
+.kakao {
+  background-color: #f5e14b;
+  padding-top: 0.2rem;
+}

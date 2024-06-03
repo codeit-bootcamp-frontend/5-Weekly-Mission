@@ -1,11 +1,25 @@
-import { SampleUser } from "@/common/types/data-access-types";
-import { useAsync } from "@/common/util";
-import { axiosInstance } from "@/common/util";
+import type { SampleUser } from "../../../types/data-access-types";
+import type { asyncFunctionType } from "@/src/components-common/util";
+import { useAsync } from "@/src/components-common/util";
+import { axiosInstance } from "@/src/components-common/util";
 
-export const useGetUser = () => {
-  const getUser = () => axiosInstance.get("sample/user");
-  const { loading, error, data } = useAsync(getUser);
+interface useGetUserType {
+  (): {
+    loading: boolean;
+    error: any;
+    user: SampleUser | null;
+  };
+}
 
-  const userData = data as SampleUser;
-  return { loading, error, userData };
+export const useGetUser: useGetUserType = () => {
+  const getUser: asyncFunctionType = () => axiosInstance.get("sample/user");
+  const { loading, error, data: rawDataOfUser } = useAsync(getUser);
+
+  const isUser = (rawDataOfUser: any): rawDataOfUser is SampleUser => {
+    return rawDataOfUser !== null && typeof rawDataOfUser === "object";
+  };
+
+  const user = isUser(rawDataOfUser) ? rawDataOfUser : null;
+
+  return { loading, error, user };
 };
