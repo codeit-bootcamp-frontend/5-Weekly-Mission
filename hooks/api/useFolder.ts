@@ -1,5 +1,4 @@
 import { getFolders } from "@/api";
-import { IS_CLIENT } from "@/constants";
 import { useQuery } from "@tanstack/react-query";
 import { QueryTokenProp } from "./useUser";
 import { useRouter } from "next/router";
@@ -23,7 +22,7 @@ export function useFolder({ localAccessToken }: QueryTokenProp) {
       });
       return data;
     },
-    enabled: IS_CLIENT,
+    enabled: !!window,
   });
 
   return { folders, isLoadingFolders, isErrorFolders };

@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useStoreState } from "@/hooks/state";
 import { useLink } from "@/hooks/api/useLink";
-import { LOCAL_ACCESSTOKEN } from "@/constants";
 import LinkListPageLayout from "@/components/LinkListPageLayout";
 import LinkCards from "@/components/LinkCards";
 import LinkAddForm from "@/components/LinkAddForm";
@@ -13,12 +12,14 @@ import styles from "@/styles/LinkListPage.module.css";
 
 function Folder() {
   const { user, folders, setLinks } = useStoreState();
+  const localAccessToken =
+    typeof window !== "undefined" && localStorage.getItem("accessToken");
   const router = useRouter();
   const { folderId } = router.query;
   const id = Number(folderId);
   const { links } = useLink({
     folderId: id,
-    localAccessToken: LOCAL_ACCESSTOKEN,
+    localAccessToken,
   });
 
   const handleClickToSharedPage = () => {
@@ -28,9 +29,11 @@ function Folder() {
   useEffect(() => {
     if (!user) {
       router.replace("/signin");
+      return;
     }
     if (!folders) {
       router.replace("/folder");
+      return;
     }
     if (links) {
       setLinks(links);

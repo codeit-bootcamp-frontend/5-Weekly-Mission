@@ -1,5 +1,4 @@
 import { getUserByToken } from "@/api";
-import { IS_CLIENT } from "@/constants";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 
@@ -25,7 +24,7 @@ export function useUser({ localAccessToken }: QueryTokenProp) {
 
       return data;
     },
-    enabled: IS_CLIENT,
+    enabled: !!window,
   });
 
   return { user, isLoadingUser, isErrorUser };

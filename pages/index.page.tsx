@@ -1,34 +1,18 @@
-import { LOCAL_ACCESSTOKEN } from "@/constants";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import styles from "@/styles/Home.module.css";
 
 export default function Home() {
-  const router = useRouter();
-
-  const handleAutoSignin = () => {
-    if (LOCAL_ACCESSTOKEN) {
-      return router.push("/folder");
-    }
-
-    return router.push("/signin");
-  };
-
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-        gap: "20px",
-      }}
-    >
-      <button onClick={handleAutoSignin} type="button">
-        로그인
-      </button>
-      <Link href="/signup">회원가입</Link>
-      <Link href="/folder">폴더페이지</Link>
-    </div>
+    <main className={styles.container}>
+      <h1 className={styles.title}>링크브러리</h1>
+      <div className={styles.linkWrapper}>
+        <Link href="/signin" className={styles.linkButton}>
+          로그인
+        </Link>
+        <Link href="/signup" className={styles.linkButton}>
+          회원가입
+        </Link>
+      </div>
+    </main>
   );
 }

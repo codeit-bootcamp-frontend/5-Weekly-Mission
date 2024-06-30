@@ -1,5 +1,4 @@
 import { CODEIT_BASE_URL } from "@/constants";
-import { FormValues } from "./common/Auth/Form";
 import {
   FolderData,
   LinkData,
@@ -9,6 +8,7 @@ import {
   Response,
   UserData,
 } from "./types/api";
+import { FormValues } from "./types/form";
 
 interface TokenProp {
   token: string;
@@ -134,70 +134,72 @@ export async function getLinksByFolderId({
 
 // POST
 
-export async function postEmailCheck(email: string): Promise<void | string> {
-  const response = await fetch(`${CODEIT_BASE_URL}/check-email`, {
+export async function postEmailCheck(email: string): Promise<boolean | string> {
+  const response = await fetch(`${CODEIT_BASE_URL}/users/check-email`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email }),
   });
+  const result = await response.json();
 
   if (response.status === 409) {
-    const data = await response.json();
-    return data.error.message;
+    return result.message;
   }
 
   if (!response.ok) {
     throw new Error("잘못된 요청입니다.");
   }
 
-  return;
+  return result;
 }
 
 interface postData {
-  data: {
-    accessToken: string;
-    refreshToken: string;
-  };
+  data:
+    | {
+        accessToken: string;
+        refreshToken: string;
+      }
+    | { message: string };
 }
 
 export async function postSignup({
   email,
   password,
-}: FormValues): Promise<postData> {
-  const response = await fetch(`${CODEIT_BASE_URL}/sign-up`, {
+}: FormValues): Promise<postData | void> {
+  const response = await fetch(`${CODEIT_BASE_URL}/auth/sign-up`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password }),
   });
-  const data = await response.json();
 
   if (!response.ok) {
-    return data.error.message;
+    throw new Error("잘못된 요청입니다.");
   }
-
-  return data;
 }
 
 export async function postSignin({
   email,
   password,
 }: FormValues): Promise<postData> {
-  const response = await fetch(`${CODEIT_BASE_URL}/sign-in`, {
+  const response = await fetch(`${CODEIT_BASE_URL}/auth/sign-in`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password }),
   });
-  const data = await response.json();
 
   if (!response.ok) {
-    return data.error.message;
+    throw new Error("잘못된 요청입니다.");
   }
 
-  return data;
+  const result = await response.json();
+
+  return result;
 }
+
+// 탠스택 쿼리와 미들웨어 api 라우트 구현

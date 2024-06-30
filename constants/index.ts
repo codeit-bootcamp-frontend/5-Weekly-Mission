@@ -1,7 +1,8 @@
 //API
 
 export const KAKAO_KEY = "a841341da0099a5d1291638b48030745";
-export const CODEIT_BASE_URL = "https://bootcamp-api.codeit.kr/api";
+export const CODEIT_BASE_URL =
+  "https://bootcamp-api.codeit.kr/api/linkbrary/v1";
 export const SAMPLE_USER_ID = 1;
 export const SOCIALLINKS = [
   { href: "https://www.kakaocorp.com/page", src: "/images/kakaotalk.png" },
@@ -21,12 +22,3 @@ export const YEAR: number = 12 * MONTH;
 export const PW_PATTERN = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 export const EMAIL_PATTERN =
   /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-
-//Token
-
-export const LOCAL_ACCESSTOKEN: string | false | null =
-  typeof window !== "undefined" && localStorage.getItem("accessToken");
-
-//Hook
-
-export const IS_CLIENT = typeof window !== "undefined";

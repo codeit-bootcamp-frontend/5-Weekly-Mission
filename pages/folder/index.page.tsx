@@ -3,7 +3,6 @@ import { useStoreState } from "@/hooks/state";
 import { useUser } from "@/hooks/api/useUser";
 import { useFolder } from "@/hooks/api/useFolder";
 import { useLink } from "@/hooks/api/useLink";
-import { IS_CLIENT, LOCAL_ACCESSTOKEN } from "@/constants";
 import LinkListPageLayout from "@/components/LinkListPageLayout";
 import LinkCards from "@/components/LinkCards";
 import LinkAddForm from "@/components/LinkAddForm";
@@ -13,20 +12,22 @@ import EmptyLinkCards from "@/components/EmptyLinkCards";
 import styles from "@/styles/LinkListPage.module.css";
 
 function FolderPage() {
+  const localAccessToken =
+    typeof window !== "undefined" && localStorage.getItem("accessToken");
   const { setUser, setFolders, setIsLoadingWindow, isLoadingWindow } =
     useStoreState();
   const { user, isLoadingUser, isErrorUser } = useUser({
-    localAccessToken: LOCAL_ACCESSTOKEN,
+    localAccessToken,
   });
   const { folders, isLoadingFolders, isErrorFolders } = useFolder({
-    localAccessToken: LOCAL_ACCESSTOKEN,
+    localAccessToken,
   });
   const { links } = useLink({
-    localAccessToken: LOCAL_ACCESSTOKEN,
+    localAccessToken,
   });
 
   useEffect(() => {
-    if (IS_CLIENT) {
+    if (typeof window !== "undefined") {
       setIsLoadingWindow(false);
 
       if (user) {
