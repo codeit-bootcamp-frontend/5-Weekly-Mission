@@ -12,6 +12,10 @@ import { ModalParam } from "@/types/Modal";
 import { INavItem } from "@/types/FolderNav";
 import Image from "next/image";
 import { UserInfoContext } from "@/context/User";
+import FolderAddModalContent from "../common/modal/modalContent/FolderAddModalContent";
+import ShareModalContent from "../common/modal/modalContent/ShareModalContent";
+import FolderNameChangeContent from "../common/modal/modalContent/FolderNameChangeContent";
+import FolderDeleteContent from "../common/modal/modalContent/FolderDeleteContent";
 
 interface FolderNav {
   pageNavId?: string | string[];
@@ -28,7 +32,7 @@ const NavBox = ({ pageNavId }: FolderNav) => {
     const folderNavInfo = await getFolderNavInfo(userInfo.id);
 
     if (folderNavInfo !== null) {
-      setNavList(folderNavInfo.data.folder);
+      setNavList(folderNavInfo);
     }
   };
 
@@ -40,19 +44,19 @@ const NavBox = ({ pageNavId }: FolderNav) => {
     if (!pageNavId) {
       setCurrentNav("전체");
     }
-
     navList.forEach((navListItem: INavItem) => {
       if (
         navListItem.name &&
         pageNavId &&
         navListItem.id === parseInt(pageNavId[0])
-      )
+      ) {
         setCurrentNav(navListItem.name);
+      }
     });
-  }, [pageNavId]);
+  }, [pageNavId, navList]);
 
-  const handleOpenModal = ({ type, props }: ModalParam) => {
-    openModal({ type, props });
+  const handleOpenModal = ({ props, component }: ModalParam) => {
+    openModal({ props, component: component });
   };
 
   return (
@@ -79,8 +83,8 @@ const NavBox = ({ pageNavId }: FolderNav) => {
         <button
           onClick={() =>
             handleOpenModal({
-              type: "folderAdd",
               props: { title: "폴더 추가" },
+              component: <FolderAddModalContent />,
             })
           }
         >
@@ -96,8 +100,8 @@ const NavBox = ({ pageNavId }: FolderNav) => {
             <button
               onClick={() =>
                 handleOpenModal({
-                  type: "share",
                   props: { title: "폴더 공유", subTitle: currentNav },
+                  component: <ShareModalContent />,
                 })
               }
             >
@@ -107,8 +111,13 @@ const NavBox = ({ pageNavId }: FolderNav) => {
             <button
               onClick={() =>
                 handleOpenModal({
-                  type: "folderNameChange",
                   props: { title: "폴더 이름 변경" },
+                  component: (
+                    <FolderNameChangeContent
+                      pageNavId={pageNavId}
+                      navName={currentNav}
+                    />
+                  ),
                 })
               }
             >
@@ -118,8 +127,8 @@ const NavBox = ({ pageNavId }: FolderNav) => {
             <button
               onClick={() =>
                 handleOpenModal({
-                  type: "folderDelete",
                   props: { title: "폴더 삭제", subTitle: currentNav },
+                  component: <FolderDeleteContent pageNavId={pageNavId} />,
                 })
               }
             >

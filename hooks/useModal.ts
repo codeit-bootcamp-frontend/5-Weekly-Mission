@@ -5,8 +5,8 @@ import { ModalParam } from "@/types/Modal";
 export default function useModal() {
   const setModalState = useContext(ModalSetterContext);
 
-  const openModal = ({ type, props }: ModalParam) => {
-    setModalState({ type, props });
+  const openModal = ({ props, component }: ModalParam) => {
+    setModalState({ props, component });
   };
 
   const closeModal = () => {

@@ -4,7 +4,5 @@ export interface INavItem {
   name?: string;
   user_id?: number;
   favorite?: boolean;
-  link?: {
-    count: number;
-  };
+  link_count?: number;
 }

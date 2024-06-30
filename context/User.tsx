@@ -31,7 +31,8 @@ function UserToken({ children }: Props) {
 
   const handleLoginUserInfo = async (token: string) => {
     const result = await getSignInProfile(token);
-    const userInfo = result.data[0];
+
+    const userInfo = result[0];
 
     setUserInfo((prev) => ({
       ...prev,

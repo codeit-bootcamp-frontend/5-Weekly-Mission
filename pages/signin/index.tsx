@@ -33,14 +33,15 @@ const Signin = () => {
   useIsTokenRedirect();
 
   const handleSiginIn: SubmitHandler<FormValues> = async (data) => {
-    const result = await postSign("sign-in", data);
+    const result = await postSign("auth/sign-in", data);
+    console.log("result::", result);
     if (result.error) {
       alert("로그인 실패");
       return;
     }
 
-    localStorage.setItem("userToken", result.data.accessToken);
-    setUserToken(result.data.accessToken);
+    localStorage.setItem("userToken", result.accessToken);
+    setUserToken(result.accessToken);
     router.push(`/folder`);
   };
 

@@ -38,14 +38,14 @@ const Signup = () => {
       email: getValues("email"),
       password: getValues("signUpPassword"),
     };
-    const result = await postSign("sign-up", dataSet);
+    const result = await postSign("auth/sign-up", dataSet);
     if (result.error) {
       alert("회원가입 실패");
       return;
     }
 
-    localStorage.setItem("userToken", result.data.accessToken);
-    setUserToken(result.data.accessToken);
+    localStorage.setItem("userToken", result.accessToken);
+    setUserToken(result.accessToken);
     router.push(`/folder`);
   };
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
 type ModalPorps = {
   title: string;
@@ -6,8 +6,8 @@ type ModalPorps = {
 };
 
 export interface ModalParam {
-  type: ModalType;
   props: ModalPorps;
+  component: ReactNode;
 }
 
 export interface IModalLayout {
@@ -17,11 +17,3 @@ export interface IModalLayout {
 }
 
 export type TModalParam = ModalParam | null;
-
-export type ModalType =
-  | "share"
-  | "folderAdd"
-  | "folderNameChange"
-  | "folderDelete"
-  | "linkDelete"
-  | "linkAdd";

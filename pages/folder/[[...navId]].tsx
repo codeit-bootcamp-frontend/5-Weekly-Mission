@@ -22,6 +22,7 @@ interface FolderItem {
 const Folder = () => {
   const [linkList, setLinkList] = useState([]);
   const [searchValue, setSearchValue] = useState("");
+  const [key, setKey] = useState(0);
   const router = useRouter();
   const { navId } = router.query;
   const userInfo = useContext(UserInfoContext);
@@ -44,7 +45,7 @@ const Folder = () => {
     navId: string | string[] | undefined
   ) => {
     const resultData = await getFolderListInfo(navId, userInfo?.token);
-    setLinkList(resultData.data.folder);
+    setLinkList(resultData);
   };
 
   const handleSearchList = () => {
@@ -65,6 +66,10 @@ const Folder = () => {
     setSearchValue("");
   };
 
+  useEffect(() => {
+    setKey((prevKey) => prevKey + 1);
+  }, [navId]);
+
   return (
     <>
       <S.LinkAddWrap>
@@ -78,7 +83,7 @@ const Folder = () => {
             onClickDeleteBtn={handleDeleteBtn}
           />
           <S.FolderBox>
-            <NavBox pageNavId={navId} />
+            <NavBox key={key} pageNavId={navId} />
           </S.FolderBox>
           <S.ContentItemBox>
             <LinkList listInfo={filterLinkList} isSetting />

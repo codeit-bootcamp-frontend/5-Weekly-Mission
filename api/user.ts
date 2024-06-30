@@ -11,9 +11,8 @@ interface SignUserData {
 
 export const getSignInProfile = async (userToken: string) => {
   let result = null;
-
   try {
-    const response = await fetch(`${BASE_URL}/api/users`, {
+    const response = await fetch(`${BASE_URL}/users`, {
       headers: {
         Authorization: `Bearer ${userToken}`,
       },
@@ -34,7 +33,7 @@ export const getUserInfo = async (userId: string) => {
   let result = null;
 
   try {
-    const response = await fetch(`${BASE_URL}/api/users/${userId}`);
+    const response = await fetch(`${BASE_URL}/users/${userId}`);
     if (!response.ok) {
       throw new Error(`${response.status}`);
     }
@@ -51,7 +50,7 @@ export const postSign = async (apiUrl: string, userData: SignUserData) => {
   let result = null;
 
   try {
-    const response = await fetch(`${BASE_URL}/api/${apiUrl}`, {
+    const response = await fetch(`${BASE_URL}/${apiUrl}`, {
       method: "POST",
       headers: POST_HEADER,
       body: JSON.stringify(userData),
@@ -72,7 +71,7 @@ export const postCheckEmail = async (email: string) => {
   let result = null;
 
   try {
-    const response = await fetch(`${BASE_URL}/api/check-email`, {
+    const response = await fetch(`${BASE_URL}/users/check-email`, {
       method: "POST",
       headers: POST_HEADER,
       body: JSON.stringify({ email: email }),

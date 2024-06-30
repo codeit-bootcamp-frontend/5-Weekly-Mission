@@ -35,7 +35,7 @@ const Shared = () => {
     const folderInfo = await getSharedFolderInfo(folderId);
 
     if (folderInfo) {
-      const folderInfoData = folderInfo.data[0];
+      const folderInfoData = folderInfo[0];
 
       setFolderInfo(folderInfoData?.name);
       handleLoadOwnerInfo(folderInfoData?.user_id);
@@ -48,8 +48,8 @@ const Shared = () => {
 
     if (ownerInfo) {
       setBookMarkOwner({
-        name: ownerInfo.data[0].name,
-        image_source: ownerInfo.data[0].image_source,
+        name: ownerInfo[0].name,
+        image_source: ownerInfo[0].image_source,
       });
     }
   };
@@ -61,7 +61,7 @@ const Shared = () => {
     const linkList = await getSharedLinkList(userId, folderId);
 
     if (linkList) {
-      setLinkList(linkList.data);
+      setLinkList(linkList);
     }
   };
 

@@ -49,7 +49,11 @@ const Link = ({ linkInfo, isSetting }: LinkItemParam) => {
               </button>
             )}
             {isKebabOpen && (
-              <KebabList linkUrl={linkInfo.url} setKebabOpen={setIsKebabOpen} />
+              <KebabList
+                linkId={linkInfo.id}
+                linkUrl={linkInfo.url}
+                setKebabOpen={setIsKebabOpen}
+              />
             )}
           </S.AgoBox>
           <S.ContentParagraph>{linkInfo.description}</S.ContentParagraph>

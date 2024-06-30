@@ -5,6 +5,10 @@ import Layout from "@/components/layout/Layout";
 import Modal from "@/context/Modal";
 import ModalPortal from "@/components/common/modal/ModalPortal";
 import UserToken from "@/context/User";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
+const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
   let isRemoveLayoutPage = false;
@@ -33,8 +37,11 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <StyledComponentsRegistry>
-      <GlobalStyle isRemoveLayoutPage={isRemoveLayoutPage} />
-      <UserToken>{childContent}</UserToken>
+      <QueryClientProvider client={queryClient}>
+        <GlobalStyle isRemoveLayoutPage={isRemoveLayoutPage} />
+        <UserToken>{childContent}</UserToken>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </StyledComponentsRegistry>
   );
 }
