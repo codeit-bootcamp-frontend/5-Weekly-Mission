@@ -1,4 +1,4 @@
-import apiInstance from "@/shared/model/api/axios";
+import apiInstance from "@/shared/model/axios";
 
 export const signup = async (data: { email: string; password: string }) => {
   try {

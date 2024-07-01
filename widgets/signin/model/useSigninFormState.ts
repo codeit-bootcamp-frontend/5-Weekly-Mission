@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 
-enum AuthFormStateKey {
+export enum AuthFormStateKey {
   email = "email",
   password = "password",
 }
 
-export const useLoginFormState = () => {
+export const useSigninFormState = () => {
   const {
     register,
     handleSubmit,

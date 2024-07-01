@@ -3,7 +3,7 @@ import searchedSectionImg from "@/public/img/home/Searched_section.png";
 import Image from "next/image";
 import styles from "./searchedSection.module.css";
 
-const SearchedSection = () => {
+export const SearchedSection = () => {
   return (
     <section className={styles.container}>
       <p className={styles.mobileHeading}>
@@ -29,5 +29,3 @@ const SearchedSection = () => {
     </section>
   );
 };
-
-export default SearchedSection;

@@ -11,7 +11,7 @@ interface PasswordInputProps {
   inputType: string;
 }
 
-const PasswordInput = ({
+export const PasswordInput = ({
   passwordErr,
   setPasswordErr,
   password,
@@ -33,5 +33,3 @@ const PasswordInput = ({
     />
   );
 };
-
-export default PasswordInput;

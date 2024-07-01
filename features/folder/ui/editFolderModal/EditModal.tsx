@@ -1,9 +1,9 @@
 import React from "react";
 import styles from "./editModal.module.css";
 import GradientSkyblueBtn from "@//shared/ui/button/gradientBtn/GradientSkyblueBtn";
-import { useFolderState } from "@/shared/model/hooks/useFolderState";
+import { useFolderState } from "@/shared/store/useFolderState";
 
-const EditModal = () => {
+export const EditModal = () => {
   const { folderName } = useFolderState();
 
   return (
@@ -15,10 +15,8 @@ const EditModal = () => {
         placeholder={folderName}
       />
       <div className={styles.editBtn}>
-        <GradientSkyblueBtn text="변경하기" onClick={() => {}} />
+        <GradientSkyblueBtn text="변경하기" type="button" onClick={() => {}} />
       </div>
     </div>
   );
 };
-
-export default EditModal;

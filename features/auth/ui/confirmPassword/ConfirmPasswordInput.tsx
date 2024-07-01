@@ -12,7 +12,7 @@ interface ConfirmPasswordInputProps {
   inputType: string;
 }
 
-const ConfirmPasswordInput = ({
+export const ConfirmPasswordInput = ({
   confirmPassword,
   setConfirmPassword,
   confirmPasswordErr,
@@ -39,5 +39,3 @@ const ConfirmPasswordInput = ({
     />
   );
 };
-
-export default ConfirmPasswordInput;

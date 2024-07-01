@@ -3,7 +3,7 @@ import managed_section_img from "@/public/img/home/managed_section.png";
 import Image from "next/image";
 import styles from "./managedSection.module.css";
 
-const ManagedSection = () => {
+export const ManagedSection = () => {
   return (
     <section className={styles.container}>
       <p className={styles.mobileHeading}>
@@ -31,5 +31,3 @@ const ManagedSection = () => {
     </section>
   );
 };
-
-export default ManagedSection;

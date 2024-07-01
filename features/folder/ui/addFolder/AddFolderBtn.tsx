@@ -3,7 +3,7 @@ import styles from "./addFolderBtn.module.css";
 import plusIcon from "@/public/img/folder/plus.svg";
 import Image from "next/image";
 
-const FixedAddFolderBtn = () => {
+export const FixedAddFolderBtn = () => {
   return (
     <button className={styles.wrap}>
       <p>폴더추가</p>
@@ -11,5 +11,3 @@ const FixedAddFolderBtn = () => {
     </button>
   );
 };
-
-export default FixedAddFolderBtn;

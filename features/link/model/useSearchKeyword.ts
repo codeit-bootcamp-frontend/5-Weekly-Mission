@@ -1,4 +1,4 @@
-import { useKeywordState } from "@/shared/model/hooks/useSearchState";
+import { useKeywordState } from "@/shared/store/useSearchState";
 import { Link } from "@/types/link";
 import * as Hangul from "hangul-js";
 

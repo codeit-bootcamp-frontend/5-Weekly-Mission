@@ -7,6 +7,9 @@
   background-color: black;
   padding: 32px 32px 64px;
   margin-top: 60px;
+
+  position: absolute;
+  bottom: 0;
 }
 
 .wrap {

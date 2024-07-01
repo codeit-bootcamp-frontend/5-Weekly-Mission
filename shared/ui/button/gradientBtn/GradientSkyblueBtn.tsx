@@ -3,12 +3,17 @@ import styles from "./gradientSkyblueBtn.module.css";
 
 interface PropsType {
   text: string;
+  type: "submit" | "button" | "reset" | undefined;
   onClick?: () => void;
 }
 
-const GradientSkyblueBtn: React.FC<PropsType> = ({ text, onClick }) => {
+const GradientSkyblueBtn: React.FC<PropsType> = ({ text, type, onClick }) => {
   return (
-    <button onClick={onClick} className={`${styles.gradientSkyblueBtn}`}>
+    <button
+      type={type}
+      onClick={onClick}
+      className={`${styles.gradientSkyblueBtn}`}
+    >
       {text}
     </button>
   );

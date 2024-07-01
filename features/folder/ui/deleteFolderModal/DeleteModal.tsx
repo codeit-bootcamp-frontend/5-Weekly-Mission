@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./deleteModal.module.css";
-import { useFolderState } from "@/shared/model/hooks/useFolderState";
+import { useFolderState } from "@/shared/store/useFolderState";
 
-const DeleteModal = () => {
+export const DeleteModal = () => {
   const { folderName } = useFolderState();
   return (
     <div className={styles.container}>
@@ -14,5 +14,3 @@ const DeleteModal = () => {
     </div>
   );
 };
-
-export default DeleteModal;

@@ -1,6 +1,5 @@
-import apiInstance from "@/shared/model/api/axios";
 import { useForm } from "react-hook-form";
-import { duplicateCheckEmail } from "./duplicateCheckEmail";
+import { duplicateCheckEmail } from "../api/duplicateCheckEmail";
 
 enum AuthFormStateKey {
   email = "email",

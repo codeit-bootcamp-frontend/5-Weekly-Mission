@@ -2,9 +2,9 @@ import React from "react";
 import styles from "./searchBar.module.css";
 import magifier from "@/public/img/folder/magnifier.svg";
 import Image from "next/image";
-import { useKeywordState } from "@/shared/model/hooks/useSearchState";
+import { useKeywordState } from "@/shared/store/useSearchState";
 
-const SearchBar = () => {
+export const SearchBar = () => {
   const { setKeyword } = useKeywordState();
 
   return (
@@ -23,5 +23,3 @@ const SearchBar = () => {
     </div>
   );
 };
-
-export default SearchBar;

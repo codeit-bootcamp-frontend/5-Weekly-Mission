@@ -3,7 +3,7 @@ import React from "react";
 import shared_section_img from "@/public/img/home/shared_section.png";
 import styles from "./sharedSection.module.css";
 
-const SharedSection = () => {
+export const SharedSection = () => {
   return (
     <section className={styles.container}>
       <div className={styles.wrap}>
@@ -30,5 +30,3 @@ const SharedSection = () => {
     </section>
   );
 };
-
-export default SharedSection;

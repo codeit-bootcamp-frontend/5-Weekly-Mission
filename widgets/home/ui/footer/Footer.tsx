@@ -6,7 +6,7 @@ import twitter_icon from "@/public/img/home/twitter.svg";
 import youtube_icon from "@/public/img/home/youtube.svg";
 import styles from "./footer.module.css";
 
-const Footer = () => {
+export const Footer = () => {
   return (
     <footer className={styles.footer}>
       <div className={styles.wrap}>
@@ -36,5 +36,3 @@ const Footer = () => {
     </footer>
   );
 };
-
-export default Footer;

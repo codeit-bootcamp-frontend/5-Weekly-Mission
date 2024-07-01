@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./linkKebab.module.css";
 
-const LinkKebab = () => {
+export const LinkKebab = () => {
   return (
     <div className={styles.kebabModal}>
       <button className={styles.kebabItem}>삭제하기</button>
@@ -9,5 +9,3 @@ const LinkKebab = () => {
     </div>
   );
 };
-
-export default LinkKebab;

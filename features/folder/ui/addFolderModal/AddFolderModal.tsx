@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./addFolderModal.module.css";
 import GradientSkyblueBtn from "@/shared/ui/button/gradientBtn/GradientSkyblueBtn";
 
-const AddFolderModal = () => {
+export const AddFolderModal = () => {
   return (
     <div className={styles.container}>
       <p className={styles.title}>폴더 추가</p>
@@ -13,10 +13,8 @@ const AddFolderModal = () => {
       />
 
       <div className={styles.addBtn}>
-        <GradientSkyblueBtn text="추가하기" onClick={() => {}} />
+        <GradientSkyblueBtn text="추가하기" type="button" onClick={() => {}} />
       </div>
     </div>
   );
 };
-
-export default AddFolderModal;

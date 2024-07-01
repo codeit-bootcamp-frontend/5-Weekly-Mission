@@ -7,7 +7,7 @@ interface FolderHandleProps {
   onClick: () => void;
 }
 
-const FolderHandle = ({ src, text, onClick }: FolderHandleProps) => {
+export const FolderHandle = ({ src, text, onClick }: FolderHandleProps) => {
   return (
     <button onClick={onClick}>
       <Image src={src} alt={`${text} icon`} width={15} height={15} />
@@ -15,5 +15,3 @@ const FolderHandle = ({ src, text, onClick }: FolderHandleProps) => {
     </button>
   );
 };
-
-export default FolderHandle;

@@ -1,16 +1,16 @@
 import React from "react";
 import styles from "./folder.module.css";
 import type { Category } from "@/types/category";
-import { useFolderState } from "@/shared/model/hooks/useFolderState";
+import { useFolderState } from "@/shared/store/useFolderState";
 
 interface FolderBtnProps {
   folder: Category;
   onClick: () => void;
 }
 
-const FolderBtn = ({ folder, onClick }: FolderBtnProps) => {
-  const { folderId } = useFolderState();
-  const isSelected = folderId === folder.id;
+export const FolderBtn = ({ folder, onClick }: FolderBtnProps) => {
+  const { folderName } = useFolderState();
+  const isSelected = folderName === folder.name;
 
   return (
     <button
@@ -21,5 +21,3 @@ const FolderBtn = ({ folder, onClick }: FolderBtnProps) => {
     </button>
   );
 };
-
-export default FolderBtn;

@@ -11,7 +11,7 @@ interface LinkCardProps {
   children: React.ReactNode;
 }
 
-const LinkCard = ({ link, children }: LinkCardProps) => {
+export const LinkCard = ({ link, children }: LinkCardProps) => {
   const { kebabRef, isOpenKebab, handleIsOpenKebab } = useHandleKebab();
 
   // TODO: kebab과 관련된 로직을 분리해야 합니다. --> kebab에 관련된 ui와 기능은 features에 있는 것이 맞습니다.
@@ -45,5 +45,3 @@ const LinkCard = ({ link, children }: LinkCardProps) => {
     </div>
   );
 };
-
-export default LinkCard;

@@ -5,9 +5,9 @@ import Image from "next/image";
 import kakaoIcon from "@/public/img/auth/kakao.svg";
 import facebookIcon from "@/public/img/auth/facebook.svg";
 import linkIcon from "@/public/img/folder/link.svg";
-import { useFolderState } from "@/shared/model/hooks/useFolderState";
+import { useFolderState } from "@/shared/store/useFolderState";
 
-const ShareModal = () => {
+export const ShareModal = () => {
   const { folderName } = useFolderState();
 
   return (
@@ -39,5 +39,3 @@ const ShareModal = () => {
     </div>
   );
 };
-
-export default ShareModal;

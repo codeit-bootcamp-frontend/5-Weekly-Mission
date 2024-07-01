@@ -6,21 +6,20 @@ import GradientSkyblueBtn from "@/shared/ui/button/gradientBtn/GradientSkyblueBt
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-const Header = () => {
+export const Header = () => {
   const router = useRouter();
   return (
     <header className={styles.container}>
-      <Link href={"/"}>
+      <Link href="/">
         <Image src={logo} alt="logo" />
       </Link>
       <div className={styles.wrap}>
         <GradientSkyblueBtn
           text={"로그인"}
+          type="button"
           onClick={() => router.push("/signin")}
         />
       </div>
     </header>
   );
 };
-
-export default Header;

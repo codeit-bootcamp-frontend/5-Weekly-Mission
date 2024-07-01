@@ -9,7 +9,7 @@ interface EmailInputProps {
   setEmailErr: Dispatch<SetStateAction<string>>;
 }
 
-const EmailInput = ({
+export const EmailInput = ({
   emailErr,
   setEmail,
   email,
@@ -30,5 +30,3 @@ const EmailInput = ({
     />
   );
 };
-
-export default EmailInput;

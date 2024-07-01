@@ -3,7 +3,7 @@ import React from "react";
 import save_section_img from "@/public/img/home/save_section.svg";
 import styles from "./savedSection.module.css";
 
-const SaveSection = () => {
+export const SaveSection = () => {
   return (
     <section className={styles.container}>
       <div className={styles.headingWrap}>
@@ -29,5 +29,3 @@ const SaveSection = () => {
     </section>
   );
 };
-
-export default SaveSection;

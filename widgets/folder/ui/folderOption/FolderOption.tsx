@@ -1,41 +1,45 @@
-import CategoryHandle from "@/features/folder/ui/folderHandle/CategoryHandle";
 import React, { Dispatch, SetStateAction } from "react";
 import styles from "./folderOption.module.css";
-
 import shareIcon from "@/public/img/folder/share.svg";
 import editIcon from "@/public/img/folder/edit.svg";
 import deleteIcon from "@/public/img/folder/delete.svg";
-import { onClickFolder } from "@/features/folder/model/onClickFolder";
+import { FolderHandle } from "@/features/folder";
 
 interface FolderOptionProps {
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
   setModalType: Dispatch<SetStateAction<string>>;
 }
 
-const FolderOption = ({ setIsModalOpen, setModalType }: FolderOptionProps) => {
+export const FolderOption = ({
+  setIsModalOpen,
+  setModalType,
+}: FolderOptionProps) => {
   return (
     <div className={styles.optionBtn}>
-      <CategoryHandle
+      <FolderHandle
         src={shareIcon}
         text="공유"
         onClick={() => {
-          onClickFolder(setIsModalOpen, setModalType, "share");
+          setIsModalOpen(true);
+          setModalType("share");
         }}
       />
-      <CategoryHandle
+      <FolderHandle
         src={editIcon}
         text="수정"
-        onClick={() => onClickFolder(setIsModalOpen, setModalType, "edit")}
+        onClick={() => {
+          setIsModalOpen(true);
+          setModalType("edit");
+        }}
       />
-      <CategoryHandle
+      <FolderHandle
         src={deleteIcon}
         text="삭제"
         onClick={() => {
-          onClickFolder(setIsModalOpen, setModalType, "delete");
+          setIsModalOpen(true);
+          setModalType("delete");
         }}
       />
     </div>
   );
 };
-
-export default FolderOption;

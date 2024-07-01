@@ -2,9 +2,9 @@ import React from "react";
 import styles from "./addLink.module.css";
 import linkIcon from "@/public/img/folder/link.svg";
 import Image from "next/image";
-import GradientSkyblueBtn from "@//shared/ui/button/gradientBtn/GradientSkyblueBtn";
+import GradientSkyblueBtn from "@/shared/ui/button/gradientBtn/GradientSkyblueBtn";
 
-const AddLink = () => {
+export const AddLink = () => {
   return (
     <section className={styles.container}>
       <div className={styles.addLinkBar}>
@@ -17,11 +17,9 @@ const AddLink = () => {
           />
         </div>
         <div className={styles.addBtn}>
-          <GradientSkyblueBtn text="추가하기" />
+          <GradientSkyblueBtn text="추가하기" type="button" />
         </div>
       </div>
     </section>
   );
 };
-
-export default AddLink;
