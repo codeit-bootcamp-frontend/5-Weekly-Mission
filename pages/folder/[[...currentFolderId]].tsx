@@ -1,4 +1,5 @@
-import React, { MouseEvent, useContext, useEffect, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { UserContext } from '@/contexts/UserContext';
 import Image from 'next/image';
@@ -6,7 +7,6 @@ import { getLinks, getFolders } from '@/apis/api';
 import LinkInput from '@/components/LinkInput/LinkInput';
 import Search from '@/components/Search/Search';
 import CardList from '@/components/CardList/CardList';
-import Modal from '@/components/Modal/Modal';
 import MenuLink from '@/components/MenuLink/MenuLink';
 import * as S from '@/styles/FolderPage.styled';
 import { Layout, SectionWrap } from '@/styles/CommonPage.styled';
@@ -16,100 +16,105 @@ import ShareIcon from '@/public/images/share_icon.png';
 import PenIcon from '@/public/images/pen_icon.png';
 import DeleteIcon from '@/public/images/delete_icon.png';
 import { FolderInterface, LinkInterface } from '@/interfaces';
+import AddFolderModal from '@/components/Modal/Contents/AddFolderModal';
+import { useFolderId } from '@/contexts/folderIdContext';
+import DeleteFolderModal from '@/components/Modal/Contents/DeleteFolderModal';
+import EditFolderNameModal from '@/components/Modal/Contents/EditFolderNameModal';
+import { useQuery } from '@tanstack/react-query';
+import { useModal, useSetModal } from '@/contexts/ModalContext';
+import ShareFolderModal from '@/components/Modal/Contents/ShareFolderModal';
 
 const All_FOLDER = {
   id: 0,
   name: '전체',
+  created_at: '',
+  favorite: false,
+  link_count: 0,
 };
 
 export default function FolderPage() {
-  const router = useRouter();
-  const { currentFolderId } = router.query;
-
   const [searchText, setSearchText] = useState('');
-  const [folderNames, setFolderNames] = useState(['']); //
   const [folders, setFolders] = useState([
     {
       id: 0,
       created_at: '',
       name: '',
-      userId: 0,
       favorite: false,
-      link: {
-        count: 0,
-      },
+      link_count: 0,
     },
   ]);
-  const [currentFolder, setCurrentFolder] = useState(All_FOLDER);
+  const [currentFolder, setCurrentFolder] =
+    useState<FolderInterface>(All_FOLDER);
   const [links, setLinks] = useState<LinkInterface[]>();
   const [filteredLinks, setFilteredLinks] = useState<LinkInterface[]>();
-  const [itemCountsInEachFolder, setItemCountsInEachFolder] = useState([0]);
-  const [isVisibleAddFolderModal, setIsVisibleAddFolderModal] = useState(false);
-  const [isVisibleShareFolderModal, setIsVisibleShareFolderModal] =
-    useState(false);
-  const [isVisibleChangeFolderNameModal, setIsVisibleChangeFolderNameModal] =
-    useState(false);
-  const [isVisibleDeleteFolderModal, setIsVisibleDeleteFolder] =
-    useState(false);
 
+  const router = useRouter();
+  const currentFolderId = useFolderId();
   const { user } = useContext(UserContext);
+  const modal = useModal();
+  const setModal = useSetModal();
+
+  const { data: nextFolders } = useQuery({
+    queryKey: ['folders'],
+    queryFn: () => getFolders(0),
+    enabled: !!user,
+    staleTime: 60 * 1000,
+  });
+  const { data: nextCurrentFolder } = useQuery({
+    queryKey: ['folder', currentFolderId ? currentFolderId : '전체'],
+    queryFn: async () => {
+      if (currentFolderId) {
+        const result = await getFolders(Number(currentFolderId));
+        return result[0];
+      } else {
+        return All_FOLDER;
+      }
+    },
+    enabled: !!user,
+    staleTime: 60 * 1000,
+  });
+  const { data: nextLinks } = useQuery({
+    queryKey: ['links', currentFolderId ? currentFolderId : '전체'],
+    queryFn: () => getLinks(currentFolderId ? Number(currentFolderId) : 0),
+    enabled: !!user,
+    staleTime: 60 * 1000,
+  });
 
   const CONTROLS = [
     {
       name: '공유',
       icon: ShareIcon,
       onClick: () => {
-        setIsVisibleShareFolderModal(true);
+        setModal({ isOpen: true, content: 'ShareFolderModal' });
       },
     },
     {
       name: '이름 변경',
       icon: PenIcon,
       onClick: () => {
-        setIsVisibleChangeFolderNameModal(true);
+        setModal({ isOpen: true, content: 'EditFolderNameModal' });
       },
     },
     {
       name: '삭제',
       icon: DeleteIcon,
       onClick: () => {
-        setIsVisibleDeleteFolder(true);
+        setModal({ isOpen: true, content: 'DeleteFolderModal' });
       },
     },
   ];
 
   const handleLoadMenu = async () => {
-    if (user) {
-      const nextFolders: FolderInterface[] = await getFolders(0, user.id);
-      setFolders(nextFolders);
-      const nextFolderNames = nextFolders.map((item) => item.name);
-      const nextItemCounts = nextFolders.map((item) => item.link.count);
-      setFolderNames(nextFolderNames);
-      setItemCountsInEachFolder(nextItemCounts);
-    }
+    setFolders(nextFolders);
   };
 
   const handleLoadItems = async () => {
-    if (user) {
-      let nextLinks;
-      nextLinks = await getLinks(
-        user.id,
-        currentFolderId ? Number(currentFolderId) : 0
-      );
-      setLinks(nextLinks);
-      const nextCurrentFolder = await getFolders(
-        currentFolderId ? Number(currentFolderId) : 0,
-        user.id
-      );
-      setCurrentFolder(
-        nextCurrentFolder.length === 1 ? nextCurrentFolder[0] : All_FOLDER
-      );
-      handleFilterItems(nextLinks);
-    }
+    setLinks(nextLinks);
+    setCurrentFolder(nextCurrentFolder);
   };
 
   const handleAddFolderButtonClick = () => {
-    setIsVisibleAddFolderModal(true);
+    setModal({ isOpen: true, content: 'AddFolderModal' });
   };
 
   const handleFilterItems = (prevLinks: LinkInterface[]) => {
@@ -132,11 +137,11 @@ export default function FolderPage() {
 
   useEffect(() => {
     handleLoadMenu();
-  }, [user]);
+  }, [user, nextFolders]);
 
   useEffect(() => {
     handleLoadItems();
-  }, [user, currentFolderId]);
+  }, [user, currentFolderId, nextLinks, nextCurrentFolder]);
 
   useEffect(() => {
     if (links) {
@@ -147,10 +152,7 @@ export default function FolderPage() {
   return (
     <Layout>
       <S.StyledTopWrap>
-        <LinkInput
-          folderNames={folderNames}
-          itemCountsInEachFolder={itemCountsInEachFolder}
-        />
+        <LinkInput folders={folders} />
       </S.StyledTopWrap>
       <SectionWrap>
         <Search text={searchText} setText={setSearchText} />
@@ -196,43 +198,21 @@ export default function FolderPage() {
         {links && (
           <CardList
             items={searchText ? filteredLinks : links}
-            folderNames={folderNames}
-            itemCountsInEachFolder={itemCountsInEachFolder}
+            folders={folders}
           />
         )}
       </SectionWrap>
-      {isVisibleAddFolderModal && (
-        <Modal
-          title='폴더 추가'
-          input
-          button='추가하기'
-          onClose={setIsVisibleAddFolderModal}
-        />
-      )}
-      {isVisibleShareFolderModal && (
-        <Modal
-          title='폴더 공유'
-          semiTitle={currentFolder.name}
-          folderId={currentFolder.id}
-          onClose={setIsVisibleShareFolderModal}
-        />
-      )}
-      {isVisibleChangeFolderNameModal && (
-        <Modal
-          title='폴더 이름 변경'
-          input
-          inputValue={currentFolder.name}
-          button='변경하기'
-          onClose={setIsVisibleChangeFolderNameModal}
-        />
-      )}
-      {isVisibleDeleteFolderModal && (
-        <Modal
-          title='폴더 삭제'
-          semiTitle={currentFolder.name}
-          button='삭제하기'
-          onClose={setIsVisibleDeleteFolder}
-        />
+
+      {modal.isOpen && modal.content === 'AddFolderModal' ? (
+        <AddFolderModal />
+      ) : modal.content === 'ShareFolderModal' ? (
+        <ShareFolderModal currentFolder={currentFolder} />
+      ) : modal.content === 'EditFolderNameModal' ? (
+        <EditFolderNameModal currentFolder={currentFolder} />
+      ) : modal.content === 'DeleteFolderModal' ? (
+        <DeleteFolderModal currentFolder={currentFolder} />
+      ) : (
+        ''
       )}
     </Layout>
   );

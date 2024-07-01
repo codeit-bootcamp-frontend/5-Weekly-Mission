@@ -6,7 +6,14 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   link?: string;
 }
 
-export default function Button({ text, className = '', link }: Props) {
+export default function Button({
+  text,
+  className = '',
+  link,
+  onClick,
+  type,
+  disabled,
+}: Props) {
   return (
     <>
       {link ? (
@@ -14,7 +21,14 @@ export default function Button({ text, className = '', link }: Props) {
           {text}
         </S.StyledLink>
       ) : (
-        <S.Button className={className}>{text}</S.Button>
+        <S.Button
+          className={className}
+          type={type}
+          onClick={onClick}
+          disabled={disabled}
+        >
+          {text}
+        </S.Button>
       )}
     </>
   );

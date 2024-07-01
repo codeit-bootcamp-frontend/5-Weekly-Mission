@@ -1,6 +1,7 @@
+import { AddLink, EditFolderName } from '@/interfaces/api';
 import axios from 'axios';
 
-const BASIC_URL = 'https://bootcamp-api.codeit.kr/api';
+const BASIC_URL = 'https://bootcamp-api.codeit.kr/api/linkbrary/v1';
 
 export async function getUser() {
   let response;
@@ -13,13 +14,13 @@ export async function getUser() {
   } else {
     return;
   }
-  const result = response.data.data[0];
+  const result = response.data[0];
   return result;
 }
 
 export async function getFolderUser(id: number) {
   const response = await axios.get(`${BASIC_URL}/users/${id}`);
-  const result = response.data.data[0];
+  const result = response.data[0];
   return result;
 }
 
@@ -31,7 +32,7 @@ export async function postCheckDuplicateEmail(id: string) {
 }
 
 export async function postSignUp(id: string, pw: string) {
-  const response = await axios.post(`${BASIC_URL}/sign-up`, {
+  const response = await axios.post(`${BASIC_URL}/auth/sign-up`, {
     email: id,
     password: pw,
   });
@@ -39,29 +40,94 @@ export async function postSignUp(id: string, pw: string) {
 }
 
 export async function postSignIn(id: string, pw: string) {
-  const response = await axios.post(`${BASIC_URL}/sign-in`, {
+  const response = await axios.post(`${BASIC_URL}/auth/sign-in`, {
     email: id,
     password: pw,
   });
-  const result = response.data.data;
+  const result = response.data;
   return result;
 }
 
-export async function getFolders(folderId: number, userId?: number | null) {
+export async function getFolders(folderId: number) {
   const queryParam = folderId === 0 ? '' : `/${folderId}`;
-  const userIdParam = userId ? `/users/${userId}` : '';
-  const response = await axios.get(
-    `${BASIC_URL}${userIdParam}/folders${queryParam}`
-  );
-  const result = response.data.data;
+  const response = await axios.get(`${BASIC_URL}/folders${queryParam}`, {
+    headers: {
+      Authorization: localStorage.accessToken,
+    },
+  });
+  const result = response.data;
   return result;
 }
 
-export async function getLinks(userId: number | null, folderId: number) {
-  const queryParam = folderId === 0 ? '' : `?folderId=${folderId}`;
-  const response = await axios.get(
-    `${BASIC_URL}/users/${userId}/links${queryParam}`
-  );
-  const data = response.data.data;
+export async function getLinks(folderId: number) {
+  const queryParam = folderId === 0 ? '/links' : `/folders/${folderId}/links`;
+  const response = await axios.get(`${BASIC_URL}${queryParam}`, {
+    headers: {
+      Authorization: localStorage.accessToken,
+    },
+  });
+  const data = response.data;
   return data;
+}
+
+export async function addFolder(newFolderName: string) {
+  const response = await axios.post(
+    `${BASIC_URL}/folders`,
+    {
+      name: newFolderName,
+    },
+    {
+      headers: {
+        Authorization: localStorage.accessToken,
+      },
+    }
+  );
+}
+
+export async function addLink({ url, folderId }: AddLink) {
+  const response = await axios.post(
+    `${BASIC_URL}/links`,
+    {
+      url,
+      folderId,
+    },
+    {
+      headers: {
+        Authorization: localStorage.accessToken,
+      },
+    }
+  );
+}
+
+export async function deleteFolder(folderId: number) {
+  const response = await axios.delete(`${BASIC_URL}/folders/${folderId}`, {
+    headers: {
+      Authorization: localStorage.accessToken,
+    },
+  });
+}
+
+export async function deleteLink(linkId: number) {
+  const response = await axios.delete(`${BASIC_URL}/links/${linkId}`, {
+    headers: {
+      Authorization: localStorage.accessToken,
+    },
+  });
+}
+
+export async function putFolderName({
+  folderId,
+  newFolderName,
+}: EditFolderName) {
+  const response = await axios.put(
+    `${BASIC_URL}/folders/${folderId}`,
+    {
+      name: newFolderName,
+    },
+    {
+      headers: {
+        Authorization: localStorage.accessToken,
+      },
+    }
+  );
 }
