@@ -1,23 +1,4 @@
-import { styled } from 'styled-components';
-
-const NonSelectedSpan = styled.span`
-  display: inline-block;
-  height: 35px;
-  border-radius: 5px;
-  font-size: 16px;
-  line-height: 35px;
-  border: 1px solid #6d6afe;
-  padding: 0px 5px;
-  margin-right: 5px;
-  cursor: pointer;
-`;
-
-const SelectedSpan = styled(NonSelectedSpan)`
-  background-color: #6d6afe;
-  color: white;
-`;
-
-interface FolderBox {
+interface FolderBoxProps {
   id: number;
   name: string;
   selected?: boolean;
@@ -25,18 +6,24 @@ interface FolderBox {
   setFolderName: (name: string) => void;
 }
 
-function FolderBox({ id, name, selected, setSelectedId, setFolderName }: FolderBox) {
+function FolderBox({ id, name, selected, setSelectedId, setFolderName }: FolderBoxProps) {
+  const nonSelectedClass =
+    'inline-block h-[35px] rounded-[5px] text-[16px] leading-[35px] border border-[#6d6afe] px-[5px] mr-[5px] cursor-pointer';
+  const selectedClass =
+    'inline-block h-[35px] rounded-[5px] text-[16px] leading-[35px] border border-[#6d6afe] px-[5px] mr-[5px] cursor-pointer bg-[#6d6afe] text-white';
+
   return selected ? (
-    <SelectedSpan>{name}</SelectedSpan>
+    <span className={selectedClass}>{name}</span>
   ) : (
-    <NonSelectedSpan
+    <span
+      className={nonSelectedClass}
       onClick={() => {
         setSelectedId(id);
         setFolderName(name);
       }}
     >
       {name}
-    </NonSelectedSpan>
+    </span>
   );
 }
 

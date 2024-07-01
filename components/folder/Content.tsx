@@ -1,108 +1,81 @@
-import { API_INFO, Data, DataArray, FetchData, FoldersData, LinksData } from '@/common/api';
-import useFetch from '@/hooks/useFetch';
-import { styled } from 'styled-components';
+'use client';
+
+import { useParams } from 'next/navigation';
 import Search from '@/components/common/Search';
 import Items from './Items';
 import FolderList from './FolderList';
 import { useEffect, useState } from 'react';
-import { SIZE } from '@/constants/size';
-
-const FlexMain = styled.main`
-  display: flex;
-  justify-content: center;
-  padding-bottom: 100px;
-  box-sizing: border-box;
-  padding: 0px 32px 0px 32px;
-`;
-
-const ContentDiv = styled.div`
-  max-width: 1060px;
-  margin-top: 40px;
-`;
-
-const GridDiv = styled.div`
-  margin-top: 40px;
-  display: grid;
-  width: 100%;
-  gap: 20px;
-
-  @media screen and (min-width: ${SIZE.PC.minWidth}) {
-    grid-template-columns: 1fr 1fr 1fr;
-    margin-bottom: 100px;
-  }
-
-  @media screen and (min-width: ${SIZE.tablet.minWidth}) and (max-width: ${SIZE.tablet.maxWidth}) {
-    grid-template-columns: 1fr 1fr;
-    margin-bottom: 100px;
-  }
-
-  @media screen and (max-width: ${SIZE.mobile.maxWidth}) {
-    grid-template-columns: 1fr;
-    margin-bottom: 60px;
-  }
-`;
+import { FolderData } from '@/api/folder';
+import { Link, getLink, getLinkById } from '@/api/link';
+import { User } from '@/api/user';
+import { useQueries } from '@tanstack/react-query';
 
 interface ContentProps {
-  folderData: FetchData<FoldersData>;
-  folderId: number;
+  userData?: User;
+  folderData?: FolderData[];
 }
 
-const { url: getDataUrl, method: getDataMethod } = API_INFO.endpoints.getDataByToken;
+function Content({ userData, folderData }: ContentProps) {
+  const params = useParams();
+  const { folderId } = params;
+  const folderIdNumber = isNaN(Number(folderId)) ? 0 : Number(folderId);
 
-function Content({ folderData, folderId }: ContentProps) {
-  const [selectedId, setSelectedId] = useState(folderId);
+  const [selectedId, setSelectedId] = useState(folderIdNumber);
   const [searchValue, setSearchValue] = useState('');
 
-  useEffect(() => {
-    setSelectedId(folderId);
-  }, [folderId]);
-
-  const queryString = selectedId === 0 ? '' : '?folderId=' + selectedId;
-
-  const headers =
-    typeof window === 'undefined' ? undefined : { Authorization: 'Bearer ' + localStorage.getItem('accessToken') };
-
-  const linkData = useFetch<Data<LinksData>>({
-    url: API_INFO.baseUrl + getDataUrl + queryString,
-    method: getDataMethod,
-    headers: headers,
-    immediate: true,
+  const [
+    { data: allLinksData, isSuccess: allLinksSuccess },
+    { data: selectedFolderLinksData, isSuccess: selectedFolderLinksSuccess },
+  ] = useQueries({
+    queries: [
+      {
+        queryKey: ['allLinks'],
+        queryFn: getLink,
+        staleTime: 1000 * 60 * 60,
+        enabled: selectedId === 0,
+      },
+      {
+        queryKey: ['folderLinks', selectedId],
+        queryFn: () => getLinkById({ folderId: selectedId }),
+        staleTime: 1000 * 60 * 60,
+        enabled: selectedId !== 0,
+      },
+    ],
   });
 
-  const [itemData, setItemData] = useState<FetchData<LinksData>>({
-    data: linkData.data ? linkData.data.data : null,
-    loading: linkData.loading,
-    error: linkData.error,
-  });
+  const linkData = selectedId === 0 ? allLinksData : selectedFolderLinksData;
+  const isSuccess = selectedId === 0 ? allLinksSuccess : selectedFolderLinksSuccess;
+
+  const [item, setItem] = useState<Link[] | null>(null);
 
   useEffect(() => {
-    setItemData({
-      data: linkData.data
-        ? {
-            folder: linkData.data.data.folder.filter((item) => {
-              return (
-                item.url?.includes(searchValue) ||
-                item.title?.includes(searchValue) ||
-                item.description?.includes(searchValue)
-              );
-            }),
-          }
-        : null,
-      loading: linkData.loading,
-      error: linkData.error,
-    });
-  }, [linkData.data, linkData.error, linkData.loading, searchValue]);
+    if (isSuccess) {
+      setItem(
+        searchValue
+          ? linkData
+            ? linkData.filter((item) => {
+                return (
+                  item.url?.includes(searchValue) ||
+                  item.title?.includes(searchValue) ||
+                  item.description?.includes(searchValue)
+                );
+              })
+            : null
+          : linkData ?? null
+      );
+    }
+  }, [isSuccess, linkData, searchValue]);
 
   return (
-    <FlexMain>
-      <ContentDiv>
+    <main className='flex justify-center pb-[100px] box-border px-[32px]'>
+      <div className='max-w-[1060px] mt-[40px]'>
         <Search placeholder={'링크를 검색해 보세요.'} searchState={searchValue} onInputChange={setSearchValue} />
         <FolderList folderData={folderData} selectedId={selectedId} setSelectedId={setSelectedId} />
-        <GridDiv>
-          <Items folderData={folderData} linkData={itemData} />
-        </GridDiv>
-      </ContentDiv>
-    </FlexMain>
+        <div className='mt-[40px] grid w-full gap-[20px] sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-[60px] sm:mb-[100px] md:mb-[100px]'>
+          <Items folderData={folderData} linkData={item} />
+        </div>
+      </div>
+    </main>
   );
 }
 

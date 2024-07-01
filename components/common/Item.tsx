@@ -1,123 +1,16 @@
-import styled from 'styled-components';
 import { calcDateDiff, dateToString } from '@/common/date';
 import Link from 'next/link';
 import Image from 'next/image';
-import noImage from '@/assets/images/noImage.jpg';
-import star from '@/assets/images/star.png';
-import kebbab from '@/assets/images/kebab.png';
+import noImage from '@/public/images/noImage.jpg';
+import star from '@/public/images/star.png';
+import kebbab from '@/public/images/kebab.png';
 import { useEffect, useRef, useState } from 'react';
 import KebbabPopover from '@/components/folder/KebbabPopover';
-import DeleteModal from '@/components/folder/DeleteModal';
-import AddLinkModal from '@/components/folder/AddLinkModal';
-import { FetchData, FoldersData } from '@/common/api';
-import { SIZE } from '@/constants/size';
-
-const StyledArticle = styled.article`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  border-radius: 10px;
-  box-shadow: 0px 0px 3px #808080;
-
-  @media screen and (min-width: ${SIZE.tablet.minWidth}) {
-    max-width: 340px;
-    height: 334px;
-  }
-
-  @media screen and (max-width: ${SIZE.mobile.maxWidth}) {
-    width: 100%;
-    height: 327px;
-  }
-
-  &:hover {
-    border: 2px solid #6d6afe;
-    margin: -2px;
-  }
-`;
-
-const Content = styled.div`
-  box-sizing: border-box;
-  height: 135px;
-  padding: 15px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`;
-
-const ImgDiv = styled.div`
-  width: 100%;
-  height: 200px;
-  overflow: hidden;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-`;
-
-const StyledImg = styled(Image)`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  &:hover {
-    transform: scale(1.3);
-  }
-`;
-
-const CardHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  height: 17px;
-`;
-
-const Time = styled.span`
-  font-size: 13px;
-  color: #666666;
-`;
-
-const KebbabButton = styled.button`
-  position: relative;
-  border: none;
-  background: none;
-  cursor: pointer;
-`;
-
-const Detail = styled.span`
-  height: 49px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  font-size: 16px;
-  line-height: 24px;
-  color: black;
-`;
-
-const CreatedDate = styled.span`
-  height: 19px;
-  font-size: 14px;
-  color: #333333;
-`;
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-`;
-
-const KebbabDiv = styled.div``;
-
-const ModalDiv = styled.div`
-  position: relative;
-`;
-
-const StarImg = styled(Image)`
-  position: absolute;
-  width: 34px;
-  height: 34px;
-  top: 15px;
-  right: 15px;
-  z-index: 99;
-`;
+import { FolderData } from '@/api/folder';
+import useModal from '@/hooks/useModal';
+import Modal from './modal/Modal';
+import DeleteModal from './modal/view/DeleteModal';
+import AddLinkModal from './modal/view/AddLinkModal';
 
 interface ItemProps {
   createdAt: string;
@@ -125,14 +18,14 @@ interface ItemProps {
   title: string;
   description?: string;
   imageSource?: string;
-  folderData?: FetchData<FoldersData>;
+  folderData?: FolderData[];
   editable?: boolean;
 }
 
 function Item({ createdAt, url, title, description, imageSource, folderData, editable }: ItemProps) {
   const [openPopover, setOpenPopover] = useState(false);
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [openAddLinkModal, setOpenAddLinkModal] = useState(false);
+  const { modalRef: deleteModalRef, handleOpenModal: handleOpenDeleteModal } = useModal();
+  const { modalRef: linkModalRef, handleOpenModal: handleOpenLinkModal } = useModal();
   const [hasImgError, setHasImgError] = useState(false);
   const kebbabRef = useRef<HTMLDivElement>(null);
 
@@ -151,67 +44,56 @@ function Item({ createdAt, url, title, description, imageSource, folderData, edi
   }, []);
 
   return (
-    <StyledArticle>
-      {editable && <StarImg src={star} alt='Favorite toggle' />}
-      <StyledLink href={url} target='_blank'>
-        <ImgDiv>
-          <StyledImg
+    <article className='relative flex flex-col rounded-[10px] shadow-md border border-transparent hover:border-[#6d6afe] transition-all box-border'>
+      {editable && (
+        <Image src={star} alt='Favorite toggle' className='absolute w-[34px] h-[34px] top-[15px] right-[15px] z-[99]' />
+      )}
+      <Link href={url} target='_blank'>
+        <div className='w-full h-[200px] overflow-hidden rounded-t-[10px]'>
+          <Image
             src={!hasImgError ? imageSource || noImage : noImage}
             width={340}
             height={200}
             priority
             alt={title || 'Empty title'}
+            className='w-full h-full object-cover transition-transform duration-300 hover:scale-[1.3]'
             onError={() => {
               setHasImgError(true);
             }}
           />
-        </ImgDiv>
-      </StyledLink>
-      <Content>
-        <CardHeader>
-          <Time>{calcDateDiff(new Date(), new Date(createdAt))}</Time>
+        </div>
+      </Link>
+      <div className='box-border h-[135px] p-[15px_20px] flex flex-col gap-[10px]'>
+        <div className='flex justify-between w-full h-[17px]'>
+          <span className='text-[13px] text-[#666666]'>{calcDateDiff(new Date(), new Date(createdAt))}</span>
           {editable ? (
-            <KebbabButton
+            <button
+              className='relative border-none bg-none cursor-pointer'
               onClick={() => {
                 setOpenPopover(true);
               }}
             >
               <Image src={kebbab} alt='kebbab' />
-              <KebbabDiv ref={kebbabRef}>
-                {openPopover && <KebbabPopover handleDelete={setOpenDeleteModal} handleAdd={setOpenAddLinkModal} />}
-              </KebbabDiv>
-            </KebbabButton>
+              <div ref={kebbabRef}>
+                {openPopover && <KebbabPopover handleDelete={handleOpenDeleteModal} handleAdd={handleOpenLinkModal} />}
+              </div>
+            </button>
           ) : (
             <div></div>
           )}
-        </CardHeader>
-        <Detail>{description}</Detail>
-        <CreatedDate>{dateToString(new Date(createdAt))}</CreatedDate>
-      </Content>
-      <ModalDiv>
-        {openDeleteModal && (
-          <DeleteModal
-            title='링크 삭제'
-            width='360px'
-            height='193px'
-            padding='32px 40px'
-            setter={setOpenDeleteModal}
-            subtitle={url}
-          />
-        )}
-        {openAddLinkModal && (
-          <AddLinkModal
-            title='폴더에 추가'
-            width='360px'
-            height='auto'
-            padding='32px 40px'
-            setter={setOpenAddLinkModal}
-            url={url}
-            folderData={folderData}
-          />
-        )}
-      </ModalDiv>
-    </StyledArticle>
+        </div>
+        <span className='h-[49px] overflow-hidden text-ellipsis block text-[16px] leading-[24px] text-black'>
+          {description}
+        </span>
+        <span className='h-[19px] text-[14px] text-[#333333]'>{dateToString(new Date(createdAt))}</span>
+      </div>
+      <Modal ref={deleteModalRef} title='링크 삭제' width='360px' height='193px' padding='32px 40px'>
+        <DeleteModal subtitle={url} />
+      </Modal>
+      <Modal ref={linkModalRef} title='폴더에 추가' width='360px' height='auto' padding='32px 40px'>
+        <AddLinkModal url={url} folderData={folderData} />
+      </Modal>
+    </article>
   );
 }
 

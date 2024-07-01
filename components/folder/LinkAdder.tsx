@@ -1,59 +1,17 @@
-import { styled } from 'styled-components';
-import linkIcon from '@/assets/images/icons/link.png';
+import linkIcon from '@/public/images/icons/link.png';
 import { SyntheticEvent, useState } from 'react';
-import AddLinkModal from './AddLinkModal';
-import { FetchData, FoldersData } from '@/common/api';
 import Image from 'next/image';
-
-const StyledDiv = styled.div`
-  width: 100%;
-  position: relative;
-`;
-
-const LinkInput = styled.input`
-  box-sizing: border-box;
-  width: 100%;
-  height: 69px;
-  line-height: 69px;
-  font-size: 16px;
-  padding-left: 50px;
-  border: 1px solid #6d6afe;
-  outline: none;
-  border-radius: 15px;
-`;
-
-const StyledImg = styled(Image)`
-  position: absolute;
-  top: 25px;
-  left: 20px;
-`;
-
-const AddButton = styled.button`
-  display: inline-block;
-  width: 80px;
-  height: 37px;
-  border-radius: 8px;
-  background: linear-gradient(90deg, rgb(109, 106, 254), rgb(106, 227, 254));
-  color: white;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: none;
-  border: none;
-  position: absolute;
-  top: 16px;
-  right: 20px;
-  cursor: pointer;
-`;
-
-const ModalDiv = styled.div``;
+import { FolderData } from '@/api/folder';
+import useModal from '@/hooks/useModal';
+import Modal from '../common/modal/Modal';
+import AddLinkModal from '../common/modal/view/AddLinkModal';
 
 interface LinkAppenderProps {
-  folderData: FetchData<FoldersData>;
+  folderData?: FolderData[];
 }
 
 function LinkAppender({ folderData }: LinkAppenderProps) {
-  const [openModal, setOpenModal] = useState(false);
+  const { modalRef, handleOpenModal } = useModal();
   const [url, setUrl] = useState('');
 
   const handleChange = (e: SyntheticEvent) => {
@@ -62,24 +20,30 @@ function LinkAppender({ folderData }: LinkAppenderProps) {
   };
 
   return (
-    <StyledDiv>
-      <LinkInput value={url} onChange={handleChange} placeholder='링크를 추가해 보세요' />
-      <StyledImg src={linkIcon} width={20} height={21} alt='SearchBarLinkIcon' />
-      <AddButton onClick={() => setOpenModal(true)}>추가하기</AddButton>
-      <ModalDiv>
-        {openModal && (
-          <AddLinkModal
-            title='폴더에 추가'
-            width='360px'
-            height='auto'
-            padding='32px 40px'
-            setter={setOpenModal}
-            url={url}
-            folderData={folderData}
-          />
-        )}
-      </ModalDiv>
-    </StyledDiv>
+    <div className='relative w-full'>
+      <input
+        value={url}
+        onChange={handleChange}
+        placeholder='링크를 추가해 보세요'
+        className='box-border w-full h-[69px] leading-[69px] text-[16px] pl-[50px] border border-[#6d6afe] outline-none rounded-[15px]'
+      />
+      <Image
+        src={linkIcon}
+        width={20}
+        height={21}
+        alt='SearchBarLinkIcon'
+        className='absolute top-[25px] left-[20px]'
+      />
+      <button
+        onClick={handleOpenModal}
+        className='inline-block w-[80px] h-[37px] rounded-[8px] bg-gradient-to-r from-[#6d6afe] to-[#6ae3fe] text-white text-center text-[14px] font-[600] no-underline border-none absolute top-[16px] right-[20px] cursor-pointer'
+      >
+        추가하기
+      </button>
+      <Modal ref={modalRef} title='폴더에 추가' width='360px' height='auto' padding='32px 40px'>
+        <AddLinkModal url={url} folderData={folderData} />
+      </Modal>
+    </div>
   );
 }
 

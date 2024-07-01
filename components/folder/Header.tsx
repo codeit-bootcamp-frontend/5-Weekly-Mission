@@ -1,64 +1,33 @@
+'use client';
+
 import LinkAppender from './LinkAdder';
-import { css, styled } from 'styled-components';
-import { FetchData, FoldersData } from '@/common/api';
 import { useEffect, useRef, useState } from 'react';
-import { SIZE } from '@/constants/size';
-
-const StyledHeader = styled.header`
-  width: 100%;
-  height: 220px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f0f6ff;
-`;
-
-interface PositionedDivProps {
-  $isView?: boolean;
-}
-
-const PositionedDiv = styled.div<PositionedDivProps>`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  ${(props) => {
-    if (!props.$isView) {
-      return css`
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 100;
-        background-color: #f0f6ff;
-        padding: 24px 0;
-      `;
-    }
-  }};
-`;
-
-const StyledDiv = styled.div`
-  @media screen and (min-width: ${SIZE.PC.minWidth}) {
-    width: 800px;
-  }
-
-  @media screen and (min-width: ${SIZE.tablet.minWidth}) and (max-width: ${SIZE.tablet.maxWidth}) {
-    width: 700px;
-  }
-
-  @media screen and (max-width: ${SIZE.mobile.maxWidth}) {
-    box-sizing: border-box;
-    margin: 0px 32px;
-    width: 100%;
-  }
-`;
+import { FolderData } from '@/api/folder';
 
 interface HeaderProps {
-  folderData: FetchData<FoldersData>;
+  folderData?: FolderData[];
+}
+
+interface PositionedDivProps {
+  isView: boolean;
+  children: React.ReactNode;
+}
+
+function PositionedDiv({ isView, children }: PositionedDivProps) {
+  return (
+    <div
+      className={`flex justify-center w-full ${
+        !isView ? 'fixed bottom-0 left-0 right-0 z-100 bg-[#f0f6ff] py-6 z-[999]' : ''
+      }`}
+    >
+      {children}
+    </div>
+  );
 }
 
 function Header({ folderData }: HeaderProps) {
   const [isView, setIsView] = useState<boolean>(true);
-  const DivRef = useRef<HTMLDivElement>(null);
+  const divRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -74,27 +43,27 @@ function Header({ folderData }: HeaderProps) {
       { threshold: 0.9 }
     );
 
-    if (DivRef.current) {
-      observer.observe(DivRef.current);
+    if (divRef.current) {
+      observer.observe(divRef.current);
     }
 
     return () => {
-      if (DivRef.current) {
+      if (divRef.current) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        observer.unobserve(DivRef.current);
+        observer.unobserve(divRef.current);
       }
     };
   }, []);
 
   return (
     <>
-      <StyledHeader ref={DivRef}>
-        <PositionedDiv $isView={isView}>
-          <StyledDiv>
+      <header ref={divRef} className='w-full h-[220px] flex justify-center items-center bg-[#f0f6ff]'>
+        <PositionedDiv isView={isView}>
+          <div className='w-full box-border px-8 sm:w-[700px] lg:w-[800px]'>
             <LinkAppender folderData={folderData} />
-          </StyledDiv>
+          </div>
         </PositionedDiv>
-      </StyledHeader>
+      </header>
     </>
   );
 }

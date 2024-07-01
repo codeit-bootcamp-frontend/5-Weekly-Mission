@@ -1,36 +1,7 @@
-import styled from 'styled-components';
-import searchIcon from '@/assets/images/icons/search.png';
-import closeButton from '@/assets/images/buttons/close2.png';
+import searchIcon from '@/public/images/icons/search.png';
+import closeButton from '@/public/images/buttons/close2.png';
 import { ChangeEvent } from 'react';
 import Image from 'next/image';
-
-const StyledDiv = styled.div`
-  position: relative;
-`;
-const StyledInput = styled.input`
-  width: 100%;
-  height: 54px;
-  line-height: 54px;
-  background-color: #f5f5f5;
-  border-radius: 10px;
-  font-size: 16px;
-  color: #666666;
-  padding-left: 40px;
-  border: none;
-  outline: none;
-  box-sizing: border-box;
-`;
-const StyledImg = styled(Image)`
-  position: absolute;
-  left: 15px;
-  top: 19px;
-`;
-const ClearButton = styled(Image)`
-  position: absolute;
-  right: 15px;
-  top: 15px;
-  cursor: pointer;
-`;
 
 interface SearchProps {
   placeholder: string;
@@ -40,14 +11,15 @@ interface SearchProps {
 
 function Search({ placeholder, searchState, onInputChange }: SearchProps) {
   return (
-    <StyledDiv>
-      <StyledInput
+    <div className='relative'>
+      <input
         placeholder={placeholder}
         value={searchState}
         onChange={(e: ChangeEvent<HTMLInputElement>) => onInputChange?.(e.target.value)}
+        className='w-full h-[54px] leading-[54px] bg-[#f5f5f5] rounded-[10px] text-[16px] text-[#666666] pl-[40px] border-none outline-none box-border'
       />
-      <StyledImg src={searchIcon} width={15} height={15} alt='SearchIcon' />
-      <ClearButton
+      <Image src={searchIcon} width={15} height={15} alt='SearchIcon' className='absolute left-[15px] top-[19px]' />
+      <Image
         src={closeButton}
         width={24}
         height={24}
@@ -56,8 +28,9 @@ function Search({ placeholder, searchState, onInputChange }: SearchProps) {
           onInputChange?.('');
         }}
         aria-label='ClearButton'
+        className='absolute right-[15px] top-[15px] cursor-pointer'
       />
-    </StyledDiv>
+    </div>
   );
 }
 

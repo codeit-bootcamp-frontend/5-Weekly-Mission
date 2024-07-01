@@ -1,136 +1,62 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
-import logo from '@/assets/images/logo.png';
-import styled from 'styled-components';
-import { UserData } from '@/common/api';
-import { SIZE } from '@/constants/size';
-import noImage from '@/assets/images/noImage.jpg';
-
-const LogoImg = styled(Image)`
-  @media screen and (min-width: ${SIZE.tablet.minWidth}) {
-    width: 133px;
-    height: 25px;
-  }
-
-  @media screen and (max-width: ${SIZE.mobile.maxWidth}) {
-    width: 89px;
-    height: 16px;
-  }
-`;
-const ProfileImg = styled(Image)`
-  height: 28px;
-  border-radius: 50%;
-`;
-const FlexDiv = styled.div`
-  display: flex;
-`;
-const VerticalCenterSpan = styled.span`
-  line-height: 28px;
-  margin-left: 5px;
-  @media screen and (max-width: ${SIZE.mobile.maxWidth}) {
-    display: none;
-  }
-`;
-const InnerDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 100%;
-  @media screen and (min-width: ${SIZE.PC.minWidth}) {
-    width: 1060px;
-  }
-
-  @media screen and (min-width: ${SIZE.tablet.minWidth}) and (max-width: ${SIZE.tablet.maxWidth}) {
-    width: 700px;
-  }
-
-  @media screen and (max-width: ${SIZE.mobile.maxWidth}) {
-    width: 100%;
-    padding: 0px 32px 0px 32px;
-  }
-`;
-const StyledNav = styled.nav`
-  box-sizing: border-box;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f0f6ff;
-
-  @media screen and (min-width: ${SIZE.tablet.minWidth}) {
-    height: 93px;
-  }
-
-  @media screen and (max-width: ${SIZE.mobile.maxWidth}) {
-    height: 63px;
-  }
-`;
-
-const StickyNav = styled(StyledNav)`
-  position: sticky;
-  left: 0;
-  right: 0;
-  top: 0;
-  z-index: 99;
-`;
-
-const LoginButton = styled.button`
-  display: inline-block;
-  width: 128px;
-  height: 53px;
-  border-radius: 8px;
-  background: linear-gradient(90deg, rgb(109, 106, 254), rgb(106, 227, 254));
-  color: white;
-  text-align: center;
-  line-height: 53px;
-  font-size: 18px;
-  font-weight: 600;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-
-  @media screen and (max-width: ${SIZE.mobile.maxWidth}) {
-    width: 80px;
-    height: 36px;
-    line-height: 36px;
-    font-size: 14px;
-  }
-`;
+import logo from '@/public/images/logo.png';
+import noImage from '@/public/images/noImage.jpg';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { User } from '@/api/user';
 
 interface NavProps {
-  userData?: { data?: UserData | null; loading?: boolean; error?: Error | null };
+  userData?: User;
 }
 
 function Nav({ userData }: NavProps) {
-  const { data, loading, error } = userData ?? {};
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!localStorage.getItem('accessToken')) {
+      router.push('/signin');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
-    <StickyNav>
-      <InnerDiv>
+    <nav className='box-border w-full flex justify-center items-center bg-[#f0f6ff]'>
+      <div className='flex justify-between items-center h-full w-[100%] px-8 tablet:w-[700px] pc:w-[1060px]'>
         <Link href='/'>
-          <LogoImg src={logo} width={133} height={25} priority alt='LogoImage' fetchPriority='high' />
+          <Image
+            src={logo}
+            width={133}
+            height={25}
+            priority
+            alt='LogoImage'
+            fetchPriority='high'
+            className='w-[89px] h-[16px] tablet:w-[133px] tablet:h-[25px]'
+          />
         </Link>
         {userData ? (
-          !loading &&
-          error === null && (
-            <FlexDiv>
-              <ProfileImg
-                src={data?.image_source || noImage}
-                width={28}
-                height={28}
-                fetchPriority='high'
-                alt='프로필'
-              />
-              <VerticalCenterSpan>{data?.email}</VerticalCenterSpan>
-            </FlexDiv>
-          )
+          <div className='flex'>
+            <Image
+              src={userData.image_source || noImage}
+              width={28}
+              height={28}
+              fetchPriority='high'
+              alt='프로필'
+              className='h-[28px] rounded-full'
+            />
+            <span className='line-height-[28px] ml-2 hidden mobile:inline'>{userData.email}</span>
+          </div>
         ) : (
           <Link href='/signin'>
-            <LoginButton>로그인</LoginButton>
+            <button className='inline-block w-[128px] h-[53px] rounded-[8px] bg-gradient-to-r from-[#6d6afe] to-[#6ae3fe] text-white text-center leading-[53px] text-[18px] font-[600] no-underline border-none cursor-pointer mobile:w-[80px] mobile:h-[36px] mobile:leading-[36px] mobile:text-[14px]'>
+              로그인
+            </button>
           </Link>
         )}
-      </InnerDiv>
-    </StickyNav>
+      </div>
+    </nav>
   );
 }
 

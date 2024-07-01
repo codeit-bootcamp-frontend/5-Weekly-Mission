@@ -1,85 +1,17 @@
 import { useEffect, useState } from 'react';
 import FolderBox from './FolderBox';
-import { styled } from 'styled-components';
-import shareButtonImg from '@/assets/images/buttons/share.png';
-import nameChangeButtonImg from '@/assets/images/buttons/changeName.png';
-import deleteButtonImg from '@/assets/images/buttons/delete.png';
-import AddModal from './AddModal';
-import ChangeModal from './ChangeModal';
-import DeleteModal from './DeleteModal';
-import ShareModal from './ShareModal';
+import shareButtonImg from '@/public/images/buttons/share.png';
+import nameChangeButtonImg from '@/public/images/buttons/changeName.png';
+import deleteButtonImg from '@/public/images/buttons/delete.png';
 import { useScript } from '@/hooks/useScript';
-import { FetchData, FoldersData } from '@/common/api';
-import { SIZE } from '@/constants/size';
 import Image from 'next/image';
-
-const FlexDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 40px;
-
-  @media screen and (min-width: ${SIZE.PC.minWidth}) {
-    width: 1060px;
-  }
-
-  @media screen and (min-width: ${SIZE.tablet.minWidth}) and (max-width: ${SIZE.tablet.maxWidth}) {
-    width: 700px;
-  }
-
-  @media screen and (max-width: ${SIZE.mobile.maxWidth}) {
-    max-width: 687px;
-  }
-`;
-
-const FlexDiv2 = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 5px;
-  margin-bottom: -25px;
-`;
-
-const ColumnFlexDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
-
-const FolderAdd = styled.span`
-  display: inline-block;
-  height: 35px;
-  cursor: pointer;
-  font-size: 16px;
-  line-height: 35px;
-
-  @media screen and (min-width: 769px) {
-    border-radius: 5px;
-    padding: 0px 5px;
-    color: #6d6afe;
-  }
-
-  @media screen and (max-width: 768px) {
-    background-color: #6d6afe;
-    color: white;
-    position: fixed;
-    left: 50%;
-    transform: translate(-50%, 0);
-    bottom: 101px;
-    z-index: 9999;
-    border-radius: 20px;
-    width: 127px;
-    text-align: center;
-  }
-`;
-
-const StyledButton = styled.button`
-  border: none;
-  background-color: white;
-  cursor: pointer;
-`;
-
-const ModalDiv = styled.div`
-  position: relative;
-`;
+import { FolderData } from '@/api/folder';
+import AddModal from '../common/modal/view/AddModal';
+import ShareModal from '../common/modal/view/ShareModal';
+import DeleteModal from '../common/modal/view/DeleteModal';
+import ChangeModal from '../common/modal/view/ChangeModal';
+import useModal from '@/hooks/useModal';
+import Modal from '../common/modal/Modal';
 
 declare global {
   interface Window {
@@ -89,19 +21,19 @@ declare global {
 }
 
 interface FolderListProps {
-  folderData: FetchData<FoldersData>;
+  folderData?: FolderData[];
   selectedId: number;
   setSelectedId: (id: number) => void;
 }
 
 function FolderList({ folderData, selectedId, setSelectedId }: FolderListProps) {
   const [folderName, setFolderName] = useState('전체');
-  const [openAddModal, setOpenAddModal] = useState(false);
-  const [openShareModal, setOpenShareModal] = useState(false);
-  const [openChangeModal, setOpenChangeModal] = useState(false);
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
-  const { data, loading, error } = folderData;
+  const { modalRef: addModalRef, handleOpenModal: handleOpenAddModal } = useModal();
+  const { modalRef: shareModalRef, handleOpenModal: handleOpenShareModal } = useModal();
+  const { modalRef: changeModalRef, handleOpenModal: handleOpenChangeModal } = useModal();
+  const { modalRef: deleteModalRef, handleOpenModal: handleOpenDeleteModal } = useModal();
+
   const [scriptLoading, scriptError] = useScript('https://t1.kakaocdn.net/kakao_js_sdk/2.7.1/kakao.min.js');
 
   useEffect(() => {
@@ -131,7 +63,7 @@ function FolderList({ folderData, selectedId, setSelectedId }: FolderListProps) 
 
   return (
     <>
-      <FlexDiv>
+      <div className='flex justify-between mt-10 w-full max-w-[687px] md:max-w-[700px] lg:max-w-[1060px]'>
         <div>
           <FolderBox
             key={0}
@@ -141,9 +73,8 @@ function FolderList({ folderData, selectedId, setSelectedId }: FolderListProps) 
             setSelectedId={setSelectedId}
             setFolderName={setFolderName}
           />
-          {!loading &&
-            error === null &&
-            data?.folder.map((item) => (
+          {folderData &&
+            folderData.map((item) => (
               <FolderBox
                 key={item.id}
                 id={item.id}
@@ -154,63 +85,43 @@ function FolderList({ folderData, selectedId, setSelectedId }: FolderListProps) 
               />
             ))}
         </div>
-        <FolderAdd onClick={() => setOpenAddModal(true)}>폴더 추가 +</FolderAdd>
-      </FlexDiv>
-      <FlexDiv2>
+        <span
+          className='inline-block h-[35px] cursor-pointer text-[16px] leading-[35px] md:border-radius-[5px] md:px-[5px] md:text-[#6d6afe] fixed left-1/2 transform -translate-x-1/2 bottom-[101px] z-[9999] md:relative md:left-auto md:transform-none md:bottom-auto md:bg-transparent md:w-auto md:text-center bg-[#6d6afe] text-white rounded-[20px] w-[127px] text-center'
+          onClick={handleOpenAddModal}
+        >
+          폴더 추가 +
+        </span>
+      </div>
+      <div className='flex justify-between mt-1 mb-[-25px]'>
         <h2>{folderName}</h2>
-        <ColumnFlexDiv>
+        <div className='flex flex-col justify-center'>
           {folderName === '전체' ? null : (
             <div>
-              <StyledButton onClick={() => setOpenShareModal(true)}>
+              <button onClick={handleOpenShareModal} className='border-none bg-white cursor-pointer'>
                 <Image src={shareButtonImg} width={47} height={19} alt='Share Button' />
-              </StyledButton>
-              <StyledButton onClick={() => setOpenChangeModal(true)}>
+              </button>
+              <button onClick={handleOpenChangeModal} className='border-none bg-white cursor-pointer'>
                 <Image src={nameChangeButtonImg} width={74} height={19} alt='Name Change Button' />
-              </StyledButton>
-              <StyledButton onClick={() => setOpenDeleteModal(true)}>
+              </button>
+              <button onClick={handleOpenDeleteModal} className='border-none bg-white cursor-pointer'>
                 <Image src={deleteButtonImg} width={47} height={19} alt='Delete Button' />
-              </StyledButton>
+              </button>
             </div>
           )}
-        </ColumnFlexDiv>
-      </FlexDiv2>
-      <ModalDiv>
-        {openAddModal && (
-          <AddModal title='폴더 추가' width='360px' height='239px' padding='32px 40px' setter={setOpenAddModal} />
-        )}
-        {openShareModal && (
-          <ShareModal
-            title='폴더 공유'
-            subtitle={folderName}
-            width='360px'
-            height='209px'
-            padding='32px 40px'
-            setter={setOpenShareModal}
-            shareKakao={shareKakao}
-            shareFacebook={shareFacebook}
-            folderId={selectedId}
-          />
-        )}
-        {openChangeModal && (
-          <ChangeModal
-            title='폴더 이름 변경'
-            width='360px'
-            height='239px'
-            padding='32px 40px'
-            setter={setOpenChangeModal}
-          />
-        )}
-        {openDeleteModal && (
-          <DeleteModal
-            title='폴더 삭제'
-            width='360px'
-            height='193px'
-            padding='32px 40px'
-            setter={setOpenDeleteModal}
-            subtitle={folderName}
-          />
-        )}
-      </ModalDiv>
+        </div>
+      </div>
+      <Modal ref={addModalRef} title='폴더 추가' width='360px' height='239px' padding='32px 40px'>
+        <AddModal />
+      </Modal>
+      <Modal ref={shareModalRef} title='폴더 공유' width='360px' height='209px' padding='32px 40px'>
+        <ShareModal subtitle={folderName} shareKakao={shareKakao} shareFacebook={shareFacebook} folderId={selectedId} />
+      </Modal>
+      <Modal ref={changeModalRef} title='폴더 이름 변경' width='360px' height='239px' padding='32px 40px'>
+        <ChangeModal />
+      </Modal>
+      <Modal ref={deleteModalRef} title='폴더 삭제' width='360px' height='193px' padding='32px 40px'>
+        <DeleteModal subtitle={folderName} />
+      </Modal>
     </>
   );
 }
