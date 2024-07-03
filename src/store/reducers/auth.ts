@@ -1,107 +1,42 @@
-import { createSlice } from "@reduxjs/toolkit";
-import {
-  checkEmailAccess,
-  getSharedUserInfo,
-  loginAccess,
-  signUpAccess,
-  userInfoAccess,
-} from "@/src/store/actions/auth";
-import { UserData } from "@/src/types";
-import { API_MSG } from "@/src/constants/strings";
+/* eslint-disable no-param-reassign */
+import { createSlice } from '@reduxjs/toolkit'
+import { UserData } from '@/src/types'
 
 interface Props {
-  isLoggedIn: boolean;
-  status: string;
-  userInfo: UserData;
-  sharedUserInfo: UserData;
+  isLoggedIn: boolean
+  me: UserData
 }
-
-const initialUserInfo = {
-  id: 0,
-  createdAt: "",
-  name: "",
-  imageSource: "",
-  email: "",
-  authId: "",
-};
 
 const initialState: Props = {
   isLoggedIn: false,
-  status: "",
-  userInfo: { ...initialUserInfo },
-  sharedUserInfo: { ...initialUserInfo },
-};
+  me: {
+    id: 0,
+    createdAt: '',
+    name: '',
+    imageSource: '',
+    email: '',
+    authId: '',
+  },
+}
 
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {
+    login: (state) => {
+      state.isLoggedIn = true
+    },
     logout: (state) => {
-      state.isLoggedIn = false;
-      state.userInfo = initialUserInfo;
-      localStorage.clear();
+      state.isLoggedIn = false
+      localStorage.clear()
+    },
+    saveMe: (state, action) => {
+      state.isLoggedIn = true
+      state.me = action.payload?.[0]
     },
   },
-  extraReducers: (builder) => {
-    builder
-      .addCase(loginAccess.pending, (state, action) => {
-        state.status = API_MSG.PEN;
-      })
-      .addCase(loginAccess.fulfilled, (state, action) => {
-        state.isLoggedIn = true;
-        localStorage.setItem("accessToken", action.payload.data.accessToken);
-        localStorage.setItem("refreshToken", action.payload.data.refreshToken);
-        state.status = API_MSG.FUL;
-      })
-      .addCase(loginAccess.rejected, (state, action) => {
-        state.status = API_MSG.REJ;
-      })
-      .addCase(checkEmailAccess.pending, (state, action) => {
-        state.status = API_MSG.PEN;
-      })
-      .addCase(checkEmailAccess.fulfilled, (state, action) => {
-        state.status = action.payload;
-        state.status = API_MSG.FUL;
-      })
-      .addCase(checkEmailAccess.rejected, (state, action) => {
-        state.status = API_MSG.REJ;
-      })
-      .addCase(signUpAccess.pending, (state, action) => {
-        state.status = API_MSG.PEN;
-      })
-      .addCase(signUpAccess.fulfilled, (state, action) => {
-        state.isLoggedIn = true;
-        localStorage.setItem("accessToken", action.payload.data.accessToken);
-        localStorage.setItem("refreshToken", action.payload.data.refreshToken);
-        state.status = API_MSG.FUL;
-      })
-      .addCase(signUpAccess.rejected, (state, action) => {
-        state.status = API_MSG.REJ;
-      })
-      .addCase(userInfoAccess.pending, (state, action) => {
-        state.status = API_MSG.PEN;
-      })
-      .addCase(userInfoAccess.fulfilled, (state, action) => {
-        state.isLoggedIn = true;
-        state.userInfo = action.payload[0];
-        state.status = API_MSG.FUL;
-      })
-      .addCase(userInfoAccess.rejected, (state, action) => {
-        state.status = API_MSG.REJ;
-      })
-      .addCase(getSharedUserInfo.pending, (state, action) => {
-        state.status = API_MSG.PEN;
-      })
-      .addCase(getSharedUserInfo.fulfilled, (state, action) => {
-        state.status = API_MSG.FUL;
-        state.sharedUserInfo = action.payload[0];
-      })
-      .addCase(getSharedUserInfo.rejected, (state, action) => {
-        state.status = API_MSG.REJ;
-      });
-  },
-});
+})
 
-export const { logout } = authSlice.actions;
+export const { login, logout, saveMe } = authSlice.actions
 
-export default authSlice.reducer;
+export default authSlice.reducer

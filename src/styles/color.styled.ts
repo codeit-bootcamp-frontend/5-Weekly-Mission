@@ -1,4 +1,4 @@
-import { css } from "styled-components";
+import { css } from 'styled-components'
 
 const GlobalColor = css`
   :root {
@@ -16,7 +16,8 @@ const GlobalColor = css`
     --green-color: #88c995;
     --silver-color: #ccd5e3;
     --yellow-color: #f8ca59;
+    --orange-color: #fa866e;
   }
-`;
+`
 
-export default GlobalColor;
+export default GlobalColor

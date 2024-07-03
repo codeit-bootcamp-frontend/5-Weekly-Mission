@@ -1,76 +1,138 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/router'
 import {
   Folder,
   AddLink,
   Search,
   AppLayout,
-  Card,
+  LinkCard,
   FolderLayout,
-} from "@/src/components";
-import { useAppDispatch, useAppSelector } from "@/src/hooks/useApp";
-import { Link } from "@/src/types";
-import { getAllLinkList, getLinkList } from "@/src/store/actions/link";
-import { getFolder } from "@/src/store/actions/folder";
-import { useRouter } from "next/router";
-
-export interface CurrentFolderType {
-  name: string;
-  id: number;
-}
+  PaperCard,
+  FolderOptionButton,
+} from '@/src/components'
+import PaperPaginationButton from '@/src/components/specific/PaperPaginationButton/PaperPaginationButton'
+import { Link } from '@/src/types'
+import useGetLink from '@/src/services/link/useGetLink'
+import useGetFolder from '@/src/services/folder/useGetFolder'
+import { useAppDispatch, useAppSelector } from '@/src/hooks/useApp'
+import { initCurrentFolder } from '@/src/store/reducers/folder'
+import useGetPaper from '@/src/services/paper/useGetPaper'
+import useDeleteLink from '@/src/services/link/useDeleteLink'
+import useFetchHandler from '@/src/hooks/useFetchHandler'
+import { DRAG_TARGET } from '@/src/constants/number'
 
 const FolderPage = () => {
-  const [searchResult, setSearchResult] = useState<Link[] | string>([]);
-  const [searchKeyword, setSearchKeyword] = useState("");
-  const {
-    userInfo: { id: userId },
-    isLoggedIn,
-  } = useAppSelector((state) => state.auth);
-  const { data: linkList } = useAppSelector((state) => state.link);
-  const dispatch = useAppDispatch();
-  const router = useRouter();
-  const { folderId } = router.query;
+  const router = useRouter()
+  const dispatch = useAppDispatch()
+  const { folderId } = router.query
+  const [searchResult, setSearchResult] = useState<Link[] | string>([])
+  const [searchKeyword, setSearchKeyword] = useState('')
+  const [currentPaperPage, setCurrentPaperPage] = useState(1)
+  const [totalPaperPage, setTotalPaperPage] = useState(0)
+  const [isDragging, setDragging] = useState(false)
+  const dragItem = useRef<Link | null>(null)
+  const dragOverTarget = useRef(0)
+  const { isLoggedIn } = useAppSelector((state) => state.auth)
+  const [success, failure] = useFetchHandler()
+  const { data: folderList, isPending: folderPending } = useGetFolder()
+  const { data: paperList, isPending: paperPending } = useGetPaper(currentPaperPage)
+  const { data: linkList, isPending: linkPending } = useGetLink(Number(folderId))
+  const { mutate: deleteLink, isPending: deleteLinkPending } = useDeleteLink()
 
-  const fetchFolderList = () => {
-    dispatch(getFolder(userId));
-  };
+  const startDraggingItem = (link: Link) => {
+    setDragging(true)
+    dragItem.current = link
+  }
 
-  const fetchLinkList = () => {
-    folderId
-      ? dispatch(getLinkList({ userId, folderId: Number(folderId) }))
-      : dispatch(getAllLinkList(userId));
-  };
+  const enterDraggedItem = (elementId: number) => {
+    dragOverTarget.current = elementId
+  }
+
+  const dragLeave = () => {
+    dragOverTarget.current = 0
+  }
+
+  const dropItem = () => {
+    setDragging(false)
+    if (dragItem.current && dragOverTarget.current === DRAG_TARGET.링크삭제) {
+      deleteLink(dragItem.current.id, {
+        onSuccess: () => success('링크가 삭제되었습니다.'),
+        onError: (error) => failure(error),
+      })
+      dragOverTarget.current = 0
+    }
+  }
 
   useEffect(() => {
-    if (!isLoggedIn) router.push("/");
-    if (userId) fetchFolderList();
-  }, [userId]);
+    if (!folderId) {
+      dispatch(initCurrentFolder())
+    }
+  }, [folderId])
 
   useEffect(() => {
-    if (userId) fetchLinkList();
-  }, [router, userId]);
+    const token = localStorage.getItem('accessToken')
+    if (!isLoggedIn && !token) {
+      router.push('/')
+    }
+  }, [isLoggedIn])
+
+  useEffect(() => {
+    if (totalPaperPage !== paperList?.totalPage) {
+      setTotalPaperPage(paperList?.totalPage)
+    }
+  }, [paperList])
 
   return (
     <AppLayout>
       <FolderLayout
-        AddLink={<AddLink />}
+        AddLink={<AddLink folderList={folderList} />}
         Search={
           <Search
+            linkList={linkList}
             setSearchResult={setSearchResult}
             searchKeyword={searchKeyword}
             setSearchKeyword={setSearchKeyword}
           />
         }
-        Folder={<Folder />}
+        Folder={<Folder folderList={folderList} isLoading={folderPending} />}
+        FolderOption={
+          <FolderOptionButton
+            isDragging={isDragging}
+            enterDrag={enterDraggedItem}
+            dragLeave={dragLeave}
+            deleteLoading={deleteLinkPending}
+          />
+        }
         Card={
           searchKeyword && searchResult.length >= 1 ? (
-            <Card linkList={searchResult} />
+            <LinkCard
+              linkList={searchResult}
+              folderList={folderList}
+              isLoading={linkPending}
+              startDraggingItem={startDraggingItem}
+              dropItem={dropItem}
+            />
           ) : (
-            <Card linkList={linkList} />
+            <LinkCard
+              linkList={linkList}
+              folderList={folderList}
+              isLoading={linkPending}
+              startDraggingItem={startDraggingItem}
+              dropItem={dropItem}
+            />
           )
+        }
+        Paper={<PaperCard paperList={paperList?.data} isLoading={paperPending} />}
+        PaperPage={
+          <PaperPaginationButton
+            currentPage={currentPaperPage}
+            setCurrentPage={(page) => setCurrentPaperPage(page)}
+            totalPage={totalPaperPage}
+          />
         }
       />
     </AppLayout>
-  );
-};
+  )
+}
 
-export default FolderPage;
+export default FolderPage
