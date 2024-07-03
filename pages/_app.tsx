@@ -1,13 +1,14 @@
 import Footer from '@/components/Footer/Footer';
 import Nav from '@/components/Nav/Nav';
 import { ModalProvider } from '@/contexts/ModalContext';
-import { UserContext } from '@/contexts/UserContext';
+import { UserProvider } from '@/contexts/UserContext';
 import '@/styles/globals.css';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { SessionProvider } from 'next-auth/react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
-import { getUser } from '../api/api';
-import { User } from '@/hooks/useGetUser';
+import { useEffect } from 'react';
 
 declare global {
   interface Window {
@@ -15,27 +16,12 @@ declare global {
   }
 }
 
-export default function App({ Component, pageProps }: AppProps) {
-  const [user, setUser] = useState<User>({
-    id: '',
-    created_at: new Date(),
-    name: '',
-    image_source: '',
-    email: '',
-    auth_id: '',
-  });
+const queryClient = new QueryClient();
 
-  useEffect(() => {
-    const userAccess = localStorage.getItem('token');
-    if (userAccess) {
-      const loadUser = async () => {
-        const response = await getUser(userAccess);
-        setUser(response[0]);
-      };
-      loadUser();
-    }
-  }, []);
-
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppProps) {
   useEffect(() => {
     window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_KEY);
   }, []);
@@ -45,13 +31,20 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head>
         <title>Linkbrary</title>
       </Head>
-      <UserContext.Provider value={user.id}>
-        <Nav user={user} />
-        <ModalProvider>
-          <Component {...pageProps} />
-        </ModalProvider>
-      </UserContext.Provider>
-      <Footer />
+      <SessionProvider session={session}>
+        <QueryClientProvider client={queryClient}>
+          <UserProvider>
+            <Nav />
+            <ModalProvider>
+              <Component {...pageProps} />
+            </ModalProvider>
+          </UserProvider>
+          <div style={{ fontSize: '16px' }}>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </div>
+        </QueryClientProvider>
+        <Footer />
+      </SessionProvider>
     </>
   );
 }

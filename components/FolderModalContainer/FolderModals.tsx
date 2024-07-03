@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Dispatch, ReactNode, SetStateAction } from 'react';
+import { ReactNode } from 'react';
 import * as S from './FolderModals.styled';
 import { useModal } from '@/contexts/ModalContext';
 import ModalPortal from '@/Portal';
@@ -26,20 +26,7 @@ function FolderIcon({
   );
 }
 
-function FolderModals({
-  id,
-  name,
-  setOnSelect,
-}: {
-  id: string;
-  name: string;
-  setOnSelect: Dispatch<
-    SetStateAction<{
-      id: string;
-      name: string;
-    }>
-  >;
-}) {
+function FolderModals({ id, name }: { id: string; name: string }) {
   const { modalState, openModal } = useModal();
 
   return (
@@ -65,11 +52,7 @@ function FolderModals({
       )}
       {modalState.delete && (
         <ModalPortal>
-          <DeleteModal
-            folderName={name}
-            folderId={id}
-            setOnSelect={setOnSelect}
-          />
+          <DeleteModal folderName={name} folderId={id} />
         </ModalPortal>
       )}
     </S.FolderModal>

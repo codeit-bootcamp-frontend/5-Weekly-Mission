@@ -43,7 +43,8 @@ export const ModalInput = styled.input`
   background: #fff;
 `;
 
-export const ModalButton = styled(Cta)`
-  background: var(--ErrorMessage);
+export const ModalButton = styled(Cta)<{ disabled: boolean }>`
+  background: ${(props) =>
+    props.disabled ? 'var(--Linkbrary-gray60)' : 'var(--ErrorMessage)'};
   color: var(--Gray-cta);
 `;

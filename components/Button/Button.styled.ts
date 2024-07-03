@@ -9,13 +9,16 @@ const buttonSize = {
 };
 
 export const Cta = styled.button<ButtonProps>`
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? 'auto' : 'pointer')};
   text-decoration: none;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 0.8rem;
-  background: var(--Gradient-purpleblue-to-skyblue);
+  background: ${({ disabled }) =>
+    disabled
+      ? 'var(--Linkbrary-gray60)'
+      : 'var(--Gradient-purpleblue-to-skyblue)'};
   color: var(--Gray-cta);
   padding: 1.6rem 2rem;
   font-family: Pretendard;
@@ -28,7 +31,7 @@ export const Cta = styled.button<ButtonProps>`
   white-space: nowrap;
 
   &:hover {
-    opacity: 0.8;
+    opacity: ${({ disabled }) => (disabled ? 'none' : '0.8')};
   }
 
   @media (max-width: 768px) {

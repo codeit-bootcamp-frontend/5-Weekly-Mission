@@ -39,4 +39,5 @@
   );
   --TextBox-gradient: linear-gradient(96deg, #fe8a8a 1.72%, #a4ceff 74.97%);
   --Kakao-logo-color: #f5e14b;
+  --tailwind-gradient: "bg-gradient-to-r from-indigo-500 to-cyan-300";
 }

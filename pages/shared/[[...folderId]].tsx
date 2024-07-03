@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import * as S from '../../styles/shared.styled';
-import { getFolderData, getUserData } from '../../api/api';
+import { getFolderData, getUserData } from '../../service/api';
 import Card from '../../components/Card/Card';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import Image from 'next/image';
@@ -8,61 +8,47 @@ import { useRouter } from 'next/router';
 import useGetFolder from '@/hooks/useGetFolder';
 import ContentsContainer from '@/components/ContentsContainer';
 import Loading from '@/components/Loading/Loading';
+import useDebounce from '@/hooks/useDebounce';
+import { useQuery } from '@tanstack/react-query';
 
 function Shared() {
   const [searchKeyword, setSearchKeyWord] = useState('');
-  const [owner, setOwner] = useState({
-    id: '',
-    created_at: new Date(),
-    name: '',
-    image_source: '',
-    email: '',
-    auth_id: '',
-  });
-  const [folderName, setFolderName] = useState('');
   const router = useRouter();
   const folderId = router.query.folderId as string;
-  const [userId, setUserId] = useState('');
-  const { linkList, loading } = useGetFolder(userId, searchKeyword, folderId);
+  const { deBounceValue } = useDebounce(searchKeyword, 500);
+  const { linkList, linkLoading } = useGetFolder(deBounceValue, folderId);
+  const { data: folderInfo } = useQuery({
+    queryKey: ['sharedFolder'],
+    queryFn: () => getFolderData(folderId),
+    enabled: !!folderId,
+    staleTime: 60 * 1000 * 60,
+  });
 
-  useEffect(() => {
-    const loadOwnerFolderData = async () => {
-      const folder = await getFolderData(folderId);
-      if (folder) {
-        setFolderName(folder[0].name);
-        setUserId(folder[0].user_id);
-      }
-    };
-
-    const loadOwnerData = async () => {
-      const user = await getUserData(userId);
-      if (user) {
-        setOwner(user[0]);
-      }
-    };
-    if (folderId) {
-      loadOwnerFolderData();
-    }
-    if (userId) {
-      loadOwnerData();
-    }
-  }, [folderId, userId]);
+  const { data: owner } = useQuery({
+    queryKey: ['sharedOwner'],
+    queryFn: () => getUserData(folderInfo?.data[0].user_id),
+    enabled: !!folderInfo,
+    staleTime: 60 * 1000 * 60,
+  });
 
   return (
     <>
-      {loading && <Loading />}
+      {linkLoading && <Loading />}
       <S.OwnerProfile>
         <Image
-          src={owner.image_source}
+          src={owner?.data[0].image_source}
           alt="owner 이미지"
           width={60}
           height={60}
         />
-        <S.OwnerName>{owner.name}</S.OwnerName>
-        <S.FolderName>{folderName}</S.FolderName>
+        <S.OwnerName>{owner?.data[0].name}</S.OwnerName>
+        <S.FolderName>{folderInfo?.data[0].name}</S.FolderName>
       </S.OwnerProfile>
       <S.SharedContent>
-        <SearchBar setSearchKeyWord={setSearchKeyWord} />
+        <SearchBar
+          searchKeyword={searchKeyword}
+          setSearchKeyWord={setSearchKeyWord}
+        />
         {searchKeyword && (
           <S.SearchResult>
             <p>{searchKeyword}</p>로 검색한 결과입니다.
@@ -70,7 +56,9 @@ function Shared() {
         )}
         <ContentsContainer content={linkList.length}>
           {linkList.length > 0 ? (
-            linkList.map((item) => <Card item={item} key={item.id} />)
+            linkList.map((item, index) => (
+              <Card item={item} key={item.id} isActive={false} index={index} />
+            ))
           ) : (
             <S.EmptyFolder>저장된 링크가 없습니다.</S.EmptyFolder>
           )}

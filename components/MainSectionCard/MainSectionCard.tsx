@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
-import * as S from './MainSectionCard.styled';
-import Image from 'next/image';
+import * as S from "./MainSectionCard.styled";
+import Image from "next/image";
 
 interface SectionItem {
   title: string;

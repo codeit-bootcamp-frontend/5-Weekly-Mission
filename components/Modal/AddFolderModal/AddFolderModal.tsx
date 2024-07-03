@@ -1,30 +1,28 @@
 import * as S from '../EditModal/EditModal.styled';
 import BaseModal from '../BaseModal/BaseModal';
-import Input from '@/components/Input/Input';
-import { postFolder } from '@/api/api';
+import Input, { FormValueTypes } from '@/components/Input/Input';
+import { postFolder } from '@/service/api';
 import { Controller, useForm } from 'react-hook-form';
-import { Dispatch, SetStateAction } from 'react';
 import { useModal } from '@/contexts/ModalContext';
-import { useRouter } from 'next/router';
-
-function AddFolderModal({
-  setOnSelect,
-}: {
-  setOnSelect: Dispatch<
-    SetStateAction<{
-      id: string;
-      name: string;
-    }>
-  >;
-}) {
-  const { handleSubmit, control } = useForm();
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Button } from '@/components/Button/Button';
+function AddFolderModal() {
+  const queryClient = useQueryClient();
+  const { handleSubmit, control } = useForm<FormValueTypes>();
+  const { mutate, isPending } = useMutation({
+    mutationFn: (name: string) => postFolder(name),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['folder'] });
+    },
+    onSettled: () => {
+      closeModal('addFolder');
+    },
+  });
   const { closeModal } = useModal();
-  const router = useRouter();
 
-  const addFolder = async (data: any) => {
-    const result = await postFolder(data.folder);
-    router.push(`/folder/${result[0].id}`);
-    closeModal('addFolder');
+  const addFolder = async (data: FormValueTypes) => {
+    if (!data.folder) return;
+    mutate(data.folder);
   };
 
   return (
@@ -38,9 +36,14 @@ function AddFolderModal({
             required: '내용을 입력해주세요!',
             maxLength: { value: 10, message: '10자 이하로 입력해주세요!' },
           }}
-          render={({ field, fieldState: { error } }) => (
+          render={({
+            field: { value, onChange, onBlur },
+            fieldState: { error },
+          }) => (
             <Input
-              field={field}
+              value={value}
+              onChange={onChange}
+              onBlur={onBlur}
               type="text"
               placeholder="폴더 이름을 입력해주세요!"
               size="sm"
@@ -48,7 +51,13 @@ function AddFolderModal({
             />
           )}
         />
-        <S.ModalButton>추가하기</S.ModalButton>
+        <Button
+          size="md"
+          onClick={(e) => e.preventDefault()}
+          isActive={isPending}
+        >
+          추가하기
+        </Button>
       </S.ModalForm>
     </BaseModal>
   );

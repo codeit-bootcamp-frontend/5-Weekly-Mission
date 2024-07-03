@@ -14,11 +14,12 @@ export const LoadingBody = styled.div`
   background-color: #fff;
   opacity: 0.9;
   left: 50%;
+  top: 0;
   transform: translate(-50%, 0);
   width: 100%;
   height: 100vh;
   margin: 0 auto;
-  z-index: 30;
+  z-index: 9999;
   display: flex;
   justify-content: center;
   align-items: center;

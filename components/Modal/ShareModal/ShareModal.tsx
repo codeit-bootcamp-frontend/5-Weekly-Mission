@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
-import * as S from './ShareModal.styled';
-import BaseModal from '../BaseModal/BaseModal';
-import Image from 'next/image';
-import Toast from '@/components/Toast/Toast';
-import { UserContext } from '@/contexts/UserContext';
+import React, { useState } from "react";
+import * as S from "./ShareModal.styled";
+import BaseModal from "../BaseModal/BaseModal";
+import Image from "next/image";
+import Toast from "@/components/Toast/Toast";
+import { useLoadUser } from "@/contexts/UserContext";
 
 function ShareModal({
   folderName,
@@ -12,12 +12,12 @@ function ShareModal({
   folderName: string;
   folderId: string;
 }) {
-  const id = useContext(UserContext);
+  const { user } = useLoadUser();
   const [toast, setToast] = useState(false);
 
   const shareLink = async () => {
     await navigator.clipboard.writeText(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/shared/${folderId}`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/sharedFolder/${folderId}`,
     );
     setToast(true);
   };
@@ -25,20 +25,20 @@ function ShareModal({
   const shareKakao = () => {
     const { Kakao } = window;
     Kakao.Share.sendDefault({
-      objectType: 'feed',
+      objectType: "feed",
       content: {
-        title: 'Linkbrary',
-        description: '나만의 폴더를 만들고 링크를 저장해보세요!',
-        imageUrl: '',
+        title: "Linkbrary",
+        description: "나만의 폴더를 만들고 링크를 저장해보세요!",
+        imageUrl: "",
         link: {
-          mobileWebUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/shared/${folderId}?userId=${id}`,
+          mobileWebUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/sharedFolder/${folderId}`,
         },
       },
       buttons: [
         {
-          title: '링크 추가하러 가기',
+          title: "링크 추가하러 가기",
           link: {
-            mobileWebUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/shared/${folderId}?userId=${id}`,
+            mobileWebUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/sharedFolder/${folderId}`,
           },
         },
       ],
@@ -46,16 +46,16 @@ function ShareModal({
   };
 
   const shareFacebook = () => {
-    const title = '페이스북 공유하기';
+    const title = "페이스북 공유하기";
     window.open(
-      `https://www.facebook.com/sharer.php?u=${process.env.NEXT_PUBLIC_BASE_URL}/shared/${folderId}?userId=${id}`,
+      `https://www.facebook.com/sharer.php?u=${process.env.NEXT_PUBLIC_BASE_URL}/sharedFolder/${folderId}`,
       title,
-      'toolbar=0,status=0,width=655,height=520'
+      "toolbar=0,status=0,width=655,height=520",
     );
   };
 
   return (
-    <BaseModal state={'share'}>
+    <BaseModal state={"share"}>
       <S.Header>
         <p>폴더 공유</p>
         <span>{folderName}</span>

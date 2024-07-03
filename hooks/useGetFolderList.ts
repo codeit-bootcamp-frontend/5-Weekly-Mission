@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
-import { getFolder } from '../api/api';
-
-type Like = {
-  count: number;
-};
+import { getFolder } from '../service/api';
+import { useQuery } from '@tanstack/react-query';
 
 export interface Folder {
   id: string;
@@ -11,35 +8,31 @@ export interface Folder {
   name: string;
   user_id: number;
   favorite: boolean;
-  link: Like;
+  link_count: number;
 }
 
 export interface Folders extends Array<Folder> {}
 
-function useGetFolderList(userId: string, folderId?: string) {
-  const [link, setLink] = useState<Folders>([]);
-  const [linkLoading, setLinkLoading] = useState(false);
+function useGetFolderList() {
+  const [favoriteFolder, setFavoriteFolder] = useState('');
+  const { data: list, isPending } = useQuery({
+    queryKey: ['folder'],
+    queryFn: () => getFolder(),
+    staleTime: 60 * 1000 * 10,
+  });
+
+  const folderList = list?.data ?? [];
 
   useEffect(() => {
-    if (!userId) {
-      return;
+    if (list) {
+      setFavoriteFolder(list?.data[0]?.id);
     }
-    try {
-      setLinkLoading(true);
-      const loadFolderList = async () => {
-        const links = await getFolder(userId);
-        setLink(links.data);
-        setLinkLoading(false);
-      };
-      loadFolderList();
-    } catch (error) {
-      console.error();
-    }
-  }, [userId, folderId]);
+  }, [list]);
 
   return {
-    link,
-    linkLoading,
+    folderList,
+    isPending,
+    favoriteFolder,
   };
 }
 export default useGetFolderList;

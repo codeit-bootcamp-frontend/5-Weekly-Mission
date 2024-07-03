@@ -1,25 +1,24 @@
-import { useContext } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import * as S from '../../styles/folder.styled';
-import SearchBar from '../../components/SearchBar/SearchBar';
 import ContentsContainer from '../../components/ContentsContainer';
 import Card from '../../components/Card/Card';
-import useGetFolder from '../../hooks/useGetFolder';
+import useGetFolder, { LinkData } from '../../hooks/useGetFolder';
 import useGetFolderList from '../../hooks/useGetFolderList';
 import FolderButtonContainer from '../../components/FolderButtonContainer/FolderButtonContainer';
 import { useModal } from '../../contexts/ModalContext';
 import AddModal from '../../components/Modal/AddModal/AddModal';
 import ModalPortal from '../../Portal';
-import { UserContext } from '@/contexts/UserContext';
 import FolderModals from '@/components/FolderModalContainer/FolderModals';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import NotFound from '@/components/NotFound/NotFound';
 import DeleteLinkModal from '@/components/Modal/DeleteLinkModal/DeleteLinkModal';
 import Loading from '@/components/Loading/Loading';
+import SearchContent from '@/components/SearchBar/SearchContent';
+import useDebounce from '@/hooks/useDebounce';
+import { urlCheck } from '@/util/util';
 
 function Folder() {
-  const id = useContext(UserContext);
   const [onSelect, setOnSelect] = useState({
     id: '',
     name: '',
@@ -30,12 +29,16 @@ function Folder() {
   const [wrongFolder, setWrongFolder] = useState(false);
   const [linkId, setLinkId] = useState(0);
   const router = useRouter();
+  const { deBounceValue } = useDebounce(searchKeyword, 500);
   const folderId = router.query.folderId as string;
-  const { linkList, loading } = useGetFolder(id, searchKeyword, folderId);
-  const { link, linkLoading } = useGetFolderList(id, folderId);
+  const { linkList, linkLoading } = useGetFolder(deBounceValue, folderId);
+  const {
+    folderList,
+    isPending: folderLoading,
+    favoriteFolder,
+  } = useGetFolderList();
   const { modalState, openModal } = useModal();
   const obsRef = useRef(null);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleObserver = (entries: IntersectionObserverEntry[]) => {
     entries.forEach((entry) => {
@@ -50,34 +53,33 @@ function Folder() {
   };
 
   useEffect(() => {
-    const access = localStorage.getItem('token');
-    if (!access) {
-      router.replace('/');
-      return;
-    }
     const observer = new IntersectionObserver(handleObserver);
-    if (!loading && obsRef.current) {
+    if (!linkLoading && obsRef.current) {
       observer.observe(obsRef.current);
     }
     return () => {
       observer.disconnect();
     };
-  }, [loading, folderId, router]);
+  }, [linkLoading, folderId]);
 
   useEffect(() => {
-    for (let i = 0; i < link.length; i++) {
+    for (let i = 0; i < folderList.length; i++) {
       setWrongFolder(true);
-      if (link[i].id == folderId) {
-        setOnSelect({ id: folderId, name: link[i].name });
+      if (folderList[i].id == folderId) {
+        setOnSelect({ id: folderId, name: folderList[i].name });
         setWrongFolder(false);
         break;
       }
     }
-  }, [link, folderId]);
+  }, [folderList, folderId]);
 
   return (
     <>
-      {linkLoading || loading ? <Loading /> : null}
+      {(linkLoading || folderLoading) && (
+        <ModalPortal>
+          <Loading />
+        </ModalPortal>
+      )}
       <div ref={obsRef}></div>
       <S.HeaderBody>
         <S.Header $view={toggleInput}>
@@ -85,15 +87,26 @@ function Folder() {
             <S.LinkIcon>
               <Image src="/link.svg" alt="링크 아이콘" width={20} height={20} />
             </S.LinkIcon>
-            <S.AddLinkInput placeholder="링크를 추가해보세요." ref={inputRef} />
+            <S.AddLinkInput
+              placeholder="링크를 추가해보세요 (https://example/com)"
+              onChange={(e) => {
+                setUrl(e.target.value);
+              }}
+              value={url}
+            />
             <S.AddButton
               size="sm"
               onClick={() => {
-                openModal('add');
-                if (inputRef.current) {
-                  setUrl(inputRef.current.value);
+                if (url) {
+                  const result = urlCheck(url);
+                  if (result) {
+                    openModal('add');
+                  } else {
+                    alert('올바른 url이 아닙니다!');
+                  }
                 }
               }}
+              disabled={url ? false : true}
             >
               추가하기
             </S.AddButton>
@@ -101,36 +114,32 @@ function Folder() {
         </S.Header>
       </S.HeaderBody>
       <S.FolderContents>
-        <SearchBar setSearchKeyWord={setSearchKeyWord} />
-        {searchKeyword && (
-          <S.SearchResult>
-            <p>{searchKeyword}</p>로 검색한 결과입니다.
-          </S.SearchResult>
-        )}
-        <FolderButtonContainer link={link} setOnSelect={setOnSelect} />
+        <SearchContent
+          searchKeyword={searchKeyword}
+          setSearchKeyWord={setSearchKeyWord}
+        />
+        <FolderButtonContainer link={folderList} />
         {folderId && wrongFolder ? (
           <NotFound />
         ) : (
           <>
             <S.FolderModalContainer>
               <p>{folderId ? onSelect.name : '전체'}</p>
-              {folderId && (
-                <FolderModals
-                  id={onSelect.id}
-                  name={onSelect.name}
-                  setOnSelect={setOnSelect}
-                />
+              {folderId != favoriteFolder && folderId && (
+                <FolderModals id={onSelect.id} name={onSelect.name} />
               )}
             </S.FolderModalContainer>
             <ContentsContainer content={linkList.length}>
-              {linkList.length > 0 ? (
-                linkList.map((item) => (
+              {linkList[0] ? (
+                linkList.map((item: LinkData, index) => (
                   <Card
                     item={item}
                     key={item.id}
                     setUrl={setUrl}
-                    onSelect={onSelect}
                     setLinkId={setLinkId}
+                    isActive={true}
+                    index={index}
+                    favoriteFolder={favoriteFolder}
                   />
                 ))
               ) : (
@@ -139,9 +148,9 @@ function Folder() {
             </ContentsContainer>
           </>
         )}
-        {modalState.add && inputRef.current && (
+        {modalState.add && (
           <ModalPortal>
-            <AddModal link={link} url={url} />
+            <AddModal link={folderList} url={url} setUrl={setUrl} />
           </ModalPortal>
         )}
         {modalState.deleteLink && (

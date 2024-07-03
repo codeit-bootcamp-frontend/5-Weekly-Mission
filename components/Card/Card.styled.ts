@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const ItemCard = styled.div`
   width: 34rem;
@@ -75,7 +75,6 @@ export const ItemInfo = styled.div`
   flex-direction: column;
   padding: 1.5rem 2rem;
   width: 100%;
-  height: 10.5rem;
   gap: 1rem;
   position: relative;
 `;
@@ -100,6 +99,7 @@ export const ItemDescription = styled.p`
   text-overflow: ellipsis;
   white-space: nowrap;
   padding-top: 0.2rem;
+  font-size: 1.4rem;
 
   a {
     text-decoration: none;

@@ -2,28 +2,19 @@ import React, { Dispatch, SetStateAction } from 'react';
 import * as S from './FolderButton.styled';
 import { Folder } from '@/hooks/useGetFolderList';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
-function FolderButton({
-  item,
-  isSelected,
-  handleMenuClick,
-  index,
-  setOnSelect,
-}: {
+interface FolderButtonProps {
   item: Folder;
-  isSelected: string;
-  handleMenuClick: (index: number) => void;
-  index: number;
-  setOnSelect: Dispatch<SetStateAction<{ id: string; name: string }>>;
-}) {
-  const changeFolder = () => {
-    setOnSelect({ id: item.id, name: item.name });
-    handleMenuClick(index);
-  };
+}
+
+function FolderButton({ item }: FolderButtonProps) {
+  const router = useRouter();
+  const folderId = router.query.folderId as string;
 
   return (
     <Link href={`/folder/${item.id}`}>
-      <S.FolderName onClick={changeFolder} $select={isSelected}>
+      <S.FolderName $select={folderId == item.id ? true : false}>
         {item.name}
       </S.FolderName>
     </Link>

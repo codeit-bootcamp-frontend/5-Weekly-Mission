@@ -3,6 +3,7 @@ import { Cta } from '../components/Button/Button.styled';
 import { FolderName } from '../components/FolderButton/FolderButton.styled';
 
 export const AddButton = styled(Cta)`
+  display: flex;
   position: absolute;
   padding: 1rem 1.6rem;
   font-size: 1.6rem;

@@ -44,3 +44,9 @@ export const emailPattern =
 export function emailCheck(email: string) {
   return emailPattern.test(email);
 }
+
+const urlPattern = /^http[s]?:\/\/([\S]{3,})/i;
+
+export function urlCheck(url: string) {
+  return urlPattern.test(url);
+}
