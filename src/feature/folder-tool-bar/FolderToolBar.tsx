@@ -7,7 +7,14 @@ import {
   KAKAO_SHARE_DATA,
   MODALS_ID,
 } from "./constant";
-import { KeyboardEvent, useCallback, useMemo, useReducer, memo } from "react";
+import {
+  KeyboardEvent,
+  useCallback,
+  useMemo,
+  useReducer,
+  memo,
+  useState,
+} from "react";
 import {
   AddFolderButton,
   AlertModal,
@@ -18,6 +25,12 @@ import {
 } from "@/src/ui";
 import { copyToClipboard, useKakaoSdk, ALL_LINKS_ID } from "@/src/util";
 import { useRouter } from "next/router";
+import {
+  useAddFolder,
+  useDeleteFolder,
+  useUpdateFolderName,
+} from "@/src/data-access";
+import { ROUTE } from "@/src/util";
 
 const cx = classNames.bind(styles);
 
@@ -61,6 +74,10 @@ export const FolderToolBar = ({
   const { shareKakao } = useKakaoSdk();
   const [state, dispatch] = useReducer(reducer, initialState);
   const router = useRouter();
+  const { mutate: updateFolderName } = useUpdateFolderName();
+  const { mutate: addFolder } = useAddFolder();
+  const { mutate: deleteFolder } = useDeleteFolder();
+  const [inputValue, setInputValue] = useState<string>("");
 
   const folderName = useMemo(() => {
     return ALL_LINKS_ID === selectedFolderId
@@ -76,6 +93,11 @@ export const FolderToolBar = ({
     () => dispatch({ type: "SET_MODAL", payload: null }),
     []
   );
+
+  const closeInputModal = useCallback(() => {
+    closeModal();
+    setInputValue("");
+  }, [closeModal]);
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent<HTMLDivElement>) => {
@@ -97,6 +119,41 @@ export const FolderToolBar = ({
   const handleLinkCopyClick = useCallback(() => {
     copyToClipboard(getShareLink());
   }, [getShareLink]);
+
+  const handleRenameFolderClick = useCallback(() => {
+    if (typeof selectedFolderId === "number") {
+      updateFolderName(
+        { folderId: selectedFolderId, name: inputValue },
+        { onSuccess: closeInputModal }
+      );
+    }
+  }, [selectedFolderId, inputValue, updateFolderName, closeInputModal]);
+
+  const handleAddFolderClick = useCallback(() => {
+    addFolder(
+      { name: inputValue },
+      {
+        onSuccess: (data) => {
+          closeInputModal();
+          router.push(`${ROUTE.폴더}/${data?.data?.[0].id ?? ""}`);
+        },
+      }
+    );
+  }, [inputValue, addFolder, closeInputModal, router]);
+
+  const handleDeleteFolderClick = useCallback(() => {
+    if (typeof selectedFolderId === "number") {
+      deleteFolder(
+        { folderId: selectedFolderId },
+        {
+          onSuccess: () => {
+            closeModal();
+            router.push(ROUTE.폴더);
+          },
+        }
+      );
+    }
+  }, [selectedFolderId, deleteFolder, closeModal, router]);
 
   return (
     <div className={cx("container")}>
@@ -127,12 +184,11 @@ export const FolderToolBar = ({
           title="폴더 추가"
           placeholder="내용 입력"
           buttonText="추가하기"
-          onCloseClick={closeModal}
+          onClick={handleAddFolderClick}
+          onCloseClick={closeInputModal}
           onKeyDown={handleKeyDown}
-          value={state.inputValue}
-          onChange={(event) =>
-            dispatch({ type: "SET_INPUT_VALUE", payload: event.target.value })
-          }
+          value={inputValue}
+          onChange={(event) => setInputValue(event.target.value)}
         />
       </div>
       <h2 className={cx("folder-name")}>{folderName}</h2>
@@ -160,12 +216,11 @@ export const FolderToolBar = ({
             title="폴더 이름 변경"
             placeholder="내용 입력"
             buttonText="변경하기"
-            onCloseClick={closeModal}
+            onClick={handleRenameFolderClick}
+            onCloseClick={closeInputModal}
             onKeyDown={handleKeyDown}
-            value={state.inputValue}
-            onChange={(event) =>
-              dispatch({ type: "SET_INPUT_VALUE", payload: event.target.value })
-            }
+            value={inputValue}
+            onChange={(event) => setInputValue(event.target.value)}
           />
           <AlertModal
             isOpen={state.currentModal === MODALS_ID.delete}
@@ -174,7 +229,7 @@ export const FolderToolBar = ({
             buttonText="삭제하기"
             onCloseClick={closeModal}
             onKeyDown={handleKeyDown}
-            onClick={() => {}}
+            onClick={handleDeleteFolderClick}
           />
         </div>
       )}

@@ -1,4 +1,3 @@
-
 /**
  * 애플리케이션의 라우트 경로를 정의한 상수 객체입니다.
  *
@@ -80,3 +79,17 @@ export const DEFAULT_FOLDER_DATA = {
  * @type {string}
  */
 export const ALL_LINKS_ID = "all";
+
+export const DEFAULT_FOLDER = {
+  id: 0,
+  name: "",
+  userId: 0,
+  createdAt: "",
+};
+
+export const DEFAULT_USER = {
+  id: 0,
+  name: "",
+  email: "",
+  imageSource: "",
+};

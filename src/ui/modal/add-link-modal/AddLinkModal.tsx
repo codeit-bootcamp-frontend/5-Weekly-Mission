@@ -2,7 +2,12 @@ import styles from "./AddLinkModal.module.scss";
 import classNames from "classnames/bind";
 import { Folder } from "@/src/type";
 import { FolderItem } from "@/src/ui";
-import { Dispatch, KeyboardEventHandler, SetStateAction } from "react";
+import {
+  Dispatch,
+  KeyboardEventHandler,
+  SetStateAction,
+  MouseEventHandler,
+} from "react";
 import {
   Template,
   ContentBox,
@@ -19,8 +24,8 @@ type AddLinkModalProps = {
   description: string;
   selectedFolderId: number | null;
   setSelectedFolderId: Dispatch<SetStateAction<number | null>>;
-  onAddClick: () => void;
-  onCloseClick: () => void;
+  onAddClick: MouseEventHandler<HTMLButtonElement>;
+  onCloseClick: MouseEventHandler<HTMLButtonElement | HTMLDivElement>;
   onKeyDown: KeyboardEventHandler<HTMLDivElement>;
 };
 /**
@@ -32,7 +37,7 @@ type AddLinkModalProps = {
  * const description = "폴더를 선택하여 링크를 추가하세요.";
  * const [selectedFolderId, setSelectedFolderId] = useState<number | null>(null);
  * const isOpen = true;
- * 
+ *
  * return (
  *   <AddLinkModal
  *     isOpen={isOpen}
@@ -55,9 +60,10 @@ type AddLinkModalProps = {
  * @param {() => void} props.onAddClick - "추가하기" 버튼 클릭 시 호출되는 함수입니다.
  * @param {() => void} props.onCloseClick - 모달 창 닫기 버튼 클릭 시 호출되는 함수입니다.
  * @param {KeyboardEventHandler<HTMLDivElement>} props.onKeyDown - 모달 창에서 키보드 이벤트 처리 함수입니다.
- * 
+ *
  * @returns {JSX.Element} 링크를 폴더에 추가하는 모달 창을 렌더링하는 컴포넌트입니다.
  */
+
 export const AddLinkModal = ({
   isOpen,
   folders,

@@ -13,7 +13,7 @@ type NavigationBarProps = {
     imageSource: string;
     email: string;
   } | null;
-  isSticky: boolean;
+  isSticky: boolean;  
 };
 
 /**
@@ -27,8 +27,8 @@ type NavigationBarProps = {
  *   <Nav profile={profile} isSticky={true} />
  * );
  *
- * @param {Object} props - 컴포넌트의 props입니다.
- * @param {Object|null} props.profile - 사용자의 프로필 정보입니다. 
+ * @param {Object} props - 컴포넌트의 props 입니다.
+ * @param {Object|null} props.profile - 사용자의 프로필 정보입니다.
  * @param {string} props.profile.imageSource - 프로필 이미지의 소스 URL입니다.
  * @param {string} props.profile.email - 사용자의 이메일 주소입니다.
  * @param {boolean} props.isSticky - 네비게이션 바가 고정(sticky)되는지 여부를 나타냅니다.

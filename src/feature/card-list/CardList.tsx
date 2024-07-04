@@ -7,24 +7,32 @@ import {
   EditableCard,
   NoLink,
 } from "@/src/ui";
-import { MODALS_ID } from "./constant";
+import { MODALS_ID, DEFAULT_LINK } from "./constant";
 import { Link } from "@/src/type";
 import { CSSTransition } from "react-transition-group";
 import classNames from "classnames/bind";
-import styles from "./modal-animation.module.scss"; 
+import styles from "./modal-animation.module.scss";
+import { SelectedFolderId } from "@/src/type";
+import { useAddLink, useDeleteLink } from "@/src/data-access";
 
 const cx = classNames.bind(styles);
 
 type CardListProps = {
   links: Link[];
+  currentFolderId?: SelectedFolderId;
 };
 
-export const CardList = ({ links }: CardListProps) => {
+export const CardList = ({ links, currentFolderId }: CardListProps) => {
   const { data: folders } = useGetFolders();
   const cardListRef = useRef<HTMLDivElement>(null);
   const [selectedFolderId, setSelectedFolderId] = useState<number | null>(null);
   const [currentModal, setCurrentModal] = useState<string | null>(null);
-  const [selectedLinkUrl, setSelectedLinkUrl] = useState<string>("");
+  const [selectedLink, setSelectedLink] = useState<{
+    linkId: number;
+    url: string;
+  }>(DEFAULT_LINK);
+  const { mutate: addLink } = useAddLink(currentFolderId);
+  const { mutate: deleteLink } = useDeleteLink(currentFolderId);
 
   const closeModal = () => setCurrentModal(null);
   const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
@@ -50,6 +58,31 @@ export const CardList = ({ links }: CardListProps) => {
     [cardListRef]
   );
 
+  const handleDeleteClick = () => {
+    deleteLink(
+      { linkId: selectedLink.linkId },
+      {
+        onSuccess: () => {
+          closeModal();
+          setSelectedLink(DEFAULT_LINK);
+        },
+      }
+    );
+  };
+  const handleAddClick = () => {
+    if (typeof selectedFolderId === "number") {
+      addLink(
+        { url: selectedLink.url, folderId: selectedFolderId },
+        {
+          onSuccess: () => {
+            closeModal();
+            setSelectedLink(DEFAULT_LINK);
+          },
+        }
+      );
+    }
+  };
+
   if (links.length === 0) return <NoLink />;
 
   return (
@@ -60,11 +93,11 @@ export const CardList = ({ links }: CardListProps) => {
           {...link}
           popoverPosition={getPopoverPosition(index)}
           onDeleteClick={() => {
-            setSelectedLinkUrl(link?.url ?? "");
+            setSelectedLink({ url: link?.url ?? "", linkId: link?.id ?? 0 });
             setCurrentModal(MODALS_ID.deleteLink);
           }}
           onAddToFolderClick={() => {
-            setSelectedLinkUrl(link?.url ?? "");
+            setSelectedLink({ url: link?.url ?? "", linkId: link?.id ?? 0 });
             setCurrentModal(MODALS_ID.addToFolder);
           }}
         />
@@ -83,9 +116,9 @@ export const CardList = ({ links }: CardListProps) => {
         <AlertModal
           isOpen={currentModal === MODALS_ID.deleteLink}
           title="링크 삭제"
-          description={selectedLinkUrl}
+          description={selectedLink.url}
           buttonText="삭제하기"
-          onClick={() => {}}
+          onClick={handleDeleteClick}
           onCloseClick={closeModal}
           onKeyDown={handleKeyDown}
         />
@@ -104,10 +137,10 @@ export const CardList = ({ links }: CardListProps) => {
         <AddLinkModal
           isOpen={currentModal === MODALS_ID.addToFolder}
           folders={folders}
-          description={selectedLinkUrl}
+          description={selectedLink.url}
           selectedFolderId={selectedFolderId}
           setSelectedFolderId={setSelectedFolderId}
-          onAddClick={() => {}}
+          onAddClick={handleAddClick}
           onCloseClick={() => {
             setSelectedFolderId(null);
             closeModal();

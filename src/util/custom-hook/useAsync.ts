@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { useEffectOnce } from "./useEffectOnce";
+import { useEffect, useState } from "react";
 import { AxiosResponse } from "axios";
 
 /**
@@ -21,10 +20,18 @@ import { AxiosResponse } from "axios";
  *   execute();
  * }, []);
  */
-export const useAsync = <T>(
-  asyncFunction: () => Promise<AxiosResponse<T>>,
-  lazyMode: boolean = false
-) => {
+
+type UseAsyncParams<T> = {
+  asyncFunction: () => Promise<AxiosResponse<T>>;
+  enabled?: boolean;
+  lazyMode?: boolean;
+};
+
+export const useAsync = <T>({
+  asyncFunction,
+  enabled = true,
+  lazyMode = false,
+}: UseAsyncParams<T>) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<null | any>(null);
   const [data, setData] = useState<null | T>(null);
@@ -45,10 +52,10 @@ export const useAsync = <T>(
   };
 
   useEffect(() => {
-    if (!lazyMode) {
+    if (enabled && !lazyMode) {
       execute();
     }
-  }, [lazyMode]);
+  }, [enabled, lazyMode]);
 
   return { execute, loading, error, data };
 };

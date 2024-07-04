@@ -1,7 +1,6 @@
-import { useMemo } from "react";
-import { instance, useAsync, mapFoldersData } from "@/src/util";
+import { instance, mapFoldersData } from "@/src/util";
 import { FolderRawData } from "@/src/type";
-
+import { useQuery } from "@tanstack/react-query";
 /**
  * useGetFolders 훅은 사용자 폴더 데이터를 가져와서 매핑된 폴더 데이터 배열을 반환합니다.
  *
@@ -38,16 +37,17 @@ import { FolderRawData } from "@/src/type";
  *   </div>
  * );
  */
+
 export const useGetFolders = () => {
-  const getFolders = () =>
-    instance.get<{ data: FolderRawData[] }>("users/1/folders");
-  const { loading, error, data } = useAsync(getFolders);
-
-  const folders = useMemo(() => mapFoldersData(data?.data), [data?.data]);
-  const sortedFolders = useMemo(
-    () => folders.sort((a, b) => a?.id - b?.id),
-    [folders]
-  );
-
-  return { loading, error, data: sortedFolders };
-};
+	const getFolders = () => instance.get<FolderRawData[]>("/folders");
+	const { data, error, isLoading, refetch } = useQuery({
+	  queryKey: ["folders"],
+	  queryFn: getFolders,
+	});
+  
+	const folders = mapFoldersData(data?.data ?? []);
+	const sortedFolders = folders.sort((a, b) => a?.id - b?.id);
+  
+	return { isLoading, error, data: sortedFolders, refetch };
+  };
+  

@@ -62,12 +62,6 @@ export const ShareModal = ({
   onCloseClick,
   onKeyDown,
 }: ShareModalProps) => {
-  const buttons = [
-    { onClick: onKakaoClick, Icon: KakaoIcon, label: "카카오톡" },
-    { onClick: onFacebookClick, Icon: FacebookIcon, label: "페이스북" },
-    { onClick: onLinkCopyClick, Icon: LinkIcon, label: "링크 복사" },
-  ];
-
   return (
     <Template
       isOpen={isOpen}
@@ -83,12 +77,18 @@ export const ShareModal = ({
         }
         content={
           <div className={cx("modal-content")}>
-            {buttons.map(({ onClick, Icon, label }) => (
-              <button key={label} className={cx("button")} onClick={onClick}>
-                <Icon />
-                <span>{label}</span>
-              </button>
-            ))}
+            <button className={cx("button")} onClick={onKakaoClick}>
+              <KakaoIcon />
+              <span>카카오톡</span>
+            </button>
+            <button className={cx("button")} onClick={onFacebookClick}>
+              <FacebookIcon />
+              <span>페이스북</span>
+            </button>
+            <button className={cx("button")} onClick={onLinkCopyClick}>
+              <LinkIcon />
+              <span>링크 복사</span>
+            </button>
           </div>
         }
         onCloseClick={onCloseClick}

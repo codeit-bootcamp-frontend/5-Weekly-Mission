@@ -1,4 +1,4 @@
-import { useGetFolder } from "@/src/data-access";
+import { useGetFolder, useGetUser, useGetSharedLinks } from "@/src/data-access";
 import {
   CardList,
   Layout,
@@ -8,10 +8,15 @@ import {
 } from "@/src/ui";
 import { SharedLayout } from "@/src/page-layout/SharedLayout";
 import { useSearchLink } from "@/src/util";
+import { useRouter } from "next/router";
 
 const SharedPage = () => {
-  const { data } = useGetFolder();
-  const { profileImage, ownerName, folderName, links } = data || {};
+  const router = useRouter();
+  const { folderId } = router.query;
+  const { data: folder } = useGetFolder(folderId as string);
+  const { data: owner } = useGetUser(folder.userId);
+  const { data: links } = useGetSharedLinks(folder.userId, folderId as string);
+
   const { searchValue, handleChange, handleCloseClick, result } =
     useSearchLink(links);
 
@@ -20,9 +25,9 @@ const SharedPage = () => {
       <SharedLayout
         folderInfo={
           <FolderInfo
-            profileImage={profileImage}
-            ownerName={ownerName}
-            folderName={folderName}
+            profileImage={owner.imageSource}
+            ownerName={owner.name}
+            folderName={folder.name}
           />
         }
         searchBar={

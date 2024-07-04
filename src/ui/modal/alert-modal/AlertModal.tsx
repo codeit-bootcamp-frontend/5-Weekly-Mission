@@ -8,6 +8,7 @@ import {
   ContentDescription,
   ContentTitle,
 } from "../parts";
+
 const cx = classNames.bind(styles);
 
 type AlertModalProps = {
@@ -21,7 +22,7 @@ type AlertModalProps = {
 };
 
 /**
- * AlertModal 컴포넌트는 경고 메시지를 표시하는 모달 창을 렌더링합니다. 
+ * AlertModal 컴포넌트는 경고 메시지를 표시하는 모달 창을 렌더링합니다.
  * 이 프로젝트에서는 폴더나 링크 삭제 기능 사용 시 경고하는 용도로 사용됩니다.
  *
  * @component
@@ -30,7 +31,7 @@ type AlertModalProps = {
  * const description = "이 작업을 진행하시겠습니까?";
  * const buttonText = "확인";
  * const isOpen = true;
- * 
+ *
  * return (
  *   <AlertModal
  *     isOpen={isOpen}
@@ -51,9 +52,10 @@ type AlertModalProps = {
  * @param {MouseEventHandler<HTMLButtonElement>} props.onClick - 버튼 클릭 시 호출되는 함수입니다.
  * @param {MouseEventHandler<HTMLDivElement | HTMLButtonElement>} props.onCloseClick - 모달 창 닫기 버튼 클릭 시 호출되는 함수입니다.
  * @param {KeyboardEventHandler<HTMLDivElement>} props.onKeyDown - 모달 창에서 키보드 이벤트 처리 함수입니다.
- * 
+ *
  * @returns {JSX.Element} 경고 메시지를 표시하는 모달 창을 렌더링하는 컴포넌트입니다.
  */
+
 export const AlertModal = ({
   isOpen,
   title,

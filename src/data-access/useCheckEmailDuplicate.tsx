@@ -1,4 +1,6 @@
-import { instance, useAsync } from "@/src/util";
+import { instance } from "../util";
+import { useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import { useCallback } from "react";
 
 /**
@@ -21,16 +23,25 @@ import { useCallback } from "react";
 export const useCheckEmailDuplicate = (email: string) => {
   const checkEmailDuplicate = useCallback(
     () =>
-      instance.post<{ data: { isUsableNickname: boolean } }>("check-email", {
+      instance.post<Response>("/users/check-email", {
         email,
       }),
     [email]
   );
-  const { execute, loading, error, data } = useAsync(checkEmailDuplicate, true);
+  const { data, error, isLoading, refetch } = useQuery<
+    { data: Response },
+    AxiosError
+  >({
+    queryKey: ["check-email"],
+    queryFn: checkEmailDuplicate,
+    enabled: false,
+    retry: false,
+    networkMode: "always",
+  });
 
   return {
-    execute,
-    loading,
+    refetch,
+    isLoading,
     error,
     data,
   };
